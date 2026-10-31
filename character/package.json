@@ -1,0 +1,13 @@
+{
+  "name":"shuyu-logo",
+  "private":true,
+  "scripts":{
+    "dev":"npx --yes hyperframes@0.8.220 preview",
+    "build":"python scripts/build-assets.py",
+    "check":"npx --yes hyperframes@0.8.220 check",
+    "verify":"node scripts/verify-rig.cjs && python scripts/verify-player.py",
+    "verify:render":"python scripts/verify-render.py",
+    "render":"npx --yes hyperframes@0.8.220 render --output output/shuyu-omega-showcase.mp4 --fps 30 --workers 2",
+    "export:wave":"python scripts/export-action.py --action wave --output output/wave-alpha.webm"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-31",
+  "python": "3.12.11",
+  "manim": "0.22.1",
+  "codex_sdk": "0.156.1",
+  "model": "gpt-6-astra",
+  "offline_tests": {
+    "passed": 32,
+    "command": "python -X utf8 -m pytest --basetemp output/pytest-local-studies --tb=short"
+  },
+  "runtime_bridge_load": "passed",
+  "prepare_with_frozen_style": "passed",
+  "source_loads_from_copied_package": true,
+  "warm_style_static_render": {
+    "file": "evidence/manim-0.22.1-warm-style.png",
+    "width": 1280,
+    "height": 720,
+    "scope": "Existing ShuYu style proof rendered with the requested manimations environment; not an Astra-generated film."
+  },
+  "fresh_live_model_run_in_copied_integration": false,
+  "limitations": [
+    "The real Astra homeomorphism run was performed in the source checkout.",
+    "A new complete film using the ShuYu style prompt has not been generated.",
+    "Speech, mascot compositing and editing are not implemented by this integration."
+  ],
+  "audit_pipeline": "Astra author and independent Astra auditor; external evaluator removed.",
+  "legacy_saved_request_resume": "passed",
+  "local_film_study_guidance_snapshot": "passed"
+}

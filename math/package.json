@@ -1,0 +1,9 @@
+{
+  "name": "math-to-manim-astra-runtime",
+  "private": true,
+  "description": "Official Codex SDK and CLI for Astra authoring and independent evidence audits",
+  "dependencies": {
+    "@openai/codex": "0.156.1",
+    "@openai/codex-sdk": "0.156.1"
+  }
+}

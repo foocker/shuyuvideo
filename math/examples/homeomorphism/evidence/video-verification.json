@@ -1,0 +1,89 @@
+{
+  "video": "renders\\011\\media\\videos\\480p15\\AstraFilm.mp4",
+  "video_sha256": "af1d06a17199a12afad5a3a932d22b8a55e15106cfc00c5dcb1ae71f579e1b68",
+  "source_file_sha256": "f8f3f03592768a53b4be074e21e2a2019dcf7ed59f5c9e0edef2548b16f91f7c",
+  "source_matches_scene_artifact_and_render_copy": true,
+  "full_decode_exit_code": 0,
+  "metadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 854,
+        "height": 480,
+        "r_frame_rate": "15/1",
+        "nb_frames": "1620"
+      }
+    ],
+    "format": {
+      "duration": "108.000000",
+      "size": "1702371"
+    }
+  },
+  "latest_astra_audit": "attempts\\011-render-astra-audit.json",
+  "astra_verified": false,
+  "astra_defects": [
+    "逆函数镜头的箭头方向与公式矛盾：frame_03.png 显示 f⁻¹:Y→X，但三条配对箭头仍从 X 指向 Y。",
+    "内底展示未达到可辨认要求：frame_05.png 的金色内底几乎被前侧杯壁遮住，仅露出少量锯齿状三角片，不能清楚说明内底及其与内壁的连接。",
+    "核心连续运动的实际证据不足：提供的是间隔约9秒的抽帧及简略元数据，缺少可审看的完整运动或连续逐帧证据，无法完成用户要求的运动验收。"
+  ],
+  "lesson_sample_seconds": [
+    3.5,
+    12.5,
+    15.5,
+    18.5,
+    24.5,
+    27.5,
+    30.5,
+    35,
+    39,
+    42,
+    45,
+    47,
+    49,
+    52,
+    55.5,
+    60.5,
+    64,
+    70,
+    74,
+    80,
+    85.5,
+    89,
+    93,
+    107
+  ],
+  "core_sample_seconds": [
+    63,
+    64,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    71,
+    72,
+    73,
+    74,
+    75,
+    76,
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86
+  ],
+  "limitations": [
+    "The contact sheets sample the encoded movie; they do not prove continuous-time collision freedom.",
+    "The numerical geometry checks and analytic-map comparison are recorded separately.",
+    "Visual inspection of the saved contact sheets is a separate operator step."
+  ]
+}

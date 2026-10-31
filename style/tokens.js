@@ -1,0 +1,281 @@
+// Generated from tokens.json; do not edit.
+window.ShuyuStyle = {
+  "id": "shuyu-warm",
+  "version": "1.0.0",
+  "label": "数语暖白",
+  "date": "2026-10-30",
+  "status": "基于用户指定现有案例提炼的 v1 基线；新片采用，历史作品保留原值",
+  "intent": "暖白空间、深灰绿文字、低饱和青绿主体、陶红关系强调与赭金局部焦点；圆润哑光体积和清楚的数学对应。",
+  "colors": {
+    "background": "#F4F2EC",
+    "surface": "#F7F7F3",
+    "ink": "#203B35",
+    "muted": "#536359",
+    "line": "#C8CEC5",
+    "subject": "#548D80",
+    "subjectLight": "#8BBAAA",
+    "emphasis": "#B64D35",
+    "focus": "#D2AA58",
+    "backface": "#63533F",
+    "neutralBody": "#D1CCC0",
+    "neutralCool": "#D9DCD9",
+    "blue": "#718BAF",
+    "clay": "#C38460",
+    "mauve": "#9B849F",
+    "olive": "#9A9E70"
+  },
+  "roles": {
+    "background": {
+      "use": "全片统一基础背景；以人体整片和定义片为主基准",
+      "source": "films/human-to-sphere/assets/geometry/human-source.js:80",
+      "evidence": "observed"
+    },
+    "surface": {
+      "use": "浅色辅助面；只有必要的区域区分时使用",
+      "source": "films/topology-unlock/assets/geometry/study-source.js:8",
+      "evidence": "observed_color_assigned_role"
+    },
+    "ink": {
+      "use": "正文、公式、轴线与关键轮廓",
+      "source": "films/human-to-sphere/story/03-homeomorphism/compositions/scene.html:4",
+      "evidence": "observed"
+    },
+    "muted": {
+      "use": "次级文字与注释；不用于降低关键条件可见性",
+      "source": "films/human-to-sphere/story/03-homeomorphism/compositions/scene.html:5",
+      "evidence": "observed"
+    },
+    "line": {
+      "use": "非语义分隔线与背景辅助网格；关键数学边界应使用 ink 或 subject",
+      "source": "films/human-to-sphere/story/03-homeomorphism/compositions/scene.html:7",
+      "evidence": "observed"
+    },
+    "subject": {
+      "use": "主几何、主要曲线、大物体；小字仍用 ink",
+      "source": "films/topology-mistakes/assets/geometry/model.js:2",
+      "evidence": "observed"
+    },
+    "subjectLight": {
+      "use": "大面填充、莫比乌斯带正面等；细线配 subject/ink 轮廓",
+      "source": "films/mobius/assets/geometry/mobius-source.js:3",
+      "evidence": "observed"
+    },
+    "emphasis": {
+      "use": "当前映射、关键符号与需要指认的关系；不预设为错误",
+      "source": "films/human-to-sphere/story/03-homeomorphism/compositions/scene.html:6",
+      "evidence": "observed"
+    },
+    "focus": {
+      "use": "小球、关注位置和局部面积；不用作小字",
+      "source": "films/mobius/assets/geometry/mobius-source.js:3",
+      "evidence": "observed"
+    },
+    "backface": {
+      "use": "带面背侧或需要区分朝向的面；不当默认正文色",
+      "source": "films/mobius/assets/geometry/mobius-source.js:3",
+      "evidence": "observed"
+    },
+    "neutralBody": {
+      "use": "人体和中性实体的大面基色",
+      "source": "films/human-to-sphere/assets/geometry/human-source.js:92",
+      "evidence": "observed"
+    },
+    "neutralCool": {
+      "use": "解环等偏冷中性实体",
+      "source": "films/topology-unlock/assets/geometry/study-source.js:16",
+      "evidence": "observed"
+    },
+    "blue": {
+      "use": "需要区分第二对象时使用；含义由本片图例确定",
+      "source": "films/topology-mistakes/assets/geometry/model.js:2",
+      "evidence": "observed"
+    },
+    "clay": {
+      "use": "第三对象的大面颜色",
+      "source": "films/topology-mistakes/assets/geometry/model.js:2",
+      "evidence": "observed"
+    },
+    "mauve": {
+      "use": "第四对象的大面颜色",
+      "source": "films/topology-mistakes/assets/geometry/model.js:2",
+      "evidence": "observed"
+    },
+    "olive": {
+      "use": "第五对象的大面颜色",
+      "source": "films/topology-mistakes/assets/geometry/model.js:2",
+      "evidence": "observed"
+    }
+  },
+  "semanticPalettes": {
+    "objects5": {
+      "colors": [
+        "#548D80",
+        "#718BAF",
+        "#C38460",
+        "#9B849F",
+        "#9A9E70"
+      ],
+      "source": "films/topology-mistakes/assets/geometry/model.js:2",
+      "rule": "按对象 ID 绑定，变形和换位后保留；须配标签、形状或位置，未证明色觉无障碍"
+    },
+    "humanSurface7": {
+      "colors": [
+        "#DC4B43",
+        "#ED902F",
+        "#DFC335",
+        "#369A61",
+        "#329CBE",
+        "#5266BC",
+        "#9A59AA"
+      ],
+      "ids": [
+        "mouth",
+        "nostril-left",
+        "nostril-right",
+        "ear-left",
+        "ear-right",
+        "urogenital",
+        "anus"
+      ],
+      "source": "films/human-to-sphere/scripts/build-human.py:64",
+      "rule": "专用于原始表面身份追踪；不是要求每幅画面铺满七色"
+    }
+  },
+  "variants": {
+    "mobiusOriginal": {
+      "background": "#F7F4E8",
+      "reason": "历史成片的暖黄纸色；新整片优先使用统一 background"
+    },
+    "glyphOriginal": {
+      "background": "#F5F3EC",
+      "ink": "#273F3A",
+      "muted": "#68766F",
+      "reason": "历史字形片的原值，保留作为来源"
+    },
+    "omegaInk": {
+      "body": "#141413",
+      "face": "#FFFDF6",
+      "source": "character/lib/omega.js:16",
+      "reason": "Ω 原角色轮廓与眼白保留，可叠加在统一 background 上；角色的蓝底选项不是全片默认"
+    }
+  },
+  "typography": {
+    "sans": "Microsoft YaHei",
+    "fallbacks": [
+      "Noto Sans CJK SC",
+      "sans-serif"
+    ],
+    "math": "Computer Modern via Manim MathTex",
+    "mathStatus": "新接入约定；不是从所有旧片提取的既有统一字体",
+    "referenceCanvas": [
+      1920,
+      1080
+    ],
+    "sizesPx": {
+      "title": 68,
+      "body": 34,
+      "label": 40,
+      "note": 28,
+      "eyebrow": 28,
+      "formula": 52
+    },
+    "weights": {
+      "title": 600,
+      "body": 400
+    },
+    "lineHeight": {
+      "title": 1.35,
+      "body": 1.5
+    },
+    "evidence": "标题 68、说明 34、注释 28 来自字形片；标签 40、公式 52 为新片起始建议，应按图形密度调整。不要将 CSS px 直接当作 Manim 字号。",
+    "fonts": "浏览器成片冻结本地字体与所需字形；旧子集只覆盖旧片用字，不自动适用于新文案。"
+  },
+  "geometry": {
+    "canvas": [
+      1920,
+      1080
+    ],
+    "defaultFps": 30,
+    "paddingPx": {
+      "x": 108,
+      "y": 72
+    },
+    "strokesPx": {
+      "axis": 3,
+      "main": 5,
+      "secondary": 3,
+      "guide": 1.5
+    },
+    "cornerPx": 8,
+    "spacingPx": [
+      8,
+      16,
+      24,
+      32,
+      48,
+      64,
+      96
+    ],
+    "evidence": "画幅与边距参考定义片；线宽和间距是新片建议，不固定每镜布局。4:3 原莫比乌斯片保留。"
+  },
+  "material": {
+    "default": {
+      "roughness": 0.76,
+      "metalness": 0
+    },
+    "observedRoughnessRange": [
+      0.64,
+      0.82
+    ],
+    "observedMainMetalnessRange": [
+      0,
+      0.03
+    ],
+    "key": "左上前方主光；柔和明暗说明表面；具体强度按几何尺度、曝光与渲染器校准。",
+    "examples": {
+      "glyph": {
+        "roughness": 0.72,
+        "metalness": 0,
+        "toneMapping": "ACESFilmic",
+        "exposure": 1.05
+      },
+      "mobius": {
+        "roughness": 0.64,
+        "metalness": 0.03,
+        "toneMapping": "ACESFilmic",
+        "exposure": 1.14
+      },
+      "human": {
+        "roughness": 0.76,
+        "metalness": 0
+      },
+      "unlock": {
+        "roughness": 0.82,
+        "metalness": 0
+      }
+    },
+    "exceptions": "针等金属道具和追踪小球可独立设置；物体材质色不等于最终像素色。不要把 Three.js 参数直接照搬成 Manim 着色模型。"
+  },
+  "policy": {
+    "smallTextRoles": [
+      "ink",
+      "muted",
+      "emphasis"
+    ],
+    "graphicalFillRoles": [
+      "subject",
+      "subjectLight",
+      "focus",
+      "neutralBody",
+      "neutralCool",
+      "blue",
+      "clay",
+      "mauve",
+      "olive"
+    ],
+    "defaultTexture": "干净暖白；现有基线未规定水墨笔触、宣纸纹理或发光。art-motion 的艺术处理作为按作品选择的扩展。",
+    "semanticIdentity": "先为对象、正负、已知/未知等含义建立映射，色板服务映射；不能仅按旧 RGB 全局替换。",
+    "motion": "动作承担解释；结果可停留；不为了色彩规范增加装饰性运镜。",
+    "backgroundConsistency": "同一作品中的 Manim、Three.js、SVG 和剪辑底色对齐；如引用原视频，保留来源且明确其为引用片段。"
+  }
+};

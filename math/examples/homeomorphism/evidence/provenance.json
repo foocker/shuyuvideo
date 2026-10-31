@@ -1,0 +1,19 @@
+{
+  "source_run": "tools/Math-To-Manim/runs/astra/20261031-homeomorphism-api",
+  "source_commit": "be5e680d64c1f3070e8a34c8510ae94a2600dcc9",
+  "model": "gpt-6-astra",
+  "scene_sha256": "f8f3f03592768a53b4be074e21e2a2019dcf7ed59f5c9e0edef2548b16f91f7c",
+  "style": "original dark demonstration; not a ShuYu warm-style film",
+  "review_scope": "Mathematical model, revised scene and completed 108-second movie; final Astra audit is not verified.",
+  "status": "needs_revision",
+  "final_render_attempt": 11,
+  "video_sha256": "af1d06a17199a12afad5a3a932d22b8a55e15106cfc00c5dcb1ae71f579e1b68",
+  "video": "../../../output/homeomorphism/homeomorphism-reference-needs-revision.mp4",
+  "duration_seconds": 108,
+  "width": 854,
+  "height": 480,
+  "fps": 15,
+  "render_audit": "render-astra-audit.json",
+  "verification": "video-verification.json",
+  "source_relative_paths_note": "Paths inside copied upstream reports resolve against source_run, not against this example directory."
+}

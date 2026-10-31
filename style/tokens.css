@@ -1,0 +1,20 @@
+/* Generated from tokens.json by scripts/build-style.py. */
+:root {
+  --shuyu-background: #F4F2EC;
+  --shuyu-surface: #F7F7F3;
+  --shuyu-ink: #203B35;
+  --shuyu-muted: #536359;
+  --shuyu-line: #C8CEC5;
+  --shuyu-subject: #548D80;
+  --shuyu-subject-light: #8BBAAA;
+  --shuyu-emphasis: #B64D35;
+  --shuyu-focus: #D2AA58;
+  --shuyu-backface: #63533F;
+  --shuyu-neutral-body: #D1CCC0;
+  --shuyu-neutral-cool: #D9DCD9;
+  --shuyu-blue: #718BAF;
+  --shuyu-clay: #C38460;
+  --shuyu-mauve: #9B849F;
+  --shuyu-olive: #9A9E70;
+  --shuyu-font: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+}

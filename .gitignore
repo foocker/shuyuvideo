@@ -1,0 +1,14 @@
+**/node_modules/
+**/.hyperframes/
+**/output/
+**/out/
+# 自己的作品与复刻对象只留在本地，不推送
+/films/
+/studies/cases/
+**/render.log
+**/render-error.log
+**/.thumbnails/
+**/__pycache__/
+**/*.pyc
+# 微软雅黑子集，许可不允许公开再分发；运行 character/scripts/build-assets.py 在本机重新生成
+/character/assets/fonts/

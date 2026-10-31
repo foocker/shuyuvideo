@@ -1,0 +1,16 @@
+{
+  "date": "2026-10-31",
+  "status": "needs_revision",
+  "video_sha256": "af1d06a17199a12afad5a3a932d22b8a55e15106cfc00c5dcb1ae71f579e1b68",
+  "inspection": "24 whole-lesson frames and 24 core-motion frames at one-second spacing; images visually inspected.",
+  "observations": [
+    "Cup indentation gradually becomes shallower, then the surface approaches the torus; both colored material neighborhoods remain recognizable in the sampled core frames.",
+    "Inverse-function slide at 30.5 seconds retains forward-pointing arrows, contradicting the inverse formula.",
+    "Inner-bottom highlight at 49 seconds is mostly obscured; region boundaries appear jagged.",
+    "The final summary and Euler-characteristic comparison are visible. The movie is a dark-style reference, not a ShuYu warm-style delivery."
+  ],
+  "limitations": [
+    "Sampled frames and successful full decode are not continuous-motion inspection or proof of collision freedom.",
+    "The added samples and clip do not supersede the retained Astra failed audit."
+  ]
+}

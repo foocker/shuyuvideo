@@ -1,0 +1,7 @@
+{
+  "original_source_sha256": "8de8e21ebddb3480e6013084bc7416ebfdac4885d5dc06eb0b8b03d4110f7f00",
+  "revised_source_sha256": "f8f3f03592768a53b4be074e21e2a2019dcf7ed59f5c9e0edef2548b16f91f7c",
+  "map_ast_unchanged": true,
+  "time_shape_function_ast_unchanged": true,
+  "scope": "AST equivalence of the analytic deformation, not a mesh collision certificate."
+}

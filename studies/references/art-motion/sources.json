@@ -1,0 +1,83 @@
+{
+  "repository": "https://github.com/alchaincyf/huashu-art-motion",
+  "commit": "8a0d7d72ca65fcce6f8ba82c4a6c8dfe35b8422c",
+  "copied_date": "2026-10-31",
+  "purpose": "Research evidence snapshots, not an installed engine. Text bytes preserved; .txt suffix prevents presenting partial source as runnable modules.",
+  "files": [
+    {
+      "path": "references/01-拆解.md.txt",
+      "upstream_path": "references/01-拆解.md",
+      "sha256": "1325629d957d22fa8274ac5003ee18479017f265bec35e99eb8d064f11cce6da"
+    },
+    {
+      "path": "references/05-节奏与配乐.md.txt",
+      "upstream_path": "references/05-节奏与配乐.md",
+      "sha256": "943da404c573cad11ac33417134ee011ae86508bd49946e03ca9731ed3e163c7"
+    },
+    {
+      "path": "references/12-口播整片与经验回流.md.txt",
+      "upstream_path": "references/12-口播整片与经验回流.md",
+      "sha256": "c4c0c3f085b235c9dda10e6351973d6a286c064ded29ba67de7ae88ab011dd5e"
+    },
+    {
+      "path": "references/15-跨场景风格提炼.md.txt",
+      "upstream_path": "references/15-跨场景风格提炼.md",
+      "sha256": "45c2310009d6524d13e6f0236bfec2294541007591a73b98e65cb76fbf56daf1"
+    },
+    {
+      "path": "references/动画语法/t1_3b1b.md.txt",
+      "upstream_path": "references/动画语法/t1_3b1b.md",
+      "sha256": "bb7da79142ffce470f016aeb83a86d841905920fdb0692fb6d87e81f0ddcdda9"
+    },
+    {
+      "path": "scripts/audio/synth_艺术史速通.py.txt",
+      "upstream_path": "scripts/audio/synth_艺术史速通.py",
+      "sha256": "ac077c430de63e45831e49303e73fb137e85dbe8a1ead2be6e646f4721627fea"
+    },
+    {
+      "path": "scripts/engine/clips/t1_3b1b.js.txt",
+      "upstream_path": "scripts/engine/clips/t1_3b1b.js",
+      "sha256": "4ac1edfeff35a6c33c4452de18dde2be318689fdeaed2c0ec4774a07dc0d273e"
+    },
+    {
+      "path": "scripts/engine/engine.js.txt",
+      "upstream_path": "scripts/engine/engine.js",
+      "sha256": "5104c65b55fa4de02f1d520f1efa1722c3cb004d7b47ba5f02b200237f5daf40"
+    },
+    {
+      "path": "scripts/engine/lib/camera.js.txt",
+      "upstream_path": "scripts/engine/lib/camera.js",
+      "sha256": "2bc9cc3fc9d499b439b4478e9d54b57167d0ce425ac195b0873173d5c0cc9af7"
+    },
+    {
+      "path": "scripts/engine/lib/diagram.js.txt",
+      "upstream_path": "scripts/engine/lib/diagram.js",
+      "sha256": "c02208b114a2a37e003f29c9947ccc88a5578767f87b48c01d4f1bceceebeca4"
+    },
+    {
+      "path": "scripts/engine/lib/motion.js.txt",
+      "upstream_path": "scripts/engine/lib/motion.js",
+      "sha256": "208b6c8ea7ac68d0b64cd8890cfa0383167e0352f87454af0eb3a40dd990826f"
+    },
+    {
+      "path": "scripts/engine/reference_films/spacex/README.md.txt",
+      "upstream_path": "scripts/engine/reference_films/spacex/README.md",
+      "sha256": "3563af5878d8dcb75bf026bf468f931e667cacc816097bee23815973714dc0e3"
+    },
+    {
+      "path": "scripts/engine/reference_films/spacex/spacex/tm.js.txt",
+      "upstream_path": "scripts/engine/reference_films/spacex/spacex/tm.js",
+      "sha256": "ef1733ba3ec55c2c6207c1be1c6ab8a02e36c779db019e64f456f5a6a9b6b170"
+    },
+    {
+      "path": "scripts/engine/render.py.txt",
+      "upstream_path": "scripts/engine/render.py",
+      "sha256": "ecb51c7ec5c99eb7c7ec0701154c683b771ba67c323eb26bcce59b94c19c6261"
+    },
+    {
+      "path": "scripts/film_gate.py.txt",
+      "upstream_path": "scripts/film_gate.py",
+      "sha256": "3c1a2054d6a3f8a461d7f177059c7c4f8c4d049fdc126d3ed57e2830c797e0db"
+    }
+  ]
+}

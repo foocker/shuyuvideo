@@ -1,0 +1,146 @@
+{
+  "version": "0.2.0",
+  "updated": "2026-10-31",
+  "defaultStyle": "shuyu-warm@1.0.0",
+  "purpose": "以数语现有视觉身份为基础，逐步积累素材、公共能力、作品、表达方法和案例研究。",
+  "statusDefinitions": {
+    "local_ready": "在本仓库有明确使用入口；验证范围见对应说明",
+    "work_specific": "作品专用实现，不代表已抽成通用库",
+    "external_reference": "资料在相邻目录或远程；尚未迁入本仓库",
+    "single_case": "已有一个案例支持，跨题材效果待验证",
+    "local_reference": "本仓库保存的研究依据；不代表已接入生产引擎"
+  },
+  "entries": [
+    {
+      "id": "escher-encounter",
+      "category": "works",
+      "name": "遭遇 · Encounter",
+      "status": "work_specific",
+      "path": "films/escher-encounter/README.md",
+      "preview": "films/escher-encounter/renders/encounter.mp4",
+      "note": "Escher 原作的 36 秒三维演绎；数语暖白、圆环步态、握手接触，附逐帧验证"
+    },
+    {
+      "id": "shuyu-warm",
+      "category": "style",
+      "name": "数语暖白 v1",
+      "status": "local_ready",
+      "path": "style/README.md",
+      "preview": "style/preview.html",
+      "tokens": "style/tokens.json"
+    },
+    {
+      "id": "omega",
+      "category": "assets",
+      "name": "Ω 角色与动作",
+      "status": "local_ready",
+      "path": "character/README.md",
+      "preview": "character/study.html",
+      "note": "2D 正面角色；语音音素未绑定，具体动作边界见原说明"
+    },
+    {
+      "id": "omega-api",
+      "category": "capabilities",
+      "name": "Ω 按时间取样、渲染与姿态混合",
+      "status": "local_ready",
+      "path": "character/lib/omega.js",
+      "documentation": "character/README.md"
+    },
+    {
+      "id": "manim-theme",
+      "category": "capabilities",
+      "name": "Manim 主题辅助函数",
+      "status": "local_ready",
+      "path": "style/adapters/manim_theme.py",
+      "preview": "style/evidence/manim-style.png",
+      "note": "仅在本机 CE 0.21.0 静态场景实测；未验证 Math-To-Manim 全链路"
+    },
+    {
+      "id": "human-geometry",
+      "category": "capabilities",
+      "name": "人体表面追踪与形变",
+      "status": "work_specific",
+      "path": "films/human-to-sphere/README.md"
+    },
+    {
+      "id": "mobius-geometry",
+      "category": "capabilities",
+      "name": "带面剪切与相扣绕行",
+      "status": "work_specific",
+      "path": "films/mobius/README.md"
+    },
+    {
+      "id": "film-audio",
+      "category": "capabilities",
+      "name": "整片剪辑、配音和音效合成",
+      "status": "work_specific",
+      "path": "films/human-to-sphere/film/README.md"
+    },
+    {
+      "id": "human-film",
+      "category": "works",
+      "name": "人的表面，为什么能与球面同胚？",
+      "status": "local_ready",
+      "path": "films/human-to-sphere/film/README.md",
+      "note": "185 秒整片；验证范围见 REVIEW.md"
+    },
+    {
+      "id": "mobius-film",
+      "category": "works",
+      "name": "莫比乌斯带",
+      "status": "local_ready",
+      "path": "films/mobius/README.md"
+    },
+    {
+      "id": "glyph-film",
+      "category": "works",
+      "name": "字形拓扑",
+      "status": "local_ready",
+      "path": "films/topology-mistakes/README.md"
+    },
+    {
+      "id": "unlock-film",
+      "category": "works",
+      "name": "连续解环",
+      "status": "local_ready",
+      "path": "films/topology-unlock/README.md"
+    },
+    {
+      "id": "expression-methods",
+      "category": "expression",
+      "name": "完整作品的 7 种表达方法",
+      "status": "single_case",
+      "location": "local_repository",
+      "path": "studies/methods.md",
+      "documentation": "studies/production-guide.md"
+    },
+    {
+      "id": "backprop-study",
+      "category": "studies",
+      "name": "反向传播完整作品研究",
+      "status": "local_ready",
+      "path": "studies/cases/backpropagation/README.md",
+      "location": "local_repository",
+      "preview": "studies/cases/backpropagation/index.html"
+    },
+    {
+      "id": "art-motion",
+      "category": "studies",
+      "name": "art-motion 艺术与生产能力来源",
+      "status": "local_reference",
+      "path": "studies/references/art-motion/README.md",
+      "location": "local_repository"
+    },
+    {
+      "id": "math-to-manim",
+      "category": "math",
+      "name": "Astra 数学与科学讲解片段",
+      "status": "local_ready",
+      "path": "math/README.md",
+      "url": "https://github.com/HarleyCoops/Math-To-Manim",
+      "inspectedCommit": "be5e680d64c1f3070e8a34c8510ae94a2600dcc9",
+      "note": "Astra 源码与许可已复制；使用 manimations 入口、数语风格快照和审核记录导出，离线测试通过。保留原同胚案例；新暖白成片仍待验证。",
+      "location": "local_repository"
+    }
+  ]
+}
