@@ -60,7 +60,7 @@ def main():
             ('human', 'films/human-to-sphere/renders/human-to-sphere-revised.mp4', 40),
             ('unlock', 'films/topology-unlock/output/topology-unlock-final.mp4', 30.5),
             ('definition', 'films/human-to-sphere/film/output/human-to-sphere-story-final.mp4', 147),
-            ('omega', 'character/output/shuyu-omega-showcase.mp4', 2),
+            ('omega', 'output/character/shuyu-omega-showcase.mp4', 2),
         ]:
             video = ROOT / relative
             dest = out / (name + '.jpg')

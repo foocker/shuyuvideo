@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN" data-composition-variables='[{"id":"brandName","type":"string","role":"content","label":"品牌名称","default":"数语"},{"id":"background","type":"string","role":"style","label":"暖白背景","default":"#F4F2EC"},{"id":"ink","type":"string","role":"style","label":"标志颜色","default":"#203B35"},{"id":"accent","type":"string","role":"style","label":"描线颜色","default":"#548D80"}]'>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>数语 · 3 秒品牌片头</title>
+  <script src="assets/vendor/gsap.min.js"></script>
+  <style>
+    *{box-sizing:border-box}
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#F4F2EC}
+    #brand-stage{position:relative;width:100%;height:100%;overflow:hidden}
+    #intro{position:absolute;inset:0}
+  </style>
+</head>
+<body>
+  <div data-hf-id="hf-x6ep" id="brand-stage" data-composition-id="main" data-start="0" data-duration="3" data-width="1920" data-height="1080" data-fps="30">
+    <div data-hf-id="hf-hq22" id="intro" class="clip" data-composition-id="intro" data-composition-src="compositions/intro.html" data-start="0" data-duration="3" data-width="1920" data-height="1080" data-track-index="0" data-track-kind="graphics"></div>
+    <audio data-hf-id="hf-no6w" id="brand-signature" class="clip" src="assets/audio/brand-signature.wav" data-start="0" data-duration="3" data-track-index="1" data-track-kind="audio" data-volume="1"></audio>
+  </div>
+  <script>
+    window.__timelines=window.__timelines||{};
+    window.__timelines.main=gsap.timeline({paused:true});
+  </script>
+</body>
+</html>

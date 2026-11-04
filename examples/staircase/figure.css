@@ -1,0 +1,11 @@
+.fig-block { position: absolute; box-sizing: border-box; border: 3px solid var(--shuyu-background); border-radius: 6px; }
+.fig-a { background: var(--shuyu-subject); }
+.fig-b { background: var(--shuyu-clay); }
+.fig-copy { position: absolute; }
+.fig-turn { position: absolute; left: 0; top: 0; transform-origin: 50% 50%; }
+.fig-num { position: absolute; text-align: center; font-size: 38px; color: var(--shuyu-muted); }
+.fig-lines { position: absolute; left: 0; top: 0; overflow: visible; }
+.fig-rect { fill: none; stroke: var(--shuyu-emphasis); stroke-width: 5; }
+.fig-brace { fill: none; stroke: var(--shuyu-ink); stroke-width: 3.5; stroke-linecap: round; }
+.fig-label { position: absolute; text-align: center; font-size: 44px; color: var(--shuyu-ink); }
+.fig-label-side { text-align: left; white-space: nowrap; }

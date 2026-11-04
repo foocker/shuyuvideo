@@ -1,9 +1,13 @@
 """Exercise the real browser controls, deterministic draws and transparent downloads."""
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+from workspace import output_dir, font_path
+from shuyu import prepare_project
 import json,hashlib
 from PIL import Image,ImageDraw,ImageFont
 from playwright.sync_api import sync_playwright
-ROOT=Path(__file__).resolve().parents[1];OUT=ROOT/'output';OUT.mkdir(parents=True,exist_ok=True)
+ROOT=prepare_project('character');OUT=output_dir('character');OUT.mkdir(parents=True,exist_ok=True)
 errors=[];seek_checks=[];shots=[]
 with sync_playwright() as p:
     browser=p.chromium.launch(channel='chrome',headless=True)
@@ -41,7 +45,7 @@ with sync_playwright() as p:
     page.locator('#play').click();start=page.evaluate('omegaStudy.state.t');page.wait_for_timeout(200);assert page.evaluate('omegaStudy.state.t')>start
     page.locator('#play').click()
     browser.close()
-font=ImageFont.truetype('C:/Windows/Fonts/msyh.ttc',22)
+font=ImageFont.truetype(str(font_path('sans')),22)
 sheet=Image.new('RGB',(1500,((len(shots)+4)//5)*330),'#eaeae2');draw=ImageDraw.Draw(sheet)
 for i,(f,label) in enumerate(shots):
     im=Image.open(f).convert('RGB');im.thumbnail((300,285));x=i%5*300;y=i//5*330;sheet.paste(im,(x+(300-im.width)//2,y));draw.text((x+18,y+294),label,font=font,fill='#141413')

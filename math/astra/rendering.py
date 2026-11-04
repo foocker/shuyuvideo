@@ -7,6 +7,9 @@ import sys
 
 from astra.client import clean_environment
 
+# 2D formula and graph storyboards do not need a 3D camera.
+SCENE_BASES = {'Scene', 'MovingCameraScene', 'ThreeDScene'}
+
 
 def validate_source(source):
     tree = ast.parse(source)
@@ -23,10 +26,10 @@ def validate_source(source):
             if name in {"eval", "exec", "compile", "open", "__import__", "getattr", "setattr",
                         "load", "save", "loadtxt", "savetxt", "fromfile", "tofile", "memmap"}:
                 raise ValueError(f"Scene contains prohibited call: {name}")
-        if isinstance(node, ast.ClassDef) and any(isinstance(b, ast.Name) and b.id == 'ThreeDScene' for b in node.bases):
+        if isinstance(node, ast.ClassDef) and any(isinstance(b, ast.Name) and b.id in SCENE_BASES for b in node.bases):
             classes.append(node.name)
     if classes != ['AstraFilm']:
-        raise ValueError("Expected one ThreeDScene named AstraFilm")
+        raise ValueError("Expected one Scene, MovingCameraScene or ThreeDScene named AstraFilm")
     if 'self.camera.animate' in source:
         raise ValueError("Use move_camera instead of self.camera.animate")
     return tree

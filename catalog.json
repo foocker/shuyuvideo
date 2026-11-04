@@ -1,6 +1,6 @@
 {
-  "version": "0.2.0",
-  "updated": "2026-10-31",
+  "version": "0.3.0",
+  "updated": "2026-11-04",
   "defaultStyle": "shuyu-warm@1.0.0",
   "purpose": "以数语现有视觉身份为基础，逐步积累素材、公共能力、作品、表达方法和案例研究。",
   "statusDefinitions": {
@@ -11,6 +11,33 @@
     "local_reference": "本仓库保存的研究依据；不代表已接入生产引擎"
   },
   "entries": [
+    {
+      "id": "motion-review",
+      "category": "capabilities",
+      "name": "动作、镜头与转场",
+      "status": "local_ready",
+      "path": "motion/SKILL.md",
+      "documentation": "examples/staircase/README.md",
+      "note": "统一动作规范、镜头与转场运行时、SVG 路径及独立 GSAP 场景取样；验证范围见案例 REVIEW.md，非整片或数学正确性保证"
+    },
+    {
+      "id": "production-validation",
+      "category": "capabilities",
+      "name": "素材与分镜验证",
+      "status": "local_ready",
+      "path": "scripts/validation/validate.py",
+      "documentation": "docs/VALIDATION.md",
+      "note": "shuyu validate assets/timeline：检查来源与许可记录、文件完整性及主画面分镜覆盖；不独立认定授权或数学正确性"
+    },
+    {
+      "id": "shuyu-brand-intro",
+      "category": "assets",
+      "name": "数语 Ω 品牌片头",
+      "status": "local_ready",
+      "path": "brand/README.md",
+      "preview": "brand/preview.html",
+      "note": "3 秒常用片头与 7 秒连续文字动画版；1920×1080、30 fps，源合成可编辑，成片本地保存"
+    },
     {
       "id": "escher-encounter",
       "category": "works",
@@ -53,7 +80,7 @@
       "status": "local_ready",
       "path": "style/adapters/manim_theme.py",
       "preview": "style/evidence/manim-style.png",
-      "note": "仅在本机 CE 0.21.0 静态场景实测；未验证 Math-To-Manim 全链路"
+      "note": "统一字体配置与暖白主题辅助；静态样张在根环境 Manim 0.22.1 验证，非整片质量保证。"
     },
     {
       "id": "human-geometry",
@@ -68,6 +95,15 @@
       "name": "带面剪切与相扣绕行",
       "status": "work_specific",
       "path": "films/mobius/README.md"
+    },
+    {
+      "id": "sound-effects",
+      "category": "capabilities",
+      "name": "Freesound 音效选材与下载",
+      "status": "local_ready",
+      "path": "sound/SKILL.md",
+      "documentation": "sound/README.md",
+      "note": "搜索、许可筛选和 MP3 预览下载；通过本地音效库接入 sound-cues.json 与现有混音流程"
     },
     {
       "id": "film-audio",
@@ -108,11 +144,12 @@
     {
       "id": "expression-methods",
       "category": "expression",
-      "name": "完整作品的 7 种表达方法",
-      "status": "single_case",
+      "name": "完整作品的 11 种表达方法",
+      "status": "local_reference",
       "location": "local_repository",
       "path": "studies/methods.md",
-      "documentation": "studies/production-guide.md"
+      "documentation": "studies/production-guide.md",
+      "note": "反向传播与连续性两部作品的研究；M01/M05/M07有两例观察，其余主要单例；迁移效果待新片验证"
     },
     {
       "id": "backprop-study",
@@ -122,6 +159,16 @@
       "path": "studies/cases/backpropagation/README.md",
       "location": "local_repository",
       "preview": "studies/cases/backpropagation/index.html"
+    },
+    {
+      "id": "continual-study",
+      "category": "studies",
+      "name": "连续性：概念讲解与三连动画研究",
+      "status": "local_reference",
+      "path": "studies/cases/continual/README.md",
+      "preview": "studies/cases/continual/index.html",
+      "location": "local_repository",
+      "note": "14章节、16事件、4处4fps序列；视觉与内嵌字幕研究，未完成整片连续视听审阅；仅本地保留"
     },
     {
       "id": "art-motion",
@@ -139,7 +186,7 @@
       "path": "math/README.md",
       "url": "https://github.com/HarleyCoops/Math-To-Manim",
       "inspectedCommit": "be5e680d64c1f3070e8a34c8510ae94a2600dcc9",
-      "note": "Astra 源码与许可已复制；使用 manimations 入口、数语风格快照和审核记录导出，离线测试通过。保留原同胚案例；新暖白成片仍待验证。",
+      "note": "Astra 使用根工作区环境、数语风格快照和审核记录导出；同胚案例位于 examples/homeomorphism，输出按项目统一归档。模型审阅不等同于数学证明。",
       "location": "local_repository"
     }
   ]

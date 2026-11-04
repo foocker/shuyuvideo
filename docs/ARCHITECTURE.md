@@ -12,6 +12,32 @@
 
 口播稿先定稿，配音生成后得到逐词时间；画面按这些时间排，而不是先做画面再配旁白。
 
+## 工作区边界
+
+唯一配置在 [workspace.json](../workspace.json)，统一入口是根目录 `shuyu.ps1`（跨平台使用 `python scripts/shuyu.py`）。模块不再拥有独立输出根和安装环境。
+
+```text
+能力模块 + films/作品 + examples/示例
+                  │ shuyu prepare <项目>
+                  ▼
+       output/<项目>/project/   离线构建包
+                  │
+     check / snapshot / render
+                  ▼
+       reports/          renders/
+                  ▲
+ shuyu math --project <项目> → math/<任务>/
+```
+
+- `motion/`、`math/`、`sound/`、`character/` 等保存公共代码和说明；源码按能力分工，生成物按作品归属。
+- `examples/` 保存跨模块验证样例；台阶和同胚已从模块内移入这里。
+- 一个根 `.venv`，一个根 `node_modules`；Manim 是根环境的可选依赖组。Astra 不再使用相邻仓库的解释器。
+- HyperFrames 版本由项目注册表选择。旧作品保留已验证版本，新项目继承默认版本；统一入口不强行升级历史渲染器。
+- 字体由 `style/fonts.json` 与 `scripts/font_assets.py` 管理，子集按内容缓存。构建包保留可搬运的离线副本及许可记录。
+- 历史影片的输出实体迁到 `output/<项目>/archive/`，原位置仅保留兼容链接。研究输入与来源证据不属于构建缓存。
+
+`shuyu layout` 检查模块是否重新出现独立产物或依赖目录。安装与迁移说明见 [SETUP.md](SETUP.md)。
+
 ## 选哪个引擎做镜头
 
 各引擎擅长的事不同。按**镜头主体**选，不按习惯选。
@@ -52,10 +78,24 @@ SCRIPT.md ──► narration.json ──► sound/voice.py ──► 逐句音�
 
 | 模块 | 作用 |
 | --- | --- |
-| [camera/](../camera/README.md) | 镜头运动：推近、拉远、平移、聚焦局部再回到全景。整个场景放在一个"世界"图层里，由相机变换移动 |
-| [transitions/](../transitions/README.md) | 镜头之间的衔接：硬切、交叉淡化、对象延续、推入切换 |
+| [motion/](../motion/SKILL.md) | 动作设计、[镜头运动](../motion/references/camera.md)、[场景转场](../motion/references/transitions.md)，以及路径、衔接和时间取样检查 |
 | [character/](../character/README.md) | Ω 角色。每个镜头单独指定位置、动作和朝向，不固定在角落 |
 | [style/](../style/README.md) | 颜色、字号、语义角色 |
+
+motion 内按职责分层，镜头与转场不再是与 motion 并列的能力目录：
+
+```text
+motion/
+  SKILL.md          动作、镜头与转场的统一入口
+  references/       设计规范、API 与检查契约
+  runtime/          camera.js、transitions.js
+  checks/           continuity.js、SVG 分析与浏览器取样
+scripts/validation/ 素材来源与主画面分镜覆盖验证
+```
+
+构建时，`scripts/prepare-film.py` 将运行时准备到既有 `assets/lib/camera.js` 和 `assets/lib/transitions.js`。转场包包含唯一的对象衔接检查实现，保留 `ShuyuTransitions.check` 兼容入口；新增使用 `ShuyuMotionChecks.continuity`。作品无需修改原 script 路径。
+
+素材来源、许可记录、文件哈希和分镜覆盖是跨模块制作检查，使用 `shuyu validate assets/timeline`，输入契约见 [公共验证](VALIDATION.md)。
 
 ## 每部片的文件
 
@@ -73,7 +113,9 @@ films/<作品>/
 
 ## 交付前检查
 
-1. `npx hyperframes check --json` 无错误。
-2. 抽帧看文字层：没有乱码问号、裸露的 TeX 源码（`\frac`、`^` 出现在可见文字中）或制作备注（斜杠分隔的说明、镜头编号）。
-3. `npx hyperframes audio <成片> --json`：有声音，响度在 -17 到 -15 LUFS 之间，音效与画面对齐。
-4. 数学内容与 Astra 审核记录或数学依据一致。
+环境准备与诊断见 [SETUP.md](SETUP.md)，先确保公共 `doctor` 没有阻断项。以下作品检查仍需逐片执行。
+
+1. `shuyu check <项目>` 退出成功：HyperFrames 检查无错误，且屏幕文字扫描（`reports/screen-text.json`）没有乱码问号、裸露的 TeX 源码、Unicode 冒充的公式符号、TeX 中未包在 `\text{}` 里的中文，或制作备注（斜杠分隔的说明、镜头编号、TODO）。扫描只看源码中写出的文字，运行时拼出的文字仍要抽帧看。
+2. `sound/mix.py` 必须退出成功，且最新 `mix-report.json` 的 `status` 为 `passed`；响度在 -17 到 -15 LUFS 之间，真峰值不高于 -1.5 dBTP。
+3. `shuyu render <项目>` 退出成功：渲染后自动核对 MP4（`reports/render-check.json`），包括画布尺寸、有配乐时必须有音轨、音视频时长差不超过 0.08 秒、经过 `mix.py` 的作品编码后响度仍在上述范围。口型和口播节奏仍需看一遍成片。
+4. 数学内容与 Astra 审核记录或数学依据一致。用了口播时钟的 Astra 片段，导出时长须与时钟 `end` 相差不超过 0.5 秒。

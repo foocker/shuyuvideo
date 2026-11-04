@@ -1,0 +1,6 @@
+/assets/fonts/
+/assets/audio/
+/assets/vendor/
+/proof/
+*-stderr.log
+snapshot-log.txt

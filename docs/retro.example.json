@@ -1,0 +1,15 @@
+{
+  "schema": "shuyu-retro/v1",
+  "project": "staircase-sum",
+  "date": "2026-11-04",
+  "duration": 52.37,
+  "methods": [
+    {"id": "M01", "at": [19.8, 31.0], "purpose": "观众要看出副本和原台阶是同一个对象",
+     "outcome": "worked", "evidence": "output/staircase-sum/reports/snapshots/", "note": "示例数据，按实际作品填写"}
+  ],
+  "defects": [
+    {"id": "D03", "fix": "副本竖向位移改为 -B（一个方块高度）", "foundBy": "contact sheet 目视"}
+  ],
+  "hours": {"script": 0, "math": 0, "visuals": 0, "sound": 0, "review": 0},
+  "notes": "复制到 films/<作品>/retro.json 后填写；验证：shuyu validate retro films/<作品>/retro.json"
+}

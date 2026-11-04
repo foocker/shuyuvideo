@@ -1,0 +1,52 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"></head><body><template>
+<style>
+@font-face{font-family:Shuyu;src:url('assets/fonts/shuyu.woff2')}
+#stairs{position:absolute;inset:0;font-family:Shuyu,sans-serif}
+#s-frame{position:absolute;inset:0;background:var(--shuyu-background);overflow:hidden}
+#s-world{position:absolute;left:0;top:0;width:1920px;height:1080px}
+</style>
+<div id="stairs" data-composition-id="stairs" data-width="1920" data-height="1080">
+  <div id="s-frame"><div id="s-world" data-layout-allow-overflow></div></div>
+</div>
+<script>
+(() => {
+  const START = 8.2, DUR = 24.25;
+  const A = window.ANCHORS, F = window.StairFigure, C = window.ShuyuCamera;
+  const T = name => A[name] - START;
+  const world = document.getElementById('s-world');
+  const fig = F.build(world);
+  ShuyuTex.renderAll(world);
+
+  const tl = gsap.timeline({ paused: true });
+  ShuyuTransitions.crossIn(tl, '#s-frame', 0.5, 0);
+
+  tl.fromTo(fig.labels, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.12, ease: 'power2.out' }, T('numbers'));
+  fig.columns.forEach((col, i) => {
+    tl.fromTo(col, { opacity: 0, y: -36 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'back.out(1.6)' }, T('col' + (i + 1)));
+  });
+
+  tl.fromTo(fig.slide, { opacity: 0, x: 80 }, { opacity: 1, x: 0, duration: 0.6, ease: 'power2.out' }, T('copyIn'));
+  tl.fromTo(fig.turn, { rotation: 0 }, { rotation: 180, duration: 0.8, ease: 'power2.inOut' }, T('flip'));
+  tl.fromTo(fig.slide, { x: 0, y: 0 }, { x: F.SHIFT.x, y: F.SHIFT.y, duration: 0.65, ease: 'power2.inOut', immediateRender: false }, T('join'));
+
+  tl.fromTo(fig.rect, { attr: { 'stroke-dashoffset': 100 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 1.0, ease: 'power1.inOut' }, T('rect'));
+  tl.fromTo(fig.braceW, { attr: { 'stroke-dashoffset': 100 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.5, ease: 'power1.out' }, T('width'));
+  tl.fromTo(fig.labelW, { opacity: 0 }, { opacity: 1, duration: 0.35 }, T('width') + 0.25);
+  tl.fromTo(fig.braceH, { attr: { 'stroke-dashoffset': 100 } }, { attr: { 'stroke-dashoffset': 0 }, duration: 0.5, ease: 'power1.out' }, T('height'));
+  tl.fromTo(fig.labelH, { opacity: 0 }, { opacity: 1, duration: 0.35 }, T('height') + 0.25);
+
+  // Push in on the rectangle, then settle it in the left third for the formula scene.
+  const cam = C.track(C.HOME, [
+    { at: T('rect') - 0.1, dur: 1.2, box: [640, 280, 640, 650], pad: 0.15 },
+    { at: DUR - 1.3, dur: 1.0, to: F.CAM_END, ease: "power2.inOut" }
+  ]);
+  const clock = { t: 0 };
+  const apply = () => C.apply(world, cam(clock.t));
+  tl.fromTo(clock, { t: 0 }, { t: DUR, duration: DUR, ease: 'none', onUpdate: apply }, 0);
+  apply();
+
+  window.__timelines = window.__timelines || {};
+  window.__timelines.stairs = tl;
+})();
+</script>
+</template></body></html>

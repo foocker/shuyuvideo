@@ -1,0 +1,4 @@
+# Optional Manim/Astra packages installed into the same root .venv.
+-r requirements.txt
+pydantic>=2,<3
+manim>=0.22.1,<0.23

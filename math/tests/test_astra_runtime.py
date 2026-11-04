@@ -1,4 +1,4 @@
-"""Packaged installs resolve their pinned runtime without a repository checkout."""
+"""Astra resolves the same root installation used by all video tools."""
 import json
 from pathlib import Path
 import pytest
@@ -6,6 +6,8 @@ from astra import runtime
 
 
 def installed_runtime(folder, version='0.156.1'):
+    folder.mkdir(parents=True, exist_ok=True)
+    (folder / 'package.json').write_text(json.dumps({'dependencies': {'@openai/codex': '0.156.1'}}))
     for name in ('codex', 'codex-sdk'):
         package = folder / f'node_modules/@openai/{name}'
         package.mkdir(parents=True)
@@ -16,44 +18,35 @@ def installed_runtime(folder, version='0.156.1'):
     return folder
 
 
-def test_wheel_runtime_resolves_from_cache(tmp_path, monkeypatch):
-    cached = installed_runtime(tmp_path / 'cache')
-    monkeypatch.setattr(runtime, 'REPOSITORY', tmp_path / 'absent-checkout')
-    monkeypatch.setattr(runtime, 'cache_directory', lambda: cached)
-    assert runtime.runtime_directory() == cached
+def test_shared_root_runtime_is_selected(tmp_path, monkeypatch):
+    root = installed_runtime(tmp_path / 'workspace')
+    monkeypatch.setattr(runtime, 'REPOSITORY', root)
+    assert runtime.runtime_directory() == root
 
 
-def test_source_install_keeps_its_existing_runtime(tmp_path, monkeypatch):
-    checkout = installed_runtime(tmp_path / 'source')
-    monkeypatch.setattr(runtime, 'REPOSITORY', checkout)
-    monkeypatch.setattr(runtime, 'cache_directory', lambda: pytest.fail('Source runtime is ready'))
-    assert runtime.runtime_directory() == checkout
-
-
-def test_wrong_version_requires_setup(tmp_path, monkeypatch):
-    cached = installed_runtime(tmp_path / 'cache', version='0.156.0')
-    monkeypatch.setattr(runtime, 'REPOSITORY', tmp_path / 'absent-checkout')
-    monkeypatch.setattr(runtime, 'cache_directory', lambda: cached)
-    with pytest.raises(RuntimeError, match='math-to-manim setup'):
+def test_wrong_version_requires_root_setup(tmp_path, monkeypatch):
+    root = installed_runtime(tmp_path / 'workspace', '0.156.0')
+    monkeypatch.setattr(runtime, 'REPOSITORY', root)
+    with pytest.raises(RuntimeError, match='shuyu setup'):
         runtime.runtime_directory()
 
 
-def test_setup_strips_credentials_and_installs_the_locked_runtime(tmp_path, monkeypatch):
-    cached = tmp_path / 'cache'
-    monkeypatch.setattr(runtime, 'cache_directory', lambda: cached)
+def test_setup_uses_root_and_strips_credentials(tmp_path, monkeypatch):
+    root = tmp_path / 'workspace'
+    root.mkdir()
+    monkeypatch.setattr(runtime, 'REPOSITORY', root)
     monkeypatch.setattr(runtime.shutil, 'which', lambda name: name)
     monkeypatch.setenv('OPENAI_API_KEY', 'test')
     monkeypatch.setenv('EXAMPLE_API_KEY', 'test')
     def install(command, **kwargs):
         assert command == ['npm', 'ci', '--no-audit', '--no-fund']
+        assert kwargs['cwd'] == root
         assert 'OPENAI_API_KEY' not in kwargs['env'] and 'EXAMPLE_API_KEY' not in kwargs['env']
-        assert (cached / 'package-lock.json').read_bytes() == (runtime.ASSETS / 'package-lock.json').read_bytes()
-        installed_runtime(cached)
+        installed_runtime(root)
     monkeypatch.setattr(runtime.subprocess, 'run', install)
-    assert runtime.setup_runtime() == cached
+    assert runtime.setup_runtime() == root
 
 
-def test_packaged_lock_matches_the_repository():
-    root = Path(__file__).resolve().parents[1]
-    for name in ('package.json', 'package-lock.json'):
-        assert json.loads((runtime.ASSETS / name).read_text()) == json.loads((root / name).read_text())
+def test_sdk_and_cli_pins_match():
+    data = json.loads((runtime.REPOSITORY / 'package.json').read_text(encoding='utf-8'))
+    assert data['dependencies']['@openai/codex-sdk'] == runtime.codex_version()

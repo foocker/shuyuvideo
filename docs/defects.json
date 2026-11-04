@@ -1,0 +1,28 @@
+{
+  "schema": "shuyu-defects/v1",
+  "note": "每条缺陷对应防止它再次出现的检查。check 为空表示仍靠人工，status 为 open。films/ 下的路径只在本机存在。",
+  "defects": [
+    {"id": "D01", "symptom": "屏幕出现乱码问号、裸露 TeX 源码或斜杠分隔的制作备注", "foundIn": "多部作品，用户反馈",
+     "cause": "文字未经检查直接进入画面", "check": "scripts/validation/screen_text.py", "status": "guarded"},
+    {"id": "D02", "symptom": "公式用 Unicode 上下标和符号拼写（x²、−、ₙ）", "foundIn": "human-to-sphere/story/03-homeomorphism, topology-mistakes",
+     "cause": "公式没有走 KaTeX / MathTex", "check": "scripts/validation/screen_text.py", "status": "guarded"},
+    {"id": "D03", "symptom": "台阶副本拼合处有 30 像素空缺，顶部方块越出矩形", "foundIn": "staircase-sum",
+     "cause": "副本竖向位移写成 -120，方块高度为 90", "check": "examples/staircase/check_geometry.py", "status": "guarded"},
+    {"id": "D04", "symptom": "握手手指梳齿状交错，画面穿模", "foundIn": "escher-encounter",
+     "cause": "只检查了手部表面相交，没有看实际近景", "check": "films/escher-encounter/scripts/verify_motion.py", "status": "guarded"},
+    {"id": "D05", "symptom": "针线穿入皮肤", "foundIn": "human-to-sphere",
+     "cause": "缝线路径未对皮肤三角形做落点检查", "check": "films/human-to-sphere/scripts/verify-sutures.py", "status": "guarded"},
+    {"id": "D06", "symptom": "用投影合并或遮挡掩盖穿透，拓扑统计看似通过", "foundIn": "topology-unlock",
+     "cause": "固定拓扑统计不能证明无穿透", "check": "films/topology-unlock/scripts/audit-study.py", "status": "guarded"},
+    {"id": "D07", "symptom": "沿用旧 final-mix.wav 就当作本次混音通过", "foundIn": "架构约定",
+     "cause": "没有以本次 mix-report.json 的 status 为准", "check": "sound/mix.py", "status": "guarded"},
+    {"id": "D08", "symptom": "成片缺音轨、音画时长不一致或编码后响度漂移", "foundIn": "架构约定",
+     "cause": "只检查了 final-mix.wav，没有检查渲染出的 MP4", "check": "scripts/validation/render_check.py", "status": "guarded"},
+    {"id": "D09", "symptom": "源码中已删除或改名的合成仍留在构建包里", "foundIn": "工作区审查 2026-11-04",
+     "cause": "prepare 只覆盖复制，不清理", "check": "tests/test_validation.py", "status": "guarded"},
+    {"id": "D10", "symptom": "Manim 片段与 HyperFrames 场景底色不同，切换处有接缝", "foundIn": "架构约定",
+     "cause": "片段未使用暖白主题", "check": "", "status": "open"},
+    {"id": "D11", "symptom": "Astra 片段时长与口播时钟不一致", "foundIn": "工作区审查 2026-11-04",
+     "cause": "Astra 自定时长", "check": "math/shuyu_astra.py", "status": "guarded"}
+  ]
+}

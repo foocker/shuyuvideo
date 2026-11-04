@@ -7,9 +7,8 @@ Reads <film>/narration.json (format: docs/NARRATION.md). Writes
 line's start/end on the film clock plus per-word times. Takes are cached by
 text, voice and rate, so editing one line regenerates only that line.
 
-Needs edge-tts >= 7.3.1 (older versions get HTTP 403). Install it outside the
-repository, e.g. `python -m pip install --target ../.deps edge-tts==7.3.1`,
-and set PYTHONPATH to that folder.
+Needs edge-tts >= 7.3.1 (older versions get HTTP 403); `shuyu setup` installs
+it into the root .venv. Run it with `shuyu exec sound/voice.py <film-dir>`.
 """
 import asyncio
 import hashlib

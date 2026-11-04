@@ -1,0 +1,94 @@
+{
+  "reviewedOn": "2026-11-04",
+  "upstream": "https://github.com/vibe-motion/skills",
+  "commit": "4c86c0d016a3ba22ee673428a494f3c44f84111f",
+  "license": "No umbrella license found in inspected snapshot; file-specific records in SOURCE.md",
+  "references": [
+    {
+      "path": "disney-animation-rule-skill/SKILL.md",
+      "sha256": "a33d59ed81a97f39a6e7202bbc2f80b57cb23d3ff95dcf411f68ab0605fa0654",
+      "use": "method-reference"
+    },
+    {
+      "path": "disney-animation-rule-skill/references/twelve-principles.md",
+      "sha256": "7afce24f555e99cc659888e92b0c8feb215d7cf1499ac489a9e14818e58569c1",
+      "use": "method-reference"
+    },
+    {
+      "path": "disney-animation-rule-skill/references/implementation-patterns.md",
+      "sha256": "0a222a072893d1a49015a990b0a3ba61c2098bc2bd82998c7929dbd272f1287a",
+      "use": "method-reference"
+    },
+    {
+      "path": "pixel2motion/SKILL.md",
+      "sha256": "1c0580d8496185e922e5b7e52146ed92aa5e59bcffd0b526f5b5ada6ecf643fb",
+      "use": "method-reference"
+    },
+    {
+      "path": "pixel2motion/scripts/svg_path_audit.py",
+      "sha256": "0e385aab3b66b0e45bd7967e7d728af1598bf5900a84f3465349d0ba24dfe693",
+      "use": "method-reference"
+    },
+    {
+      "path": "pixel2motion/scripts/probe_motion_continuity.py",
+      "sha256": "0387518843425862ba37752b1b8e57fd191c1ee886c82a2bfc0738f4d7d8ff9e",
+      "use": "method-reference"
+    },
+    {
+      "path": "pixel2motion/scripts/capture_motion_frames.py",
+      "sha256": "cba62b7aac07066e165937e6d7efe57335aecc2c1a9847a677fec2b93165a34b",
+      "use": "method-reference"
+    },
+    {
+      "path": "brand-launch-video-star/SKILL.md",
+      "sha256": "0f300329fbc80ad4d3762e07d612aa5d4f32bd5780579484f883fdbeaca97650",
+      "use": "method-reference"
+    },
+    {
+      "path": "brand-launch-video-star/scripts/validate-assets.mjs",
+      "sha256": "6d8f1602060722a70f8a50ba684f01b766b1f080e572a6b787a35b39c1fa8ca2",
+      "use": "method-reference"
+    },
+    {
+      "path": "brand-launch-video-star/scripts/validate-timeline.mjs",
+      "sha256": "308f63125aa2d6a1c74090550c4ad0454da05b14bd4aa81c47f566c938a66f49",
+      "use": "method-reference"
+    },
+    {
+      "path": "3d-chladni-render/SKILL.md",
+      "sha256": "d85ea501856b8c345344797d6c6ac28af8bdfd6a0651151b64111fd79b7b1148",
+      "use": "license-record-only"
+    },
+    {
+      "path": "printed-curtain-render/assets/printed-curtain-template/NOTICE.txt",
+      "sha256": "ff48b84c1a38905ff18d9cb85aa32effd86d4a80e5535f7f37fc447a44155c9d",
+      "use": "license-record-only"
+    }
+  ],
+  "localExamples": [
+    {
+      "source": "films/staircase-sum/assets/figure.js",
+      "sourceSha256": "cf179200cd99cd752b6bb1b0d1123df14432ae2a68b3db1090261521cd48bea7",
+      "snapshot": "../examples/staircase/figure.js",
+      "change": "Corrected duplicate vertical translation from -120 to -B (-90) to tile the final rectangle; original film unchanged. See example REVIEW.md."
+    },
+    {
+      "source": "films/staircase-sum/assets/figure.css",
+      "sourceSha256": "7505e8df245b7f94b2e634c3c33e4583b0054f1c2bb63eaf01ec0f373d922a66",
+      "snapshot": "../examples/staircase/figure.css",
+      "change": "unchanged at initial snapshot; later changes documented in example REVIEW.md"
+    },
+    {
+      "source": "films/staircase-sum/compositions/stairs.html",
+      "sourceSha256": "6288951db7d29704ad3f936c59c066b57ef2b196fe5e06bfe7edf75e5dba5692",
+      "snapshot": "../examples/staircase/scene.html",
+      "change": "unchanged at initial snapshot; later changes documented in example REVIEW.md"
+    },
+    {
+      "source": "films/staircase-sum/anchors.resolved.json",
+      "sourceSha256": "3f6782ecfacb1bf236eba484392f4323181992b15af6826056b9d0f1fcd727ac",
+      "snapshot": "../examples/staircase/anchors.resolved.json",
+      "change": "unchanged at initial snapshot; later changes documented in example REVIEW.md"
+    }
+  ]
+}

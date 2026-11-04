@@ -2,7 +2,7 @@
 
 先打开 [study.html](study.html)：选择动作、表情、视线与左右手势，支持播放、半速、逐帧拖动、鼠标目光跟随、换色，以及当前姿态的透明 SVG / PNG 导出。Chrome / Edge 直接双击打开即可，不需要安装依赖或启动服务。
 
-[36 秒动作总览](output/shuyu-omega-showcase.mp4) · [15 个动作姿态](output/action-sheet.png) · [11 种表情](output/expression-sheet.png) · [挥手透明动画](output/wave-alpha.webm)
+[36 秒动作总览](../output/character/shuyu-omega-showcase.mp4) · [15 个动作姿态](../output/character/action-sheet.png) · [11 种表情](../output/character/expression-sheet.png) · [挥手透明动画](../output/character/wave-alpha.webm)
 
 ## 角色结构
 
@@ -15,6 +15,8 @@
 - **外观**：墨色、陶土、参考蓝、青绿四套配色。角色为二维正面设计，支持侧倾、压缩与拉伸；此版没有三维背身转身。
 
 左右以**画面左右**为准。所有动态都由绝对时间计算，播放、随机拖动和逐帧渲染共用一套状态。
+
+新增或调整动作时参照 [教学动作规范](../motion/references/principles.md)：先锁定意图、接触点和关键姿态，再调节奏与跟随动作。动作审查工具见 [motion skill](../motion/SKILL.md)。
 
 ## 动作与表情
 
@@ -88,12 +90,12 @@ omega.render('walk', 3.2, { travel: true });
 ## 素材导出与重建
 
 - 预览页可直接导出当前姿态的透明 SVG、1400×1080 PNG。
-- `output/wave-alpha.webm` 是 3.6 秒、30 fps 的透明 VP9 示例，可叠加到视频上。普通播放器可能以黑色显示透明背景；合成时使用 alpha 通道。
-- `output/shuyu-omega-showcase.mp4` 是 1920×1080、30 fps、36 秒的静音展示。动作素材保持静音，供后续影片统一配声音。
+- `../output/character/wave-alpha.webm` 是 3.6 秒、30 fps 的透明 VP9 示例，可叠加到视频上。普通播放器可能以黑色显示透明背景；合成时使用 alpha 通道。
+- `../output/character/shuyu-omega-showcase.mp4` 是 1920×1080、30 fps、36 秒的静音展示。动作素材保持静音，供后续影片统一配声音。
 
 ```powershell
 # 仅重建字体轮廓、检查或导出时需要；普通预览不需要安装。
-python -m pip install -r scripts/requirements.txt
+.\..\shuyu.ps1 setup
 npm run build
 npm run verify
 npm run check
@@ -102,13 +104,13 @@ npm run verify:render
 npm run export:wave
 
 # 导出另一个透明动作
-python scripts/export-action.py --action think --palette clay --output output/think-alpha.webm
+.\..\shuyu.ps1 exec character/scripts/export-action.py --action think --palette clay --output think-alpha.webm
 ```
 
 使用 Chrome、FFmpeg/ffprobe 和 Python。生成透明 WebM 时直接编码透明 PNG 帧，未使用黑底抠像。重新提取字形需要 Windows 本机 Georgia；当前固化矢量已经可直接使用。
 
 ## 文件与验证
 
-`lib/omega.js` 集中维护身体、表情、手势和动作；`lib/omega-shape.js` 只保存字形轮廓。`study.html` 是人用动作面板，`index.html` 是 HyperFrames 入口，`export.html` 是无背景导出入口。结果与检查都在被 Git 忽略的 output/ 中。
+`lib/omega.js` 集中维护身体、表情、手势和动作；`lib/omega-shape.js` 只保存字形轮廓。`study.html` 是人用动作面板，`index.html` 是 HyperFrames 入口，`export.html` 是无背景导出入口。统一入口将可运行副本准备到根目录 `output/character/project/`，新视频在 `output/character/renders/`；所有生成物归属 `output/character/`。
 
 [REVIEW.md](REVIEW.md) 记录动作边界、脚底稳定性、透明通道、随机跳转与成片检查。后台时间轴预览为 http://localhost:9416/#project/character；其中的 Edit with Framey 可连接 [HyperFrames 桌面应用](https://hyperframes.studio/studio/download?os=windows&src=cli)。

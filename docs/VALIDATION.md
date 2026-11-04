@@ -1,0 +1,74 @@
+# 素材与分镜验证
+
+公共验证属于作品制作流程，适用于任意引擎。从仓库根目录使用 `shuyu.ps1 validate`；脚本位于 [scripts/validation/validate.py](../scripts/validation/validate.py)，仅依赖 Python 标准库。
+
+失败返回非零退出码；报告的 `ok` 只表示所列结构、记录和文件完整性检查通过，不代表已证明授权或数学结论。动作、镜头与局部取样另见 [motion](../motion/SKILL.md)。方法来源与许可记录保留在 [SOURCE.md](../motion/SOURCE.md)。
+
+## 素材清单
+
+`shuyu.ps1 validate assets <清单.json> [--report <报告.json>]`。清单结构：
+
+```json
+{
+  "schema": "shuyu-assets/v1",
+  "intendedUse": "study",
+  "assets": [{
+    "id": "diagram",
+    "role": "mathematical-diagram",
+    "path": "assets/diagram.svg",
+    "kind": "project-original",
+    "source": "本作品的参数化模型生成",
+    "license": "project-internal"
+  }]
+}
+```
+
+`path` 和可选 `licenseFile` 相对清单目录，必须指向目录内的实际文件。`kind` 可为 `project-original`、`user-provided`、`external`；外部来源必须提供 HTTP(S) 来源 URL。可选 `sha256` 是完整的 64 位文件摘要。空素材数组允许用于无需外部文件的场景。
+
+`license` 填具体许可或明确的内部使用依据。`project-internal` 只是项目内部记录，不是向第三方授予的开源许可。来源不明不能用这个值掩盖；`unknown` / `unspecified` 会失败。校验器不访问来源网站，不能独立确认记录是否真实。
+
+CC BY 系列需 `credit`；CC BY-SA 还需 `adaptationLicense` 和 `changes`，例如“未修改”。支持 `CC-BY-NC-4.0` 和 `CC BY-NC 4.0` 两种写法。记录完整也仍需人工核对相同方式共享义务。`intendedUse: commercial` 会拒绝识别到的 CC 非商业许可；工具不替代其他许可证的具体条款审查。外部素材不能用 `project-internal` 占位。
+
+## 分镜覆盖
+
+`shuyu.ps1 validate timeline <分镜.json> [--assets <素材清单.json>] [--report <报告.json>]`：
+
+```json
+{
+  "schema": "shuyu-timeline/v1",
+  "fps": 30,
+  "durationFrames": 1800,
+  "maxOverlapFrames": 15,
+  "shots": [{
+    "id": "operation",
+    "startFrame": 0,
+    "endFrame": 1800,
+    "subject": "同一个几何对象",
+    "action": "改变条件并比较结果",
+    "readFrames": 30,
+    "assets": ["diagram"]
+  }]
+}
+```
+
+只列主要画面顺序，不把同时出现的角色、配音和字幕混在同一覆盖检查中。区间为左闭右开，帧号为整数；不限片长，默认不允许重叠，需要转场时显式设置 `maxOverlapFrames`。`readFrames` 记录镜头内预留读取的帧数，不自动添加停顿。存在素材 ID 引用时必须提供 `--assets`，并先验证该清单。
+
+
+## 屏幕文字与成片
+
+`shuyu.ps1 validate screen <作品目录> [--report <报告.json>]` 静态扫描 `index.html` 和 `compositions/` 中的可见文字与含中文的脚本字符串，脚本位于 [screen_text.py](../scripts/validation/screen_text.py)。`shuyu check` 会自动运行它。`data-tex` 中的 TeX 不按可见文字检查，只要求中文写在 `\text{}` 里。作品尺寸、画幅这类本来就是普通文字的符号，在元素上加 `data-literal-text`，不再报 Unicode 公式符号。
+
+`shuyu render` 渲染后运行 [render_check.py](../scripts/validation/render_check.py)，也可单独执行 `shuyu.ps1 exec scripts/validation/render_check.py <视频.mp4> --project <作品目录>`。它只测量文件，不代替看片。
+
+## 缺陷登记与复盘
+
+[accumulation.py](../scripts/validation/accumulation.py) 提供四个子命令，都通过 `shuyu.ps1 validate` 运行：
+
+| 命令 | 作用 |
+| --- | --- |
+| `validate defects` | 校验 [defects.json](defects.json)：编号不重复，标为 `guarded` 的缺陷写明的检查文件确实存在 |
+| `validate retro <retro.json> [--duration 秒]` | 校验一部作品的复盘：方法编号见 `studies/methods.md`，缺陷编号须已登记，时间落在片长内 |
+| `validate summary` | 汇总所有 `films/*/retro.json` 与 `examples/*/retro.json`，按方法统计使用次数、作品和效果，列出从未用过的方法 |
+| `validate reuse` | 统计 `prepare-film.py` 分发的公共运行库被哪些作品的源码引用；两部独立作品引用才算 `proven` |
+
+复盘中的效果（`worked` / `unclear` / `failed`）是制作者的判断，不是观众测试结果。

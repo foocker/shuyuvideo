@@ -21,10 +21,11 @@
 ## 给后续制作留下接口
 
 - 分镜列出每段开始/结束秒数、讲解事件、几何动作、结果保持区间，并写出简短中文口播草案和可选的角色提示点。时间与科学事件以同一条时间轴记录。
+- 任务附带“口播时钟”时，它是全片时钟：事件按表中秒数发生，片段在 `end` 结束，不另定时长。口播已定稿，草案只用于标注，不改写口播。
 - `character/` 已有 Ω 角色库，可标注 think、look、pointRight/pointLeft、explain、nod 等建议动作和指向对象，作为后续合成提示。当前 Manim 片段无需重画或嵌入角色；不要声称已完成角色合成或嘴型同步。
 - 默认输出静音片段，由总片后续组织声音。记录真实音轨情况，不用虚构旁白替代未制作的音频。
 - 保留数学说明、分镜、源码、模型调用与审核、MP4、抽帧和已知限制，便于后续编导、剪辑、素材和声音各自逐步完善。
 
 ## 本机实现
 
-Manim CE 0.22.1、Cairo；使用任务中明确给出的 Python 路径。场景仍遵守上游 AstraFilm(ThreeDScene) 及受限导入契约，风格值可嵌入源码，不依赖运行时读取外部主题文件。Windows 文件使用 UTF-8：PowerShell `Get-Content -Raw -Encoding UTF8` 或 Python `-X utf8`。避免重复读取已成功获取的完整文件。渲染证据的最终静帧不等于完整视频的运动检查。
+Manim CE 0.22.1、Cairo；使用任务中明确给出的 Python 路径。场景类名为 AstraFilm，按镜头主体继承 Scene、MovingCameraScene 或 ThreeDScene（公式与平面图形用 2D），遵守受限导入契约，风格值可嵌入源码，不依赖运行时读取外部主题文件。Windows 文件使用 UTF-8：PowerShell `Get-Content -Raw -Encoding UTF8` 或 Python `-X utf8`。避免重复读取已成功获取的完整文件。渲染证据的最终静帧不等于完整视频的运动检查。

@@ -1,0 +1,9 @@
+# Shared production environment: assets, sound, motion, character and studies.
+numpy>=1.26,<3
+soundfile>=0.12,<1
+edge-tts>=7.3.1,<8
+fonttools>=4.50,<5
+brotli>=1.1,<2
+Pillow>=10,<13
+playwright>=1.50,<2
+matplotlib>=3.8,<4

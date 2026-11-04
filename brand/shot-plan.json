@@ -1,0 +1,54 @@
+{
+  "category": "logo-reveal",
+  "duration_s": 3,
+  "fps": 30,
+  "canvas": { "w": 1920, "h": 1080, "aspect": "16:9" },
+  "style": "数语暖白。真实 Ω 轮廓生成、实体成形、眼睛醒来、名称落定。一个主体，一次眨眼，最后静止。",
+  "palette": ["#F4F2EC", "#203B35", "#548D80", "#FFFDF6"],
+  "font": "Shuyu Sans (local Microsoft YaHei subset)",
+  "beats": [0.7, 1.35, 2.1],
+  "export": "mp4",
+  "asset_needs": [],
+  "source_assets": ["../character/lib/omega-shape.js", "../character/lib/omega.js", "../character/assets/brand-icon.svg"],
+  "registry_search": {
+    "query": "logo outline draw reveal",
+    "tier": "words",
+    "selected_component": "svg-line-draw-loader",
+    "note": "复用可 seek 的 SVG 路径描绘结构；替换为真实 Ω 轮廓，移除循环。logo-sting 的撞击、闪白与扩散环不适合本片的柔和基调。"
+  },
+  "customize": {
+    "background": "#F4F2EC",
+    "stroke": "#548D80",
+    "fill": "#203B35",
+    "duration_s": 3,
+    "draw_duration_s": 0.95,
+    "loop": false,
+    "hold_from_s": 2.25
+  },
+  "content": {
+    "logo": "../character/lib/omega-shape.js",
+    "wordmark": "数语",
+    "tagline": "",
+    "url": "",
+    "shot_brief": "暖白画面中央出现一条深青绿曲线，沿着数语现有 Ω 的真实轮廓完整画出。轮廓填实后，Ω 的双眼睁开并轻轻眨一次；下方数语两字平静显出。最后至少 0.75 秒保持清楚的品牌定格，直接切入正片。",
+    "layout": {
+      "omega_center": [960, 440],
+      "omega_size": [317, 300],
+      "omega_baseline_y": 590,
+      "wordmark_center": [960, 690],
+      "wordmark_font_px": 76,
+      "wordmark_tracking_px": 14,
+      "safe_box": [192, 108, 1728, 972]
+    },
+    "phases": [
+      { "start": 0, "end": 0.95, "action": "描绘 Ω 外轮廓；首个可见线段在 0.067 秒前出现，形体固定在最终位置。" },
+      { "start": 0.7, "end": 1.2, "action": "主体填充从透明到深绿，描边融入实体。" },
+      { "start": 1.12, "end": 1.5, "action": "双眼从细缝睁开，目光朝观众；身体不跳动。" },
+      { "start": 1.42, "end": 2.0, "action": "数语两字整体显出，上移不超过 12 px；无逐字弹跳。" },
+      { "start": 1.9, "end": 2.25, "action": "一次轻眨眼，闭眼约 2 帧，平滑睁回。" },
+      { "start": 2.25, "end": 3, "action": "完整标志静止；保持到第 89 帧，随后硬切正片。" }
+    ],
+    "sound": { "voice": false, "optional": "一组短促柔和的原创音色，实体成形与名称落定各一声；2.7 秒前衰减到静音。" },
+    "proof_times_s": [0.3, 0.8, 1.25, 1.65, 2.05, 2.4, 2.9667]
+  }
+}

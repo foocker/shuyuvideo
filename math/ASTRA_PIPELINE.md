@@ -1,6 +1,6 @@
 # 数语 Astra 制作流程
 
-入口为 [astra.ps1](astra.ps1)，使用 `tools/manimations/.venv`。
+入口为 [astra.ps1](astra.ps1)，转发到根目录 `shuyu.ps1 math`，使用统一 `.venv`。
 安装与命令见 [README.md](README.md)。
 
 主题 → 教学简报 → 数学/科学依据 → 分镜 → Manim 场景 → 本地渲染。

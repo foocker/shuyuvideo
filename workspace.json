@@ -1,0 +1,89 @@
+{
+  "schema": "shuyu-workspace/v1",
+  "outputRoot": "output",
+  "cacheRoot": ".cache",
+  "pythonEnvironment": ".venv",
+  "hyperframes": "0.8.223",
+  "fonts": "style/fonts.json",
+  "projects": {
+    "character": {
+      "source": "character",
+      "hyperframes": "0.8.220",
+      "video": "shuyu-omega-showcase.mp4",
+      "fonts": {
+        "ui": "sans",
+        "ui-bold": "sans-bold"
+      }
+    },
+    "brand": {
+      "source": "brand",
+      "video": "shuyu-intro-3s.mp4",
+      "fonts": {
+        "shuyu-brand": "sans-bold"
+      }
+    },
+    "brand-full": {
+      "source": "brand/full",
+      "video": "shuyu-brand-7s.mp4",
+      "fonts": {
+        "shuyu-brand": "sans-bold"
+      }
+    },
+    "staircase-test": {
+      "source": "examples/staircase",
+      "build": "examples/staircase/build.py",
+      "hyperframes": "0.8.220",
+      "video": "staircase-test.mp4"
+    },
+    "homeomorphism": {
+      "source": "examples/homeomorphism",
+      "engine": "manim"
+    },
+    "escher-encounter": {
+      "source": "films/escher-encounter",
+      "hyperframes": "0.8.221"
+    },
+    "human-to-sphere": {
+      "source": "films/human-to-sphere",
+      "hyperframes": "0.8.216"
+    },
+    "mobius": {
+      "source": "films/mobius",
+      "hyperframes": "0.8.216"
+    },
+    "replica-nonu-move37": {
+      "source": "films/replica-nonu-move37",
+      "hyperframes": "0.8.220"
+    },
+    "staircase-sum": {
+      "source": "films/staircase-sum",
+      "hyperframes": "0.8.220"
+    },
+    "topology-mistakes": {
+      "source": "films/topology-mistakes",
+      "hyperframes": "0.8.219"
+    },
+    "topology-unlock": {
+      "source": "films/topology-unlock",
+      "hyperframes": "0.8.219"
+    }
+  },
+  "legacyOutputAliases": {
+    "films/escher-encounter/renders": "output/escher-encounter/archive/renders",
+    "films/human-to-sphere/film/output": "output/human-to-sphere/archive/film/output",
+    "films/human-to-sphere/output": "output/human-to-sphere/archive/output",
+    "films/human-to-sphere/renders": "output/human-to-sphere/archive/renders",
+    "films/human-to-sphere/story/01-seven-bridges/output": "output/human-to-sphere/archive/story/01-seven-bridges/output",
+    "films/human-to-sphere/story/02-name-and-people/output": "output/human-to-sphere/archive/story/02-name-and-people/output",
+    "films/human-to-sphere/story/03-homeomorphism/output": "output/human-to-sphere/archive/story/03-homeomorphism/output",
+    "films/human-to-sphere/story/04-challenge/output": "output/human-to-sphere/archive/story/04-challenge/output",
+    "films/mobius/output": "output/mobius/archive/output",
+    "films/mobius/renders": "output/mobius/archive/renders",
+    "films/replica-nonu-move37/output": "output/replica-nonu-move37/archive/output",
+    "films/replica-nonu-move37/renders": "output/replica-nonu-move37/archive/renders",
+    "films/staircase-sum/output": "output/staircase-sum/archive/output",
+    "films/staircase-sum/renders": "output/staircase-sum/archive/renders",
+    "films/topology-mistakes/output": "output/topology-mistakes/archive/output",
+    "films/topology-unlock/output": "output/topology-unlock/archive/output"
+  }
+}

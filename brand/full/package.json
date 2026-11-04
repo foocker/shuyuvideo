@@ -1,0 +1,10 @@
+{
+  "name": "shuyu-brand-full",
+  "private": true,
+  "scripts": {
+    "build": "python ../../scripts/shuyu.py exec brand/scripts/build-assets.py",
+    "dev": "python ../../scripts/shuyu.py preview brand-full",
+    "check": "python ../../scripts/shuyu.py check brand-full",
+    "render": "python ../../scripts/shuyu.py render brand-full"
+  }
+}

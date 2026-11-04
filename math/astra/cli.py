@@ -6,7 +6,7 @@ import subprocess
 from astra import __version__
 from astra.client import clean_environment
 from astra.models import Request
-from astra.pipeline import Pipeline, ROOT
+from astra.pipeline import Pipeline, DEFAULT_RUNS
 from astra.runtime import setup_runtime, codex_command
 
 def main(argv=None):
@@ -55,7 +55,7 @@ def main(argv=None):
             print(f'{tool}: {shutil.which(tool) or "missing"}')
         return result.returncode
     if args.command=='runs':
-        for path in sorted((ROOT/'runs/astra').glob('*/manifest.json')):
+        for path in sorted(DEFAULT_RUNS.glob('*/manifest.json')):
             data=json.loads(path.read_text(encoding='utf-8'));print(path.parent.name,data['status'])
         return 0
     if args.command=='resume':

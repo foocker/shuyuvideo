@@ -1,3 +1,2 @@
-# Run in tools/manimations/.venv. Node packages are installed separately by setup.
-pydantic>=2,<3
-manim>=0.22.1,<0.23
+# Compatibility entry; dependency versions are owned by the repository root.
+-r ../requirements-math.txt

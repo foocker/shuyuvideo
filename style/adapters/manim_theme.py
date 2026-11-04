@@ -5,6 +5,9 @@ or COLORS by semantic role. Tested with local Manim CE 0.21.0 only.
 """
 import json
 from pathlib import Path
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'scripts'))
+from workspace import font_record
 
 from manim import Text, MathTex
 
@@ -17,7 +20,7 @@ def apply(scene):
 
 
 def text(content, *, role='ink', font_size=32, **kwargs):
-    kwargs.setdefault('font', TOKENS['typography']['sans'])
+    kwargs.setdefault('font', font_record('sans')['family'])
     kwargs.setdefault('color', COLORS[role])
     return Text(content, font_size=font_size, **kwargs)
 

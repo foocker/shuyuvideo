@@ -1,0 +1,8 @@
+/assets/fonts/
+/assets/audio/
+/assets/vendor/
+/reference/*.jpg
+/reference/*.mp4
+/proof/
+*-stderr.log
+**/.waveform-cache/

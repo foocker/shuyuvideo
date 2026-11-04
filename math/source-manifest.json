@@ -19,7 +19,7 @@
     {
       "path": "astra/cli.py",
       "upstream_sha256": "86a751447fdcf92ec5248751d824c21e27cb9ddfeaae0e5225f561421ce9358d",
-      "local_sha256": "8c727fe5d680b7110293612a147b8d622bb9ef69736563811df6a06cef90501d",
+      "local_sha256": "e9972982acec692836bceadc294c3f3e625c7ee5476f15f42e5049cc24a3c053",
       "modified": true
     },
     {
@@ -53,21 +53,25 @@
       "modified": true
     },
     {
-      "path": "astra/node/package-lock.json",
+      "path": "../docs/archive/dependency-manifests/astra-package-lock.json.txt",
       "upstream_sha256": "9e6b09a9b55c6c8e3188e9888bad466830d11620dbc787d9ec00f261c216fa66",
       "local_sha256": "9e6b09a9b55c6c8e3188e9888bad466830d11620dbc787d9ec00f261c216fa66",
-      "modified": false
+      "modified": false,
+      "original_local_path": "astra/node/package-lock.json",
+      "role": "archived source dependency record, not used at runtime"
     },
     {
-      "path": "astra/node/package.json",
+      "path": "../docs/archive/dependency-manifests/astra-package.json.txt",
       "upstream_sha256": "f5332fb62595c35f1acc90ed844fa2c82afca27b21956d5996c161589d99157a",
       "local_sha256": "6196c185432842e2ec1ea63d824ff43f2eb091f4268445a58509df451799c12a",
-      "modified": true
+      "modified": true,
+      "original_local_path": "astra/node/package.json",
+      "role": "archived source dependency record, not used at runtime"
     },
     {
       "path": "astra/pipeline.py",
       "upstream_sha256": "9b06fdb90af62c5ef4e16791031ce8a0d0bc0a069bdea5073b06580cc4123819",
-      "local_sha256": "ed60c8a5f9b5180b38e99b1be779bceed7bd42cb5e7eac3cd30d29700a6f291a",
+      "local_sha256": "7f87d19119e46244bb2f33a1f0d77ed000f2b0dfbc417f2ca478e9bce09fb4d4",
       "modified": true
     },
     {
@@ -91,8 +95,8 @@
     {
       "path": "astra/runtime.py",
       "upstream_sha256": "d929e2efc027e313257bff4031d4134d661f8a572ae51047ba30a32525551bbd",
-      "local_sha256": "d929e2efc027e313257bff4031d4134d661f8a572ae51047ba30a32525551bbd",
-      "modified": false
+      "local_sha256": "70e0ea06d8a3c96b2f1c379870d164bd8d9f26811b861a857673165fa6c5dd88",
+      "modified": true
     },
     {
       "path": "LICENSE",
@@ -101,20 +105,22 @@
       "modified": false
     },
     {
-      "path": "package-lock.json",
+      "path": "../docs/archive/dependency-manifests/math-package-lock.json.txt",
       "upstream_sha256": "9e6b09a9b55c6c8e3188e9888bad466830d11620dbc787d9ec00f261c216fa66",
       "local_sha256": "9e6b09a9b55c6c8e3188e9888bad466830d11620dbc787d9ec00f261c216fa66",
-      "modified": false
+      "modified": false,
+      "original_local_path": "package-lock.json",
+      "role": "archived source dependency record, not used at runtime"
     },
     {
       "path": "package.json",
       "upstream_sha256": "f5332fb62595c35f1acc90ed844fa2c82afca27b21956d5996c161589d99157a",
-      "local_sha256": "6196c185432842e2ec1ea63d824ff43f2eb091f4268445a58509df451799c12a",
+      "local_sha256": "e76d10ed88bf39816d6696c5c5a55061da825f6bf199f1d87f0d4ee96bd895d1",
       "modified": true
     }
   ],
   "local_entry": "shuyu_astra.py",
-  "python_environment": "tools/manimations/.venv",
+  "python_environment": "tools/shuyuvideo/.venv",
   "model": "gpt-6-astra",
   "removed_files": [
     {
@@ -144,5 +150,6 @@
       "reason": "Removed external evaluator integration at user request."
     }
   ],
-  "audit_model": "gpt-6-astra"
+  "audit_model": "gpt-6-astra",
+  "workspace_adaptation_date": "2026-11-04"
 }

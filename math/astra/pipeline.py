@@ -11,7 +11,8 @@ from astra.models import Artifact, Assessment, Request, STAGES
 from astra.prompts import specialist_prompt, judge_prompt
 from astra.rendering import render, probe, validate_source
 
-ROOT = Path.cwd().resolve()
+ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_RUNS = ROOT / 'output/math-drafts/math'
 
 def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
@@ -25,7 +26,7 @@ def save(path, value):
 class Pipeline:
     def __init__(self, client=None, runs_dir=None, renderer=None, prober=None):
         self.client = client or CodexSDK()
-        self.runs_dir = Path(runs_dir or ROOT/'runs/astra')
+        self.runs_dir = Path(runs_dir or DEFAULT_RUNS)
         self.renderer = renderer or render
         self.prober = prober or probe
 
@@ -80,7 +81,9 @@ class Pipeline:
             request=request.model_copy(update={'quality':quality,'prompt':request.prompt+
                 f'\nLatest user delivery override: {width}x{height} at {fps} fps supersedes all earlier resolution/fps requirements. Preserve the mathematical content and visual design.'})
         ledger.pop('review_mode', None)  # Retire the saved legacy setting.
-        ledger.update(status='running',error=None,run_dir=str(folder),evaluator_policy=policy,
+        # Repository-relative when the run lives in the workspace; no machine root is recorded.
+        run_dir=folder.relative_to(ROOT).as_posix() if folder.is_relative_to(ROOT) else str(folder)
+        ledger.update(status='running',error=None,run_dir=run_dir,evaluator_policy=policy,
                       evaluator=MODEL)
         save(ledger_path,ledger)
         revisions=0; i=0

@@ -1,9 +1,20 @@
 {
   "name": "shuyuvideo",
   "private": true,
-  "description": "Shared runtime libraries copied into each film by scripts/new-film.py",
+  "description": "ShuYu video workspace: shared dependencies, project commands and production assets",
+  "scripts": {
+    "shuyu": "python scripts/shuyu.py",
+    "doctor": "python scripts/shuyu.py doctor",
+    "test": "python scripts/shuyu.py test",
+    "layout": "python scripts/shuyu.py layout"
+  },
   "dependencies": {
     "gsap": "3.14.2",
-    "katex": "0.16.22"
+    "katex": "0.16.22",
+    "three": "0.181.2",
+    "three-mesh-bvh": "0.9.17",
+    "esbuild": "0.25.12",
+    "@openai/codex": "0.156.1",
+    "@openai/codex-sdk": "0.156.1"
   }
 }

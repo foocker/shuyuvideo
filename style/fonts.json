@@ -1,0 +1,12 @@
+{
+  "schema": "shuyu-fonts/v1",
+  "fonts": {
+    "sans": {"file": "msyh.ttc", "faceIndex": 0, "family": "Microsoft YaHei", "license": "System font; local use only, do not redistribute generated subsets"},
+    "sans-bold": {"file": "msyhbd.ttc", "faceIndex": 0, "family": "Microsoft YaHei", "license": "System font; local use only, do not redistribute generated subsets"},
+    "omega": {"file": "georgia.ttf", "faceIndex": 0, "family": "Georgia", "license": "System font; existing brand outline source"},
+    "mono": {"file": "consola.ttf", "faceIndex": 0, "family": "Consolas", "license": "System font; labels on local evidence images only"}
+  },
+  "lookup": "file is searched in the system font folders at run time; workspace.local.json fonts.<id>.path overrides it",
+  "math": {"source": "node_modules/katex/dist/fonts", "licenseFile": "node_modules/katex/LICENSE"},
+  "localOverrides": "workspace.local.json: fonts.<id>.path / faceIndex / license"
+}

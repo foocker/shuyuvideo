@@ -1,0 +1,22 @@
+{
+  "omega": {
+    "source": "../character/lib/omega-shape.js",
+    "usage": "existing brand outline"
+  },
+  "font": {
+    "source": "local Windows Microsoft YaHei Bold",
+    "text": "数语探索理性与想象的边界让更多人认识数学，参与数学。",
+    "distribution": "local build only; generated font subsets ignored by Git"
+  },
+  "audio": {
+    "source": "scripts/build-assets.py",
+    "method": "original additive synthesis, no samples",
+    "sample_rate": 48000,
+    "channels": 2,
+    "silent_tail_seconds": 0.3
+  },
+  "reference": {
+    "source": "../../shuyuvideostudy/Backpropagation, intuitively ｜ Deep Learning Chapter 3 [Ilg3gGewQ5U].mp4",
+    "use": "timing and visual study of first 3.5 seconds only; no footage/audio in output"
+  }
+}
