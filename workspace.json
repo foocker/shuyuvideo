@@ -6,6 +6,7 @@
   "manimEnvironment": "envs/manim",
   "hyperframes": "0.8.223",
   "fonts": "style/fonts.json",
+  "brandIntro": {"default": true, "project": "brand", "video": "shuyu-intro-3s.mp4"},
   "projects": {
     "character": {
       "source": "character",

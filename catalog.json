@@ -144,12 +144,12 @@
     {
       "id": "expression-methods",
       "category": "expression",
-      "name": "完整作品的 11 种表达方法",
+      "name": "完整作品的 12 种表达方法",
       "status": "local_reference",
       "location": "local_repository",
       "path": "studies/methods.md",
       "documentation": "studies/production-guide.md",
-      "note": "反向传播与连续性两部作品的研究；M01/M05/M07有两例观察，其余主要单例；迁移效果待新片验证"
+      "note": "反向传播、连续性、动画与公式三部作品研究；M12关注模型项的来源；观察证据与数学/迁移验证分开，迁移效果待新片验证"
     },
     {
       "id": "backprop-study",
@@ -169,6 +169,25 @@
       "preview": "studies/cases/continual/index.html",
       "location": "local_repository",
       "note": "14章节、16事件、4处4fps序列；视觉与内嵌字幕研究，未完成整片连续视听审阅；仅本地保留"
+    },
+    {
+      "id": "motion-formula-study",
+      "category": "studies",
+      "name": "动画与公式：车辆落地控制研究",
+      "status": "local_reference",
+      "location": "local_repository",
+      "path": "studies/cases/motion-and-manim/README.md",
+      "preview": "studies/cases/motion-and-manim/index.html",
+      "note": "8个事件、173个取样时刻、17幅拼图；公开源码确认Three.js仿真与独立合成，公式段工具未确认；仅本地保留"
+    },
+    {
+      "id": "formula-explanation-guidance",
+      "category": "motion",
+      "name": "动画与公式一起讲解",
+      "status": "local_reference",
+      "location": "local_repository",
+      "path": "motion/references/formula-explanation.md",
+      "note": "语义分组、公式动作、共享状态与引擎选择；制作指引，不代表新增运行时已实现"
     },
     {
       "id": "art-motion",

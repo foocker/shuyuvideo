@@ -13,19 +13,28 @@
 
 ## 接在新片前
 
-剪辑软件直接把 3 秒 MP4 放在正片前，再整体移动正片及配音。片头最终画面保持到最后一帧，接入暖白正片时可直接切换。
+`shuyu render <作品>` 默认把 3 秒常用版接在 `films/` 下作品的正片前，作品源码和时间线不用改。HyperFrames 先渲染正片到 `<视频名>-body.mp4`，再与片头一起重新编码为交付文件，并对交付文件做渲染检查。
 
-在 HyperFrames 整片中，把 MP4 复制到作品的 `assets/video/shuyu-intro-3s.mp4`，并在根合成插入：
+| 需要 | 做法 |
+| --- | --- |
+| 本次不加片头 | `.\shuyu.ps1 render <作品> --no-intro` |
+| 某部作品始终不加 | 在 `workspace.json` 的该项目里写 `"brandIntro": false` |
+| `films/` 以外的项目也加 | 该项目写 `"brandIntro": true`，或本次用 `--intro` |
+| 换用其他片头 | 改 `workspace.json` 顶层 `brandIntro` 的 `project` 与 `video` |
 
-```html
-<video id="brand-intro" class="clip"
-  src="assets/video/shuyu-intro-3s.mp4"
-  data-start="0" data-duration="3" data-has-audio="true"
-  data-track-index="0" data-track-kind="graphics"
-  style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain"></video>
+片头文件取自 `output/brand/renders/shuyu-intro-3s.mp4`，缺失时先 `.\shuyu.ps1 render brand`。已在合成里自带片头的作品要写 `"brandIntro": false`，避免重复。用剪辑软件时，直接把 3 秒 MP4 放在正片前即可；片头最后一帧定格，接暖白正片可直接切换。
+
+## 三连图标
+
+`lib/sanlian.js` 提供点赞、收藏、投币三个原创 SVG 图标（`window.ShuyuSanlian`），颜色取自数语风格，图标内不含文字。`scripts/prepare-film.py` 会把它复制到每部作品的 `assets/lib/sanlian.js`，根合成引入后即可使用：
+
+```js
+const icons = ShuyuSanlian.row(svgGroup, { x: 960, y: 470, size: 170 });   // 点赞、收藏、投币一排
+ShuyuSanlian.light(tl, icons.like, 1.2);   // 1.2 秒处亮起：描边变色、填满、弹一下、放射短线
+ShuyuSanlian.create(svgGroup, 'coin', { x, y, size: 40, on: true });   // 单个、已亮
 ```
 
-把正片场景和配音、字幕、音效的根时间统一后移 3 秒，根 `data-duration` 增加 3 秒；各子场景内部局部时间保持原值。已有片头的作品不重复插入。7 秒版同理。需要重新编排品牌动画时，复用 `compositions/intro.html` 与它依赖的本地字体、GSAP，而不是修改视频帧。
+位置写在外层 `<g>` 的 SVG 属性上，GSAP 只动画内层 `.sl-pop`，两者不冲突。用法示例见 `films/what-is-equal/compositions/sanlian.html`。
 
 ## 修改与重建
 

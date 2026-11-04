@@ -26,6 +26,7 @@ FILES = {
     'lib/stage.js': REPO / 'character/stage.js',
     'lib/camera.js': REPO / 'motion/runtime/camera.js',
     'lib/tex.js': REPO / 'style/adapters/tex.js',
+    'lib/sanlian.js': REPO / 'brand/lib/sanlian.js',
     'style/tokens.css': REPO / 'style/tokens.css',
 }
 BUNDLES = {

@@ -4,7 +4,7 @@
 
 新任务会读取 [数语暖白风格](../style/README.md)，把颜色职责和字体参数随任务冻结。数学、视觉表达、Ω 角色、声音和后期各自保留可独立改进的入口，先从严谨的讲解片段积累。模型审核不是数学证明，`completed` 只表示流水线运行完成。
 
-同时读取本仓库的 [作品研究创作指引](../studies/production-guide.md)，将七种候选表达方法带入简报与分镜，按主题选用，并保存 `expression-guidance.md` 和来源哈希。
+同时读取本仓库的 [作品研究创作指引](../studies/production-guide.md)，将候选表达方法带入简报与分镜，按主题选用，并保存 `expression-guidance.md` 和来源哈希。整片的公式合成也可参考 [动画与公式一起讲解](../motion/references/formula-explanation.md)；现有 Astra 流水线仍生成 Manim 场景，不因研究指引更新而自动切换引擎。
 
 ## 直接使用
 

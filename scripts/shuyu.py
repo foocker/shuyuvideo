@@ -167,9 +167,18 @@ def main(argv=None):
         if opts.command == 'render':
             if any(x in ('-o', '--output') or x.startswith('--output=') for x in extra):
                 parser.error('Render output is managed by the workspace; change the project video name in workspace.json')
+            import intro
+            choice = True if '--intro' in extra else False if '--no-intro' in extra else None
+            extra = [x for x in extra if x not in ('--intro', '--no-intro')]
+            with_intro = intro.wanted(project, choice)
             movie = output_dir(project, 'renders', create=True) / record.get('video', project + '.mp4')
-            command += ['--output', str(movie), '--quality', 'delivery']
+            # With the intro, HyperFrames writes the body beside the delivery file.
+            body = movie.with_name(movie.stem + '-body.mp4') if with_intro else movie
+            command += ['--output', str(body), '--quality', 'delivery']
             invoke([*command, *extra], cwd=directory)
+            if with_intro:
+                seconds = intro.join(intro.intro_file(), body, movie)
+                print(f'brand intro {seconds:.2f}s + {body.name} -> {movie.relative_to(ROOT).as_posix()}')
             report = output_dir(project, 'reports', create=True) / 'render-check.json'
             return subprocess.call([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/render_check.py',
                                     movie, '--project', directory, '--report', report], cwd=ROOT)

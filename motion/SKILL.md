@@ -12,6 +12,7 @@ description: 设计数语教学动画的对象动作、镜头运动与场景转�
 | 需求 | 入口 |
 | --- | --- |
 | 对象动作的准备、运动、接触、停稳与读取时间 | [动作规范](references/principles.md) |
+| 公式逐项揭示、分组归并、物体与曲线联动，以及引擎选择 | [动画与公式一起讲解](references/formula-explanation.md)（制作指引，非新增运行时） |
 | 推近、拉远、平移、局部聚焦再回到全景 | [镜头 API](references/camera.md)，源码 `runtime/camera.js` |
 | 硬切、交叉淡化、对象延续、推入切换 | [转场 API](references/transitions.md)，源码 `runtime/transitions.js` |
 | 路径、对象衔接和倒序取样检查 | [动作检查](references/checks.md)，实现位于 `checks/` |
