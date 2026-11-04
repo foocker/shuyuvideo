@@ -3,6 +3,7 @@
   "outputRoot": "output",
   "cacheRoot": ".cache",
   "pythonEnvironment": ".venv",
+  "manimEnvironment": "envs/manim",
   "hyperframes": "0.8.223",
   "fonts": "style/fonts.json",
   "projects": {

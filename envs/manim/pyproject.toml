@@ -1,0 +1,8 @@
+[project]
+name = "shuyu-manim"
+version = "0.1.0"
+description = "ShuYu Manim render environment (official uv install)"
+requires-python = ">=3.12"
+dependencies = [
+    "manim>=0.22.1",
+]

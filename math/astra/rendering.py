@@ -7,6 +7,28 @@ import sys
 
 from astra.client import clean_environment
 
+ROOT = Path(__file__).resolve().parents[2]
+
+
+def manim_python():
+    """Python of the Manim render environment.
+
+    workspace.json `manimEnvironment` names a uv project built per the official
+    Manim guide (envs/manim: `uv sync`); its .venv is git-ignored. Without it,
+    the interpreter running Astra renders, as before.
+    """
+    try:
+        config = json.loads((ROOT / 'workspace.json').read_text(encoding='utf-8'))
+    except OSError:
+        return sys.executable
+    folder = config.get('manimEnvironment')
+    if folder:
+        venv = ROOT / folder / '.venv'
+        python = venv / ('Scripts/python.exe' if sys.platform == 'win32' else 'bin/python')
+        if python.is_file():
+            return str(python)
+    return sys.executable
+
 # 2D formula and graph storyboards do not need a 3D camera.
 SCENE_BASES = {'Scene', 'MovingCameraScene', 'ThreeDScene'}
 
@@ -48,7 +70,7 @@ def render(run_dir, source, quality, attempt):
     folder = Path(run_dir) / f'renders/{attempt:03d}'
     folder.mkdir(parents=True, exist_ok=False)
     (folder / 'scene.py').write_text(source, encoding='utf-8')
-    args = [sys.executable, str(Path(__file__).with_name('render_worker.py')),
+    args = [manim_python(), str(Path(__file__).with_name('render_worker.py')),
             str(folder / 'scene.py'), str(folder / 'media'), quality]
     # Detailed 1080p/60 fps Cairo surfaces can exceed thirty minutes locally.
     proc = subprocess.run(args, cwd=folder, env=clean_environment(), capture_output=True,
@@ -96,7 +118,7 @@ def probe(run_dir, source, attempt):
     settings=Path(run_dir)/'delivery.json'
     if not settings.exists():settings=Path(run_dir)/'request.json'
     quality=json.loads(settings.read_text(encoding='utf-8')).get('quality','h') if settings.exists() else 'h'
-    result=subprocess.run([sys.executable,str(Path(__file__).with_name('render_worker.py')),
+    result=subprocess.run([manim_python(),str(Path(__file__).with_name('render_worker.py')),
         str(scene),str(folder/'media'),quality,'still'],
         cwd=folder,env=clean_environment(),capture_output=True,text=True,
         encoding='utf-8',errors='replace',timeout=600)

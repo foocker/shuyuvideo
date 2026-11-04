@@ -10,7 +10,16 @@
 .\shuyu.ps1 layout
 ```
 
-需要 Python 3.11+、Node.js 22+、FFmpeg/ffprobe、Chrome；Manim 另需 LaTeX/dvisvgm。`setup` 安装 Python 包及根目录 npm 锁定依赖，不调用模型、不修改登录。当前机器已使用根目录 `.venv` 运行 Manim 0.22.1。
+需要 Python 3.11+、Node.js 22+、FFmpeg/ffprobe、Chrome。`setup` 安装 Python 包及根目录 npm 锁定依赖，不调用模型、不修改登录。
+
+Manim 及其系统依赖（LaTeX、dvisvgm 等）按 [Manim 官方安装说明](https://docs.manim.community/en/stable/installation/uv.html) 准备，版本范围见 [requirements-math.txt](../requirements-math.txt)。本仓库的 Manim 渲染环境放在 `envs/manim/`，是一个 uv 项目，`pyproject.toml` 和 `uv.lock` 纳入版本管理，`.venv` 被忽略：
+
+```powershell
+cd envs/manim
+uv sync
+```
+
+`workspace.json` 的 `manimEnvironment` 指向这个目录，Astra 渲染 Manim 场景时用它的 Python；目录不存在时退回运行 Astra 的解释器。Astra 自身（pydantic 等）仍装在根目录 `.venv`（`setup --math`）。
 
 ## 配置归属
 
@@ -24,7 +33,7 @@
 | 字体来源与许可 | [style/fonts.json](../style/fonts.json) |
 | 本机字体覆盖 | `workspace.local.json`，不进入 Git |
 
-旧模块的 `requirements.txt` 只转引根文件，没有各自的版本范围。Astra 不再依赖相邻 `manimations/.venv`，也不再安装 `math/node_modules`。旧 Node 清单保存在 `docs/archive/dependency-manifests/`，仅作来源追溯，不参与安装。
+旧模块的 `requirements.txt` 只转引根文件，没有各自的版本范围。Astra 不再安装 `math/node_modules`。旧 Node 清单保存在 `docs/archive/dependency-manifests/`，仅作来源追溯，不参与安装。
 
 ## 按项目工作
 

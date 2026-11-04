@@ -33,7 +33,7 @@
 
 ## 初始化与检查
 
-当前机器已初始化。新机器按 [统一安装入口](../docs/SETUP.md) 执行：
+Manim 及其系统依赖按 [Manim 官方安装说明](https://docs.manim.community/en/stable/installation/uv.html) 准备，其余按 [统一安装入口](../docs/SETUP.md) 执行：
 
 ```powershell
 .\shuyu.ps1 setup --math --dev

@@ -19,3 +19,5 @@
 # 微软雅黑子集，许可不允许公开再分发；运行 character/scripts/build-assets.py 在本机重新生成
 /character/assets/fonts/
 /style/evidence/
+# Manim 环境按官方 uv 方式在 envs/manim 构建：cd envs/manim; uv sync
+/envs/*/.venv/
