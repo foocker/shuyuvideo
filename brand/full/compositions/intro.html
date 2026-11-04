@@ -77,10 +77,11 @@
         const fill=document.getElementById('intro-omega-fill');
         const eyes=[document.getElementById('intro-eye-L'),document.getElementById('intro-eye-R')];
         const length=trace.getTotalLength();
-        trace.style.strokeDasharray=String(length);
+        // The gap is twice the path, so at the start offset the only dash lies wholly
+        // before the path: nothing is painted, not even a round cap, until the draw begins.
+        trace.style.strokeDasharray=length+' '+2*length;
         const tl=gsap.timeline({paused:true});
-        // Nine pixels of the actual glyph make the first frame a visible beginning.
-        tl.fromTo(trace,{strokeDashoffset:length-9},{strokeDashoffset:0,duration:.90,ease:'power1.inOut'},.05);
+        tl.fromTo(trace,{strokeDashoffset:length+4},{strokeDashoffset:0,duration:.90,ease:'power1.inOut'},.05);
         tl.fromTo(fill,{opacity:0},{opacity:1,duration:.48,ease:'power1.out'},.70);
         tl.fromTo(trace,{opacity:1},{opacity:0,duration:.23,ease:'sine.in'},.97);
         tl.fromTo(eyes,{scaleY:.025,svgOrigin:'0 30',opacity:0},{scaleY:1,opacity:1,duration:.35,ease:'power2.out'},1.12);

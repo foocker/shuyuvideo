@@ -20,9 +20,9 @@
 | 本次不加片头 | `.\shuyu.ps1 render <作品> --no-intro` |
 | 某部作品始终不加 | 在 `workspace.json` 的该项目里写 `"brandIntro": false` |
 | `films/` 以外的项目也加 | 该项目写 `"brandIntro": true`，或本次用 `--intro` |
-| 换用其他片头 | 改 `workspace.json` 顶层 `brandIntro` 的 `project` 与 `video` |
+| 换用其他片头 | 改 `workspace.json` 顶层 `brandIntro` 的 `file` |
 
-片头文件取自 `output/brand/renders/shuyu-intro-3s.mp4`，缺失时先 `.\shuyu.ps1 render brand`。已在合成里自带片头的作品要写 `"brandIntro": false`，避免重复。用剪辑软件时，直接把 3 秒 MP4 放在正片前即可；片头最后一帧定格，接暖白正片可直接切换。
+片头文件固定为 [release/shuyu-intro-3s.mp4](release/shuyu-intro-3s.mp4)，已随仓库提交，作品渲染时直接使用，不再重渲片头。只有修改品牌动画后才运行 `.\shuyu.ps1 render brand`，核对后把 `output/brand/renders/shuyu-intro-3s.mp4` 复制覆盖到 `release/`。已在合成里自带片头的作品要写 `"brandIntro": false`，避免重复。用剪辑软件时，直接把 3 秒 MP4 放在正片前即可；片头最后一帧定格，接暖白正片可直接切换。
 
 ## 三连图标
 

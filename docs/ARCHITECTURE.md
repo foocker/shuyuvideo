@@ -58,6 +58,7 @@
 - **合成只在 HyperFrames 里做。** Manim 片段导出为 1920×1080、30 fps 的 MP4，以 `<video>` 放进场景，再叠上 Ω、标注和转场。
 - **Manim 片段必须用暖白主题**（[manim_theme.py](../style/adapters/manim_theme.py)）。底色与 HyperFrames 场景一致（`#F4F2EC`），否则切换处能看出接缝。
 - **公式只用 TeX。** HyperFrames 里用 KaTeX，Manim 里用 `MathTex`。不用 Unicode 字符拼写公式（`x²`、`−`、`₁`）。
+- **知识讲解片默认带 Ω 讲解角色。** 用 `compositions/guide.html` + `ShuyuStage`（[character/stage.js](../character/stage.js)）按口播锚点给出位置和动作，站在画面留白处，不遮挡图形和公式。参考 `films/staircase-sum`、`films/what-is-equal`。
 - 能用 HyperFrames 写的 2D 镜头不要绕道 Manim。Manim 每改一次都要重新渲染，HyperFrames 可以实时预览、逐帧拖动。
 - 渲染环境离线。GSAP、KaTeX、字体都放在作品的 `assets/` 下，不引用 CDN。
 

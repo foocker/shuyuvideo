@@ -7,13 +7,15 @@ Other projects (brand, character, examples) can opt in with `"brandIntro": true`
 
 The intro is re-encoded together with the body, so the result has one set of
 stream parameters. An intro of another size is fitted inside the film's canvas
-on the warm-white background. The intro itself is rendered with `shuyu render brand`.
+on the warm-white background. The intro is the released file in brand/release/;
+re-render it with `shuyu render brand` only when the brand animation changes, then
+copy the result over the released file.
 """
 import json
 from pathlib import Path
 import subprocess
 
-from workspace import ROOT, config, output_dir, project_config
+from workspace import config, inside, project_config
 
 BACKGROUND = '0xF4F2EC'
 
@@ -30,11 +32,11 @@ def wanted(project, override=None):
 
 
 def intro_file():
-    settings = config().get('brandIntro', {})
-    project = settings.get('project', 'brand')
-    path = output_dir(project, 'renders') / settings.get('video', project_config(project)['video'])
+    """The released intro is a fixed, tracked file; films never re-render it."""
+    relative = config().get('brandIntro', {}).get('file', 'brand/release/shuyu-intro-3s.mp4')
+    path = inside(relative)
     if not path.is_file():
-        raise ValueError(f'Brand intro not rendered: {path.relative_to(ROOT).as_posix()}; run shuyu render {project}')
+        raise ValueError(f'Brand intro missing: {relative}')
     return path
 
 
