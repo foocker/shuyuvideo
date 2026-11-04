@@ -49,6 +49,14 @@
       "source": "films/human-to-sphere",
       "hyperframes": "0.8.216"
     },
+    "human-to-sphere-explainer": {
+      "source": "films/human-to-sphere/explainer",
+      "hyperframes": "0.8.223"
+    },
+    "mobius-explainer": {
+      "source": "films/mobius/explainer",
+      "hyperframes": "0.8.223"
+    },
     "mobius": {
       "source": "films/mobius",
       "hyperframes": "0.8.216"
@@ -68,6 +76,10 @@
     "topology-unlock": {
       "source": "films/topology-unlock",
       "hyperframes": "0.8.219"
+    },
+    "topology-unlock-explainer": {
+      "source": "films/topology-unlock/explainer",
+      "hyperframes": "0.8.223"
     }
   },
   "legacyOutputAliases": {

@@ -1,6 +1,6 @@
 # 数语视频与动画
 
-数学科普视频的制作仓库：研究好的视频，积累风格、角色和镜头，用 Astra 保证数学讲解正确，再合成成片。
+数学科普视频的制作仓库：研究好的视频，积累风格、角色和镜头，核对数学依据，再合成成片。按内容选择 Manim 数学块与已有三维素材，Omega 在关键讲解处出场；两项可独立配置。
 
 ## 目录
 
@@ -15,7 +15,7 @@
 | [motion/](motion/SKILL.md) | 动作设计、镜头与转场运行时、路径与连续性检查 | [台阶镜头验证](examples/staircase/README.md) |
 | [films/](films/) | 已完成的作品，每部可独立重建 | 见下表 |
 
-[积累方向](docs/REPOSITORY.md) · [索引](catalog.json) · [公共素材与分镜验证](docs/VALIDATION.md)
+[制作选项：Omega / Manim](docs/PRODUCTION-OPTIONS.md) · [积累方向](docs/REPOSITORY.md) · [索引](catalog.json) · [公共素材与分镜验证](docs/VALIDATION.md)
 
 `films/` 和 `studies/cases/`（自己的作品、复刻对象的原片与抽帧）只保存在本地，不进入 Git，远程仓库中下面的成片链接不可用。
 
@@ -23,10 +23,10 @@
 
 | 作品 | 内容 | 成片 |
 | --- | --- | --- |
-| [human-to-sphere](films/human-to-sphere/README.md) | 人的表面为什么与球面同胚，带配音整片 | [185 秒](films/human-to-sphere/film/output/human-to-sphere-story-final.mp4) · [60 秒动画](films/human-to-sphere/renders/human-to-sphere-revised.mp4) |
-| [mobius](films/mobius/README.md) | 莫比乌斯带绕行、剪切、相扣 | [120 秒](films/mobius/renders/mobius.mp4) |
+| [human-to-sphere](films/human-to-sphere/explainer/README.md) | 理想外表面、同胚与亏格；Omega + Manim 讲解版 | [155 秒讲解版](output/human-to-sphere-explainer/renders/human-to-sphere-explainer.mp4) · [60 秒几何版](films/human-to-sphere/renders/human-to-sphere-revised.mp4) |
+| [mobius](films/mobius/explainer/README.md) | 绕行、反向接缝、剪切与相扣；Omega + Manim 讲解版 | [168 秒讲解版](output/mobius-explainer/renders/mobius-explainer.mp4) · [120 秒几何版](films/mobius/renders/mobius.mp4) |
 | [topology-mistakes](films/topology-mistakes/README.md) | 字形拓扑 | [58 秒](films/topology-mistakes/output/topology-mistakes-final.mp4) |
-| [topology-unlock](films/topology-unlock/README.md) | 八状态连续解环 | [60 秒](films/topology-unlock/output/topology-unlock-final.mp4) |
+| [topology-unlock](films/topology-unlock/explainer/README.md) | 指环挑战、橡胶人体模型与八状态解环；Omega + Manim | [154 秒讲解版](output/topology-unlock-explainer/renders/topology-unlock-explainer.mp4) · [60 秒几何版](films/topology-unlock/output/topology-unlock-final.mp4) |
 | [escher-encounter](films/escher-encounter/README.md) | Escher《遭遇》三维演绎 | [36 秒](films/escher-encounter/renders/encounter.mp4) |
 | [character](character/README.md) | Ω 动作总览 | [36 秒](output/character/shuyu-omega-showcase.mp4) |
 
