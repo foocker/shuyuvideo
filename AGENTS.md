@@ -15,6 +15,7 @@
 - 能力源码按模块维护；可复用案例放 `examples/`，实际作品源码放 `films/`。
 - 动作、镜头和转场统一归入 `motion/`：规范在 `references/`，运行时在 `runtime/`，动作检查在 `checks/`。素材与分镜契约验证归 `scripts/validation/`，使用 `shuyu validate`；作品资源由公共准备脚本生成。
 - 新产物放 `output/<项目>/`。渲染用 `renders/`，检查用 `reports/`，数学任务用 `math/`；不要在模块里新建 `output`、`runs` 或依赖环境。
+- 用户指定公开的定稿复制到 `public/videos/`，README 动图放 `public/previews/`；按 `public/README.md` 更新展示副本，源码与构建包继续留在本地。
 - Node 依赖只改根 `package.json` / `package-lock.json`。公共 Python 范围维护在根 `requirements*.txt`；另有 `envs/manim/` 的 uv 渲染环境与锁文件，具体选择见 [安装说明](docs/SETUP.md)。不新增模块私有环境。
 - 字体来源与许可用 `style/fonts.json`，本机路径用忽略的 `workspace.local.json`；生成子集用 `scripts/font_assets.py`。作品包中的字体是离线构建副本，不是新的权威来源。
 - 新项目的 HyperFrames 版本由注册表选择。历史作品保留已验证版本，升级时单独验证。

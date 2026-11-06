@@ -2,7 +2,7 @@
 **/.hyperframes/
 **/output/
 **/out/
-# 自己的作品与复刻对象只留在本地，不推送
+# 作品源码与研究资料只留在本地；指定公开的成片副本放 public/
 /films/
 /sound/library/
 /studies/**

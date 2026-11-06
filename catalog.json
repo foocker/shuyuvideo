@@ -54,8 +54,8 @@
       "name": "画里的人，怎么走出来了？",
       "status": "work_specific",
       "path": "films/escher-encounter/explainer/README.md",
-      "preview": "output/escher-encounter-explainer/renders/escher-encounter-explainer.mp4",
-      "note": "约 185 秒，Ω 讲解员、Manim 演示与三维母版衔接；源码和成片仅本地保存，验证见作品 REVIEW.md"
+      "preview": "public/videos/escher-encounter-explainer.mp4",
+      "note": "约 185 秒，Ω 讲解员、Manim 演示与三维母版衔接；public/ 提供公开成片副本，源码与验证记录在本地"
     },
     {
       "id": "staircase-sum",
@@ -63,8 +63,8 @@
       "name": "台阶的一半",
       "status": "work_specific",
       "path": "films/staircase-sum/README.md",
-      "preview": "output/staircase-sum/renders/staircase-sum.mp4",
-      "note": "约 60 秒；一般 n 项用省略号与逐列配对说明，修正翻转拼合并对齐动作音效；仅本地保存"
+      "preview": "public/videos/staircase-sum.mp4",
+      "note": "约 60 秒；一般 n 项用省略号与逐列配对说明，修正翻转拼合并对齐动作音效；public/ 提供公开成片副本"
     },
     {
       "id": "audio-mix-state",
@@ -153,7 +153,9 @@
       "category": "works",
       "name": "莫比乌斯带",
       "status": "local_ready",
-      "path": "films/mobius/README.md"
+      "path": "films/mobius/README.md",
+      "preview": "public/videos/mobius-explainer.mp4",
+      "note": "约 168 秒的 Ω + Manim 讲解版成片公开于 public/；几何母版与作品源码在本地"
     },
     {
       "id": "glyph-film",
