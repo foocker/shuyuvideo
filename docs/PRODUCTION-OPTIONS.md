@@ -39,6 +39,6 @@ Manim 片段使用 [暖白主题](../style/adapters/manim_theme.py)，按最终�
 
 ## 交付核对
 
-本地作品入口统一见 [成片索引](../README.md#成片)，`films/` 不进入 Git。讲解版中的 `film.json`、`build.py`、`render_math.py` 可参考口播驱动的完整流程，参数和镜头安排须按新主题重写。《遭遇》示范 `auto` 选择两段 Manim；《台阶的一半》示范 `auto` 全部沿用 HyperFrames 精确拼图。
+公开成片见 [作品预览](../README.md#作品预览)，本地源码入口见 [catalog.json](../catalog.json)，`films/` 不进入 Git。讲解版中的 `film.json`、`build.py`、`render_math.py` 可参考口播驱动的完整流程，参数和镜头安排须按新主题重写。《遭遇》示范 `auto` 选择两段 Manim；《台阶的一半》示范 `auto` 全部沿用 HyperFrames 精确拼图。
 
 在 `REVIEW.md` 记录实际采用的选项及证据：Omega 的正文出镜时间、抽帧和遮挡检查；Manim 的源场景、导出文件、合成时间窗和成片抽帧。保存了角色库不代表角色出镜，生成了 Manim 文件不代表剪进成片。验收应对照最终 MP4；能力受阻时说明原因及替代方案，不静默跳过用户选择。

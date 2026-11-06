@@ -67,6 +67,33 @@
       "note": "约 60 秒；一般 n 项用省略号与逐列配对说明，修正翻转拼合并对齐动作音效；public/ 提供公开成片副本"
     },
     {
+      "id": "equality-explainer",
+      "category": "works",
+      "name": "什么是相等",
+      "status": "work_specific",
+      "path": "films/equality-explainer/README.md",
+      "preview": "public/videos/equality-explainer.mp4",
+      "note": "约 175 秒，从数值相等到结构相同；public/ 提供公开成片副本，源码与验证记录在本地"
+    },
+    {
+      "id": "human-to-sphere-explainer",
+      "category": "works",
+      "name": "人的表面，为什么能变成球面？",
+      "status": "work_specific",
+      "path": "films/human-to-sphere/explainer/README.md",
+      "preview": "public/videos/human-to-sphere-explainer.mp4",
+      "note": "约 155 秒，理想外表面、同胚与亏格；public/ 提供公开成片副本，源码与验证记录在本地"
+    },
+    {
+      "id": "topology-unlock-explainer",
+      "category": "works",
+      "name": "手指相扣，能挣脱吗？",
+      "status": "work_specific",
+      "path": "films/topology-unlock/explainer/README.md",
+      "preview": "public/videos/topology-unlock-explainer.mp4",
+      "note": "约 154 秒，橡胶人体模型与连续解环；public/ 提供公开成片副本，源码与验证记录在本地"
+    },
+    {
       "id": "audio-mix-state",
       "category": "capabilities",
       "name": "配音与混音输入一致性",
