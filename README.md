@@ -64,3 +64,8 @@ output/<项目>/          构建包、视频、报告和数学片段任务
 ```
 
 台阶对比视频保存在本地 `output/staircase-test/comparison/`。历史影片的旧输出位置只保留指向根目录的兼容链接；新命令统一写入 `output/`。研究资料和版本化证据仍按出处归档。
+
+## 参考与致谢
+
+- [sound/](sound/README.md) 与 [motion/](motion/SKILL.md) 参考 [Vibe Motion（vibe-motion/skills）](https://github.com/vibe-motion/skills) 的音效与动作设计方法，并结合数语的制作流程修改、适配；动作模块的具体来源与改写范围见 [motion/SOURCE.md](motion/SOURCE.md)。
+- [math/astra/](math/astra/) 基于 [Math-To-Manim（HarleyCoops/Math-To-Manim）](https://github.com/HarleyCoops/Math-To-Manim) 的 Astra 实现，适配数语的数学片段制作、渲染与审核流程；具体来源与改动见 [math/SOURCE.md](math/SOURCE.md)。
