@@ -45,6 +45,11 @@
       "source": "films/escher-encounter",
       "hyperframes": "0.8.221"
     },
+    "escher-encounter-explainer": {
+      "source": "films/escher-encounter/explainer",
+      "hyperframes": "0.8.223",
+      "video": "escher-encounter-explainer.mp4"
+    },
     "human-to-sphere": {
       "source": "films/human-to-sphere",
       "hyperframes": "0.8.216"

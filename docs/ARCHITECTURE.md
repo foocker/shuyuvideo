@@ -5,7 +5,7 @@
 | 层 | 负责 | 工具 | 产物 |
 | --- | --- | --- | --- |
 | 1 口播稿 | 讲什么、按什么顺序讲；全片的时钟 | 人写，[规范](NARRATION.md) | `SCRIPT.md`、`narration.json` |
-| 2 数学核对 | 定义、推导、结论不出错 | [math/](../math/README.md)（Astra） | 数学依据、审核记录 |
+| 2 数学核对 | 定义、推导、结论不出错 | `mathematics.md`；可选 [Astra](../math/README.md) 辅助审核 | 数学依据、审核记录 |
 | 3 镜头素材 | 每个镜头的主体动画 | Manim、HyperFrames、Three.js（见下） | 单个短片段或网页场景 |
 | 4 合成 | 排版、公式、Ω 角色、转场、镜头运动、字幕 | HyperFrames（HTML + GSAP + KaTeX） | `index.html` + `compositions/` |
 | 5 声音 | 配音、音效、混音、响度 | [sound/](../sound/README.md) | `narration.wav`、`final-mix.wav` |
@@ -31,7 +31,7 @@
 
 - `motion/`、`math/`、`sound/`、`character/` 等保存公共代码和说明；源码按能力分工，生成物按作品归属。
 - `examples/` 保存跨模块验证样例；台阶和同胚已从模块内移入这里。
-- 一个根 `.venv`，一个根 `node_modules`；Manim 是根环境的可选依赖组。Astra 不再使用相邻仓库的解释器。
+- 公共命令使用根 `.venv` 与 `node_modules`。Astra 的 Manim 渲染优先使用 `envs/manim/.venv`，未安装时使用当前解释器；普通 `shuyu exec` 始终使用根环境。安装与版本归属见 [SETUP.md](SETUP.md)。
 - HyperFrames 版本由项目注册表选择。旧作品保留已验证版本，新项目继承默认版本；统一入口不强行升级历史渲染器。
 - 字体由 `style/fonts.json` 与 `scripts/font_assets.py` 管理，子集按内容缓存。构建包保留可搬运的离线副本及许可记录。
 - 历史影片的输出实体迁到 `output/<项目>/archive/`，原位置仅保留兼容链接。研究输入与来源证据不属于构建缓存。
@@ -76,7 +76,7 @@ Astra（`shuyu math`）是“模型写数学依据和 Manim 场景、再由模�
 | 镜头用 HyperFrames，但数学不是一眼可查（新定义、证明步骤、计数、对应关系） | 画面在 HyperFrames 里做；数学写进作品的 `mathematics.md`（对象、命题、推导、画面对应、不说的内容）。需要第二意见时，可用 `shuyu math prepare` 只生成数学依据，不采用它的场景 |
 | 镜头只是计数、标注、已讲过的结论复现 | 直接在 HyperFrames 里做，不需要单独的数学依据 |
 
-模型审核不是证明。无论走哪条路，交付前都要人核对数学依据和画面是否一致（交付前检查第 4 项）。例子：`films/what-is-equal` 的三连段用 HyperFrames 画立方体图，数学依据在 `mathematics.md`。
+模型审核不是证明。无论走哪条路，交付前都要核对数学依据和画面是否一致。一般项、有限窗口与真实拼合的要求见 [数学画面验收](VALIDATION.md#数学画面与一般项)。
 
 ## 数据流
 
@@ -132,10 +132,4 @@ films/<作品>/
 
 ## 交付前检查
 
-环境准备与诊断见 [SETUP.md](SETUP.md)，先确保公共 `doctor` 没有阻断项。以下作品检查仍需逐片执行。
-
-1. `shuyu check <项目>` 退出成功：HyperFrames 检查无错误，且屏幕文字扫描（`reports/screen-text.json`）没有乱码问号、裸露的 TeX 源码、Unicode 冒充的公式符号、TeX 中未包在 `\text{}` 里的中文，或制作备注（斜杠分隔的说明、镜头编号、TODO）。扫描只看源码中写出的文字，运行时拼出的文字仍要抽帧看。
-2. `sound/mix.py` 必须退出成功，且最新 `mix-report.json` 的 `status` 为 `passed`；响度在 -17 到 -15 LUFS 之间，真峰值不高于 -1.5 dBTP。
-3. `shuyu render <项目>` 退出成功：`films/` 下的作品默认在正片前接 3 秒品牌片头（`--no-intro` 关闭，见 [brand/](../brand/README.md)）；渲染后自动核对 MP4（`reports/render-check.json`），包括画布尺寸、有配乐时必须有音轨、音视频时长差不超过 0.08 秒、经过 `mix.py` 的作品编码后响度仍在上述范围。口型和口播节奏仍需看一遍成片。
-4. 数学内容与 Astra 审核记录或作品的 `mathematics.md` 一致。用了口播时钟的 Astra 片段，导出时长须与时钟 `end` 相差不超过 0.5 秒。
-5. 对照 `BRIEF.md` 的 Omega / Manim 选择：启用 Omega 时，检查正文角色出场、手势目标和遮挡，保存实际出镜帧；使用 Manim 时，检查片段确已剪入主时间线、时长与口播匹配、主题衔接自然。在 `REVIEW.md` 记录结果，不能只凭存在库文件或片段文件判定完成。
+先按 [安装说明](SETUP.md) 确认环境，再按 [交付核对](VALIDATION.md#交付核对) 验证数学、正文角色、声音和最终 MP4。该表是验收要求的维护入口；`REVIEW.md` 记录本片证据和保留的警告。

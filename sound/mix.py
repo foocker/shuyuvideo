@@ -26,6 +26,7 @@ from tempfile import TemporaryDirectory
 
 import numpy as np
 import soundfile as sf
+from audio_state import file_hash, input_state
 
 SR = 48000
 TARGET_LUFS = -16.0
@@ -93,6 +94,7 @@ def write_report(out, report):
 
 
 def build_mix(film, out, report):
+    inputs = input_state(film)
     timings = json.loads((film / 'voice-timings.json').read_text(encoding='utf-8'))
     cues_path = film / 'sound-cues.json'
     cues = json.loads(cues_path.read_text(encoding='utf-8')) if cues_path.exists() else []
@@ -160,7 +162,9 @@ def build_mix(film, out, report):
             raise ValueError('; '.join(validation['failures']) + '. Adjust transient peaks or track balance and retry.')
         for name in ('narration.wav', 'sound-effects.wav', 'final-mix.wav'):
             (staged / name).replace(out / name)
-    report.update({'status': 'passed', 'outputsPublished': True})
+    report.update({'status': 'passed', 'outputsPublished': True, 'inputs': inputs,
+                   'outputSha256': {name: file_hash(out / name)
+                                    for name in ('narration.wav', 'sound-effects.wav', 'final-mix.wav')}})
 
 
 def main(film):

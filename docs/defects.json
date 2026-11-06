@@ -15,7 +15,7 @@
     {"id": "D06", "symptom": "用投影合并或遮挡掩盖穿透，拓扑统计看似通过", "foundIn": "topology-unlock",
      "cause": "固定拓扑统计不能证明无穿透", "check": "films/topology-unlock/scripts/audit-study.py", "status": "guarded"},
     {"id": "D07", "symptom": "沿用旧 final-mix.wav 就当作本次混音通过", "foundIn": "架构约定",
-     "cause": "没有以本次 mix-report.json 的 status 为准", "check": "sound/mix.py", "status": "guarded"},
+     "cause": "没有核对本次报告状态和正式音轨", "check": "sound/audio_state.py", "status": "guarded"},
     {"id": "D08", "symptom": "成片缺音轨、音画时长不一致或编码后响度漂移", "foundIn": "架构约定",
      "cause": "只检查了 final-mix.wav，没有检查渲染出的 MP4", "check": "scripts/validation/render_check.py", "status": "guarded"},
     {"id": "D09", "symptom": "源码中已删除或改名的合成仍留在构建包里", "foundIn": "工作区审查 2026-11-04",
@@ -23,6 +23,10 @@
     {"id": "D10", "symptom": "Manim 片段与 HyperFrames 场景底色不同，切换处有接缝", "foundIn": "架构约定",
      "cause": "片段未使用暖白主题", "check": "", "status": "open"},
     {"id": "D11", "symptom": "Astra 片段时长与口播时钟不一致", "foundIn": "工作区审查 2026-11-04",
-     "cause": "Astra 自定时长", "check": "math/shuyu_astra.py", "status": "guarded"}
+     "cause": "Astra 自定时长", "check": "math/shuyu_astra.py", "status": "guarded"},
+    {"id": "D12", "symptom": "固定 4×5 格子直接标 n 与 n+1，画面冒充一般项", "foundIn": "staircase-sum，用户反馈 2026-11-06",
+     "cause": "一般项未展示中间省略部分；需按 docs/VALIDATION.md 核对省略号与逐列配对证明", "check": "", "status": "open"},
+    {"id": "D13", "symptom": "prepare 把源码旧配音或旧混音覆盖回新构建包", "foundIn": "staircase-sum 修订 2026-11-06",
+     "cause": "新文稿、时钟、配音缓存与混音未一并定稿；现检查缓存指纹并在新混音报告中保存输入和输出摘要", "check": "tests/test_audio_state.py", "status": "guarded"}
   ]
 }

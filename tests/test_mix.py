@@ -12,6 +12,8 @@ import numpy as np
 import soundfile as sf
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'sound'))
+from audio_state import validate_mix_state
 SPEC = importlib.util.spec_from_file_location('sound_mix', ROOT / 'sound/mix.py')
 mix = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(mix)
@@ -98,12 +100,19 @@ class MixingIntegrationTests(unittest.TestCase):
         self.assertTrue(report['outputsPublished'])
         self.assertTrue(report['validation']['passed'])
         self.assertEqual(report['status'], 'passed')
+        validate_mix_state(self.film)
         self.assertTrue(mix.validate_loudness(mix.loudness(self.audio / 'final-mix.wav'))['passed'])
         final, rate = sf.read(self.audio / 'final-mix.wav', always_2d=True)
         voice, _ = sf.read(self.audio / 'narration.wav', always_2d=True)
         effects, _ = sf.read(self.audio / 'sound-effects.wav', always_2d=True)
         self.assertEqual(rate, 48000)
         np.testing.assert_allclose(final, voice + effects, atol=2 / 32768)
+
+    def test_failed_report_cannot_validate_an_existing_accepted_mix(self):
+        (self.audio / 'final-mix.wav').write_bytes(b'old accepted track')
+        (self.audio / 'mix-report.json').write_text(json.dumps({'status': 'failed', 'outputsPublished': False}), encoding='utf-8')
+        with self.assertRaisesRegex(ValueError, 'did not pass'):
+            validate_mix_state(self.film)
 
     def test_peak_limited_quiet_mix_is_rejected(self):
         # A quiet continuous bed plus one large transient cannot reach the

@@ -27,6 +27,7 @@ uv sync
 | --- | --- |
 | 公共 Python 版本范围 | [requirements.txt](../requirements.txt) |
 | 可选数学依赖 | [requirements-math.txt](../requirements-math.txt)，仍装进同一 `.venv` |
+| Astra 的独立 Manim 渲染环境 | `envs/manim/pyproject.toml` / `uv.lock`；用 `uv sync` 安装 |
 | 测试依赖 | [requirements-dev.txt](../requirements-dev.txt) |
 | Node 依赖及锁 | 根目录 `package.json` / `package-lock.json` |
 | 项目、输出根目录、HyperFrames 版本 | [workspace.json](../workspace.json) |
@@ -45,12 +46,12 @@ uv sync
 .\shuyu.ps1 render staircase-test
 .\shuyu.ps1 preview brand
 
-# prepare 仅生成请求，不调用模型
-.\shuyu.ps1 math prepare --project staircase-sum --prompt-file examples/homeomorphism/prompt.txt
-.\shuyu.ps1 math resume output/staircase-sum/math/<任务目录>
+# math prepare 仅生成请求，不调用模型；resume 会按任务配置继续执行
+.\shuyu.ps1 math prepare --project homeomorphism --prompt-file examples/homeomorphism/prompt.txt
+.\shuyu.ps1 math resume output/homeomorphism/math/<任务目录>
 ```
 
-`prepare` 从模块或作品源码构建独立离线项目。编辑源码，再重新准备；不要把 `output/` 中的副本当作唯一源码。新视频进入 `output/<项目>/renders/`，检查报告进入 `reports/`，数学过程和片段进入同一项目的 `math/`。台阶检查页及迁入的旧视频保留原文件名。
+`prepare` 从模块或作品源码构建独立离线项目。`check/snapshot/preview/render` 也会先同步源码，所以同一项目的这些命令须串行执行；不同项目可并行。编辑源码，再重新准备；不要把 `output/` 中的副本当作唯一源码。新视频进入 `output/<项目>/renders/`，检查报告进入 `reports/`，数学过程和片段进入同一项目的 `math/`。
 
 声音脚本以作品包为输入；先准备，再在生成包中做配音、音效和混音。直接传入已有作品路径的旧用法仍有效。
 
@@ -61,7 +62,9 @@ uv sync
 .\shuyu.ps1 exec sound/mix.py output/<项目>/project
 ```
 
-`anchors.py` 仅在使用 `anchors.json` 时运行。重新准备会复制源码中的同名文件；定稿素材回存作品源码。新增的生成音频不会因重新准备而清空。
+`anchors.py` 仅在使用 `anchors.json` 时运行。作品的 `build.py`/`render_math.py` 按该片 README 执行，它们不是公共命令。`shuyu exec` 使用根 `.venv`；需要独立 Manim 环境时在 `envs/manim` 中使用 `uv run python <脚本路径>`。
+
+重新准备会覆盖源码中存在的同名音频。请按 [音频定稿约定](../sound/README.md#避免旧配音覆盖新稿) 保存配音、时钟和混音的完整版本；仅在构建包生成且未登记为源码副本的文件会保留。不要并行执行同步与混音。
 
 ## 字体与离线包
 
@@ -88,6 +91,6 @@ uv sync
 .\shuyu.ps1 doctor --audio-only --json
 ```
 
-`doctor` 检查解释器、包、工具、字体和固定版本渲染器；`layout` 检查模块是否重新出现独立输出或依赖目录。`check` 读取 HyperFrames 的 `ok` 字段并扫描屏幕文字，任一失败返回非零状态，两份报告都写入 `reports/`。`render` 渲染后核对 MP4，结果写入 `reports/render-check.json`。`prepare` 会删除构建包中源码已删除或改名的文件，构建包里生成的配音和混音不受影响。测试临时文件也写入 `output/verification/`。
+`doctor` 检查解释器、包、工具、字体和固定版本渲染器；`layout` 检查输出和依赖目录。`check` 与 `render` 的检查范围见 [验收约定](VALIDATION.md#交付核对)。`prepare` 会删除上次从源码复制、这次已删除或改名的文件；只在构建包中生成的文件会保留。工作区测试与验证报告写入 `output/verification/`。
 
 研究原片和版本化 `evidence/` 是资料与证据，不按临时产物迁移。历史影片的 `output/renders` 实体目录已迁入根输出，旧位置只留目录链接，映射见 `workspace.json`。这让原剪辑清单和脚本继续可重建；新工作使用统一入口。

@@ -165,6 +165,9 @@ def main(argv=None):
             return 0
         command = [shutil.which('npx') or 'npx', '--yes', f'hyperframes@{hyperframes_version(project)}', opts.command]
         if opts.command == 'render':
+            sys.path.insert(0, str(ROOT / 'sound'))
+            from audio_state import validate_mix_state
+            validate_mix_state(directory)
             if any(x in ('-o', '--output') or x.startswith('--output=') for x in extra):
                 parser.error('Render output is managed by the workspace; change the project video name in workspace.json')
             import intro

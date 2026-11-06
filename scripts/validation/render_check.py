@@ -16,6 +16,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'sound'))
 from mix import loudness, validate_loudness  # noqa: E402
+from audio_state import validate_mix_state  # noqa: E402
 
 WIDTH, HEIGHT = 1920, 1080
 # Container durations differ by up to one AAC frame (~21 ms) plus one video frame.
@@ -50,6 +51,11 @@ def project_size(project):
 def check(video, project=None, size=None):
     size = size or project_size(project)
     errors, data = [], probe(video)
+    if project is not None:
+        try:
+            validate_mix_state(project)
+        except (OSError, ValueError, KeyError) as exc:
+            errors.append(f'mix state: {exc}')
     streams = data.get('streams', [])
     videos = [s for s in streams if s['codec_type'] == 'video']
     audios = [s for s in streams if s['codec_type'] == 'audio']

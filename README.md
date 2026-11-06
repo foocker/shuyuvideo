@@ -2,6 +2,8 @@
 
 数学科普视频的制作仓库：研究好的视频，积累风格、角色和镜头，核对数学依据，再合成成片。按内容选择 Manim 数学块与已有三维素材，Omega 在关键讲解处出场；两项可独立配置。
 
+首次使用看 [安装与命令](docs/SETUP.md)；制作前看 [能力选择](docs/PRODUCTION-OPTIONS.md) 和 [口播稿](docs/NARRATION.md)；引擎分工看 [架构](docs/ARCHITECTURE.md)，交付要求统一在 [验证](docs/VALIDATION.md#交付核对)。
+
 ## 目录
 
 | 目录 | 作用 | 入口 |
@@ -17,7 +19,7 @@
 
 [制作选项：Omega / Manim](docs/PRODUCTION-OPTIONS.md) · [积累方向](docs/REPOSITORY.md) · [索引](catalog.json) · [公共素材与分镜验证](docs/VALIDATION.md)
 
-`films/` 和 `studies/cases/`（自己的作品、复刻对象的原片与抽帧）只保存在本地，不进入 Git，远程仓库中下面的成片链接不可用。
+`films/`、`studies/` 和 `output/` 只保存在本地，不进入 Git；这里保留它们的索引，远程仓库中的作品与研究资料链接不可用。全新克隆可先运行已纳入 Git 的 `examples/staircase` 验证环境。
 
 ## 成片
 
@@ -27,7 +29,8 @@
 | [mobius](films/mobius/explainer/README.md) | 绕行、反向接缝、剪切与相扣；Omega + Manim 讲解版 | [168 秒讲解版](output/mobius-explainer/renders/mobius-explainer.mp4) · [120 秒几何版](films/mobius/renders/mobius.mp4) |
 | [topology-mistakes](films/topology-mistakes/README.md) | 字形拓扑 | [58 秒](films/topology-mistakes/output/topology-mistakes-final.mp4) |
 | [topology-unlock](films/topology-unlock/explainer/README.md) | 指环挑战、橡胶人体模型与八状态解环；Omega + Manim | [154 秒讲解版](output/topology-unlock-explainer/renders/topology-unlock-explainer.mp4) · [60 秒几何版](films/topology-unlock/output/topology-unlock-final.mp4) |
-| [escher-encounter](films/escher-encounter/README.md) | Escher《遭遇》三维演绎 | [36 秒](films/escher-encounter/renders/encounter.mp4) |
+| [escher-encounter](films/escher-encounter/explainer/README.md) | 图底关系、镶嵌与三维相遇；Omega + 两段 Manim | [185 秒讲解版](output/escher-encounter-explainer/renders/escher-encounter-explainer.mp4) · [36 秒三维版](films/escher-encounter/renders/encounter.mp4) |
+| [staircase-sum](films/staircase-sum/README.md) | 一般项阶梯求和；省略号、配对高度与精确拼合 | [60 秒修订版](output/staircase-sum/renders/staircase-sum.mp4) |
 | [character](character/README.md) | Ω 动作总览 | [36 秒](output/character/shuyu-omega-showcase.mp4) |
 
 ## 统一工作区

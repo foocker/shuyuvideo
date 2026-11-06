@@ -6,10 +6,12 @@
 
 ```powershell
 # 在 tools/shuyuvideo 执行，先按 docs/SETUP.md 安装依赖
-.\.venv\Scripts\python.exe scripts/doctor.py --audio-only
-.\.venv\Scripts\python.exe sound/voice.py films/<作品>  # 生成配音和 voice-timings.json
-.\.venv\Scripts\python.exe sound/sfx.py films/<作品>    # 把清单用到的音效复制进作品
-.\.venv\Scripts\python.exe sound/mix.py films/<作品>    # 混音并验收；失败返回非零退出码
+.\shuyu.ps1 doctor --audio-only
+.\shuyu.ps1 prepare <项目>
+.\shuyu.ps1 exec sound/voice.py output/<项目>/project  # 生成配音和 voice-timings.json
+# 按作品 README 重算画面、字幕与音效锚点，再执行下两步
+.\shuyu.ps1 exec sound/sfx.py output/<项目>/project    # 复制清单用到的音效
+.\shuyu.ps1 exec sound/mix.py output/<项目>/project    # 混音并验收；失败返回非零退出码
 ```
 
 ## 时间从哪里来
@@ -18,7 +20,18 @@
 
 改一句口播只会重新生成这一句，其他句子使用缓存。但后面句子的开始时间会整体移动，所以改稿后要重新核对画面时间。
 
-使用 `anchors.json` 的作品在配音后运行 `sound/anchors.py`，再复制音效、混音。环境安装和原有 `../.deps` 的用法见 [安装说明](../docs/SETUP.md)。
+使用 `anchors.json` 的作品在配音后运行 `sound/anchors.py`，再复制音效、混音。环境安装与统一命令见 [安装说明](../docs/SETUP.md)。
+
+## 避免旧配音覆盖新稿
+
+`shuyu check/snapshot/preview/render` 都会先从源码同步构建包。若源码仍存旧 `assets/voice` 或 `assets/audio`，同名新文件就会被覆盖。按以下顺序定稿：
+
+1. 修改源码中的 `narration.json`，运行 `prepare`，在构建包中生成配音。
+2. 作品构建脚本读取新 `voice-timings.json` 编排画面、字幕和音效；若源码已有配音缓存，将当前 `assets/voice/` 与时钟一并回存。先回存再 `prepare`。
+3. 生成音效与混音。源码若保留音频，只有报告为 `passed` 时才一起保存三个 WAV 和 `mix-report.json`；项目自有 `--freeze-audio` 之类命令按其 README 执行，不是公共参数。
+4. 串行完成检查、抽帧与渲染。不要以文件存在或旧报告通过代替本次验收。
+
+混音前会核对文稿、时钟和 `voice.py` 缓存指纹；成功后记录输入与主音轨的摘要。带新摘要的项目在渲染前和成片检查时会拒绝过期输入、失败报告或被替换的音轨；旧报告仍核对状态、时长与配音缓存，重新混音后获得完整摘要。该检查不识别音频的实际语义，仍需试听。
 
 ## 音效
 
@@ -35,6 +48,7 @@
 - 为对齐峰值而落在片头之前的采样会被裁掉，后面的声音仍保持原定时间；超出片尾的部分同样裁掉。
 - 音效要少而准，每个都要有画面上的原因。可用的对应关系：转场或物体快速移动用 `whoosh-short`，物体落定或拼合用 `click-soft`，数字或公式出现用 `pop`。
 - 同一种音效重复出现时，相邻两次换不同的文件，或把增益差开 2–3 dB。
+- `time` 对应物体真正落定或接触的时刻，不直接拿台词起点代替。优先保留复制、翻转、拼合、结果落定等有意义的声音，避免每个文字显现都配提示声。
 - 不用合成的提示音，避免叮咚声。
 
 `sfx.py` 优先读取 `sound/library/` 中的本地音效，再查找 HyperFrames media-use 自带的音效库。后者使用 Pixabay Content License，不允许把文件单独再分发，所以本仓库只保存脚本：音效文件复制进作品目录，而 `films/` 和 `sound/library/` 不进 Git。自行下载的音效按各自许可证使用。

@@ -1,4 +1,4 @@
-# 素材与分镜验证
+# 制作验证与交付
 
 公共验证属于作品制作流程，适用于任意引擎。从仓库根目录使用 `shuyu.ps1 validate`；脚本位于 [scripts/validation/validate.py](../scripts/validation/validate.py)，仅依赖 Python 标准库。
 
@@ -59,6 +59,29 @@ CC BY 系列需 `credit`；CC BY-SA 还需 `adaptationLicense` 和 `changes`，�
 `shuyu.ps1 validate screen <作品目录> [--report <报告.json>]` 静态扫描 `index.html` 和 `compositions/` 中的可见文字与含中文的脚本字符串，脚本位于 [screen_text.py](../scripts/validation/screen_text.py)。`shuyu check` 会自动运行它。`data-tex` 中的 TeX 不按可见文字检查，只要求中文写在 `\text{}` 里。作品尺寸、画幅这类本来就是普通文字的符号，在元素上加 `data-literal-text`，不再报 Unicode 公式符号。
 
 `shuyu render` 渲染后运行 [render_check.py](../scripts/validation/render_check.py)，也可单独执行 `shuyu.ps1 exec scripts/validation/render_check.py <视频.mp4> --project <作品目录>`。它只测量文件，不代替看片。
+
+## 数学画面与一般项
+
+- 固定的 4×5 方块图只能表示具体例子。边长标为 $n$、$n+1$ 时，图中须明确表示省略的中间项：保留首尾标签，例如 $1,2,\ldots,n-1,n$，横向列和长列高度分别使用水平、竖向或斜向省略号。不能只改标签而保留完整的固定格数。
+- 画面只显示有限个拼片时，用边缘省略号表示继续延伸，并在 `mathematics.md` 说明为何能推广。原理示例与原作的精确重建要区分。
+- 尺寸、平移距离和接触位置来自同一份参数。检查真实网格、共享边或表面，不能靠颜色覆盖、相机缩放掩盖空隙、重叠或穿透。阶梯配对用 $k+(n+1-k)=n+1$ 解释总高。
+- KaTeX 标签避免换行与相互贴靠。Manim 的横向省略号按宽度缩放，按点的高度放大会使符号过宽。公式场景交接同时核对对象位置和标签。
+
+这些是数学与画面人工核对要求；静态文字扫描不判断它们是否成立。作品可增加针对自身几何关系的数值检查。
+
+## 交付核对
+
+| 项目 | 通过依据 |
+| --- | --- |
+| 结构和文字 | `shuyu check <项目>` 成功，HyperFrames 无错误、`reports/screen-text.json` 无问题；运行时生成的字另看抽帧。警告逐项记录判断。 |
+| 数学和能力选择 | 画面与 `mathematics.md` 一致；启用 Omega 时有正文出镜帧；选用的 Manim 已实际剪入且颜色、时窗匹配。Astra 使用口播时钟时，导出时长与时钟 `end` 差不超过 0.5 秒。 |
+| 声音 | 最新 `mix-report.json` 为 `passed`，文稿、配音缓存和混音输入一致。目标 -16 LUFS，接受 -17 至 -15 LUFS、真峰值不高于 -1.5 dBTP；看音效是否落在真实动作上。 |
+| 画面 | 查看每段中间、关键动作前后与切点；以约 360px 宽检查字幕、省略号和边长。先缩短或拆分字幕再扩大字，不能覆盖数学标签。 |
+| 成片 | `shuyu render <项目>` 成功，`reports/render-check.json` 通过尺寸、音轨、音画时长差 ≤0.08 秒及混音作品编码后响度检查；从最终 MP4 解码抽帧，并核对完整时长。 |
+
+`films/` 作品默认接 3 秒品牌片头（可 `--no-intro`，见 [brand](../brand/README.md)）。独立 SRT 和章节时间须加上实际片头时长，正文内部时间不改。最终 MP4 的帧不能仅用网页预览截图代替。
+
+`REVIEW.md` 分开记录自动测量、几何论证、画面审查和试听。没有实际听过声音时写明“仅测量，未试听”；响度合格不证明节奏和音色合适。
 
 ## 缺陷登记与复盘
 
