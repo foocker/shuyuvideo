@@ -30,8 +30,8 @@ class AudioStateTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(obj, ensure_ascii=False), encoding='utf-8')
 
-    def write_take(self, text):
-        key = [text, self.config['voice'], self.config['rate']]
+    def write_take(self, text, rate=None):
+        key = [text, self.config['voice'], rate or self.config['rate']]
         self.write('assets/voice/q1.json', {'text': text, 'duration': 3,
             'fingerprint': hashlib.sha256(json.dumps(key, ensure_ascii=False).encode()).hexdigest()})
 
@@ -88,6 +88,19 @@ class AudioStateTests(unittest.TestCase):
     def test_unused_cached_files_do_not_invalidate_mix(self):
         self.accept()
         self.write('assets/voice/deleted-line.json', {'text': 'unused'})
+        validate_mix_state(self.film)
+
+    def test_line_rate_change_requires_new_take_and_mix(self):
+        self.accept()
+        self.config['lines'][0]['rate'] = '+8%'
+        self.write('narration.json', self.config)
+        with self.assertRaisesRegex(ValueError, 'Stale voice cache'):
+            input_state(self.film)
+        self.write_take('新稿', '+8%')
+        input_state(self.film)
+        with self.assertRaisesRegex(ValueError, 'inputs changed'):
+            validate_mix_state(self.film)
+        self.accept()
         validate_mix_state(self.film)
 
     def test_incomplete_or_malformed_reports_are_rejected(self):

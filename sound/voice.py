@@ -11,13 +11,13 @@ Needs edge-tts >= 7.3.1 (older versions get HTTP 403); `shuyu setup` installs
 it into the root .venv. Run it with `shuyu exec sound/voice.py <film-dir>`.
 """
 import asyncio
-import hashlib
 import json
 import subprocess
 import sys
 from pathlib import Path
 
 import edge_tts
+from voice_config import effective_rate, voice_fingerprint
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'writing'))
 from manuscript import check_if_managed
@@ -34,8 +34,8 @@ def probe_duration(path):
 async def synthesize(line, config, folder):
     dest = folder / f"{line['id']}.mp3"
     stamp = folder / f"{line['id']}.json"
-    key = [line['text'], config['voice'], config.get('rate', '+0%')]
-    fingerprint = hashlib.sha256(json.dumps(key, ensure_ascii=False).encode('utf-8')).hexdigest()
+    rate = effective_rate(line, config)
+    fingerprint = voice_fingerprint(line, config)
     if dest.exists() and stamp.exists():
         cached = json.loads(stamp.read_text(encoding='utf-8'))
         if cached.get('fingerprint') == fingerprint:
@@ -43,7 +43,7 @@ async def synthesize(line, config, folder):
     for attempt in range(3):
         try:
             words = []
-            request = edge_tts.Communicate(line['text'], config['voice'], rate=config.get('rate', '+0%'),
+            request = edge_tts.Communicate(line['text'], config['voice'], rate=rate,
                                            boundary='WordBoundary', connect_timeout=20, receive_timeout=60)
             with dest.open('wb') as fp:
                 async for chunk in request.stream():
@@ -52,7 +52,7 @@ async def synthesize(line, config, folder):
                     elif chunk['type'] == 'WordBoundary':
                         words.append({'text': chunk['text'], 'start': round(chunk['offset'] / TICK, 3),
                                       'end': round((chunk['offset'] + chunk['duration']) / TICK, 3)})
-            record = {'id': line['id'], 'text': line['text'], 'fingerprint': fingerprint,
+            record = {'id': line['id'], 'text': line['text'], 'rate': rate, 'fingerprint': fingerprint,
                       'duration': round(probe_duration(dest), 3), 'words': words}
             stamp.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')
             return record
@@ -69,6 +69,7 @@ async def main(film, only):
     folder.mkdir(parents=True, exist_ok=True)
     lines = config['lines']
     for line in lines:
+        effective_rate(line, config)
         for bad in ('$', '\\', '/', '?', '�'):
             assert bad not in line['text'], f"{line['id']}: narration text must not contain {bad!r}"
     gate = asyncio.Semaphore(2)
@@ -82,6 +83,8 @@ async def main(film, only):
     for line in lines:
         if line['id'] not in takes:
             takes[line['id']] = json.loads((folder / f"{line['id']}.json").read_text(encoding='utf-8'))
+        if takes[line['id']].get('fingerprint') != voice_fingerprint(line, config):
+            raise ValueError(f"Stale voice cache for {line['id']}; include it in this voice run")
 
     clock = float(config.get('lead', 0.5))
     timeline = []
@@ -90,7 +93,8 @@ async def main(film, only):
         start = round(float(line.get('start', clock)), 3)
         assert start >= clock - 1e-3, f"{line['id']} overlaps the previous line"
         end = round(start + take['duration'], 3)
-        timeline.append({'id': line['id'], 'text': line['text'], 'file': f"assets/voice/{line['id']}.mp3",
+        timeline.append({'id': line['id'], 'text': line['text'], 'rate': effective_rate(line, config),
+                         'file': f"assets/voice/{line['id']}.mp3",
                          'start': start, 'end': end,
                          'words': [{**w, 'start': round(start + w['start'], 3), 'end': round(start + w['end'], 3)}
                                    for w in take['words']]})

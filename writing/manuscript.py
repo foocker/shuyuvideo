@@ -79,6 +79,9 @@ def validate(config):
             raise ValueError(f'{name}: put Markdown headings, lists and notes outside spoken text')
         if 'scene' in row and (not isinstance(row['scene'], str) or not row['scene'].strip()):
             raise ValueError(f'{name}: scene must be a nonempty string')
+        if 'rate' in row and (not isinstance(row['rate'], str)
+                              or not re.fullmatch(r'[+-]\d+%', row['rate'])):
+            raise ValueError(f'{name}.rate: expected a signed percentage, e.g. +8%')
         for key in ('pause', 'start'):
             if key in row:
                 number(row[key], f'{name}.{key}')

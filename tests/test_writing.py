@@ -175,6 +175,21 @@ class WritingTests(unittest.TestCase):
         self.assertIs(type(writing.read_json(self.film / 'narration.json')['extension']['keep'][-1]), int)
         writing.check_project(self.film)
 
+    def test_per_line_rate_roundtrip_and_validation(self):
+        self.import_script()
+        revised = copy.deepcopy(self.config)
+        revised['lines'][0]['rate'] = '+8%'
+        (self.film / 'SCRIPT.md').write_text(writing.format_script(revised), encoding='utf-8')
+        report = writing.export_script(self.film)
+        self.assertTrue(report['requiresAudioRefresh'])
+        self.assertEqual(writing.read_json(self.film / 'narration.json'), revised)
+        writing.check_project(self.film)
+        for value in (8, True, None, 'fast', '8%', '+8% '):
+            with self.subTest(rate=value):
+                revised['lines'][0]['rate'] = value
+                with self.assertRaisesRegex(ValueError, 'rate'):
+                    writing.validate(revised)
+
     def test_managed_script_path_cannot_escape_project(self):
         for name in ('../SCRIPT.md', '/SCRIPT.md', 'C:/SCRIPT.md', '..\\SCRIPT.md', 'CON.md'):
             with self.subTest(name=name), self.assertRaises(ValueError):

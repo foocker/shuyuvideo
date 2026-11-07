@@ -7,6 +7,7 @@ import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'writing'))
 from manuscript import check_if_managed
+from voice_config import voice_fingerprint
 
 
 def read_json(path):
@@ -29,11 +30,11 @@ def validate_voice(film, timings):
     # Manually supplied recordings without voice.py metadata remain supported.
     if not lines or not timings.get('voice'):
         return
+    source_lines = {row['id']: row for row in config.get('lines', [])}
     for row in lines:
         path = film / row['file']
         take = read_json(path.with_suffix('.json'))
-        key = [row['text'], config['voice'], config.get('rate', '+0%')]
-        fingerprint = hashlib.sha256(json.dumps(key, ensure_ascii=False).encode('utf-8')).hexdigest()
+        fingerprint = voice_fingerprint(source_lines.get(row['id'], row), config)
         if take.get('text') != row['text'] or take.get('fingerprint') != fingerprint:
             raise ValueError(f"Stale voice cache for {row['id']}; regenerate voice before mixing")
         if not path.is_file() or path.stat().st_size == 0:

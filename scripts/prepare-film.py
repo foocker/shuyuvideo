@@ -45,6 +45,12 @@ def prepare_libraries(assets):
         dest = assets / target
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, dest)
+        if target == 'vendor/katex/katex.min.css':
+            # KaTeX_Main is shipped below. HyperFrames otherwise resolves the
+            # unused Times fallback to remote EB Garamond and can stall offline.
+            css = dest.read_text(encoding='utf-8')
+            dest.write_text(css.replace('KaTeX_Main,Times New Roman,serif',
+                                       'KaTeX_Main,serif'), encoding='utf-8')
     for target, sources in BUNDLES.items():
         dest = assets / target
         dest.parent.mkdir(parents=True, exist_ok=True)
