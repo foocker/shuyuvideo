@@ -2,7 +2,7 @@
 **/.hyperframes/
 **/output/
 **/out/
-# 作品源码与研究资料只留在本地；指定公开的成片副本放 public/
+# 作品源码与研究资料只留在本地
 /films/
 /sound/library/
 /studies/**
@@ -23,3 +23,10 @@
 /envs/*/.venv/
 # 原稿
 /story/
+# 新的视频文件不进入 Git；已经跟踪的历史成片保留
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.avi
+/publish/profiles.local.json

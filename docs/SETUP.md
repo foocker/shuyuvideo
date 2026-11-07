@@ -38,6 +38,19 @@ uv sync
 
 ## 按项目工作
 
+成片确认后使用独立 [发布模块](../publish/SKILL.md)：
+
+```powershell
+.\shuyu.ps1 publish init <项目> --platform bilibili
+# 编辑 films/<作品>/publish/bilibili.json
+.\shuyu.ps1 publish approve <项目> --note "用户已确认当前成片的依据"
+.\shuyu.ps1 publish build <项目> --platform bilibili
+.\shuyu.ps1 publish check <项目> --platform bilibili
+.\shuyu.ps1 publish backend
+```
+
+发布包位于 `output/<项目>/publish/bilibili/`，包括可复制的 `index.html`、纯文本及文件摘要。`approve` 只记录真实已有确认；修改视频或封面后会失效。用户打开资料页后手动上传、填写和发布，无需安装上传工具或配置命令行登录。`assist` 保留为生成同一页面的兼容入口。
+
 写稿与改稿使用 [writing 模块](../writing/SKILL.md)。数据工具只用 Python 标准库，参数为作品源码目录：
 
 ```powershell

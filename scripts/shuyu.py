@@ -90,7 +90,7 @@ def layout_report():
             aliases.append({'path': old, 'target': new})
         elif path.exists():
             errors.append(f'Legacy output has independent storage: {old}')
-    for module in ('motion', 'math', 'character', 'brand', 'sound', 'writing', 'cover', 'examples'):
+    for module in ('motion', 'math', 'character', 'brand', 'sound', 'writing', 'cover', 'publish', 'examples'):
         for parent, dirs, files in os.walk(ROOT / module, followlinks=False):
             for name in list(dirs):
                 path = Path(parent) / name
@@ -125,7 +125,7 @@ def main(argv=None):
     if target.is_file() and Path(sys.prefix).resolve() != target.parent.parent.resolve():
         return subprocess.call([str(target), '-X', 'utf8', str(Path(__file__).resolve()), *argv], cwd=ROOT)
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['setup', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'cover', 'deliver', 'validate',
+    parser.add_argument('command', choices=['setup', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'cover', 'deliver', 'publish', 'validate',
                                            'prepare', 'render', 'check', 'snapshot', 'preview', 'exec'])
     parser.add_argument('args', nargs=argparse.REMAINDER)
     opts = parser.parse_args(argv)
@@ -151,6 +151,10 @@ def main(argv=None):
     elif opts.command == 'writing':
         from manuscript import main as writing_main
         return writing_main(args)
+    elif opts.command == 'publish':
+        sys.path.insert(0, str(ROOT / 'publish'))
+        from publishing import main as publish_main
+        return publish_main(args)
     elif opts.command in ('cover', 'deliver'):
         sys.path.insert(0, str(ROOT / 'cover'))
         from production import main as cover_main, delivery_main

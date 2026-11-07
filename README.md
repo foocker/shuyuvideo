@@ -6,6 +6,8 @@
 
 每部新制作或修改的影片固定交付 **视频 MP4 + 封面 JPG**。封面采用一个视觉主体、一句短钩子，随作品独立设计；已有成片可单独补图，无需重新渲染。
 
+新作品的源文件和视频文件只留本地，Git 不再默认增加 MP4。首页 GIF 保持精选，不按作品数量持续追加。发布到平台使用 [publish 模块](publish/SKILL.md)：生成可复制的 B 站资料页，由用户手动上传、填写和发布。
+
 ## 作品预览
 
 下方动图为 8 秒无声片段；点击预览图打开或下载完整成片，均为 1920×1080、30 fps，含中文配音和字幕。
@@ -31,6 +33,7 @@
 | [character/](character/README.md) | Ω 角色：表情、手势、15 个动作，可按时间取样、任意位置渲染 | [交互动作库](character/study.html) |
 | [writing/](writing/SKILL.md) | 科普口播构思、改稿、文风反馈与配音输入导出 | [文件与命令](writing/references/files.md) · [候选改稿案例](examples/writing/EDITING.md) |
 | [cover/](cover/SKILL.md) | 简洁封面设计、本地排版、手机图与视频/图片成对交付 | [配置与命令](cover/references/files.md) |
+| [publish/](publish/SKILL.md) | B 站发布资料、文件一致性检查与本地复制页面 | [填写方式与字段](publish/references/bilibili.md) |
 | `studies/`（本地） | 好视频的拆解：原片、字幕、抽帧、表达方法 | 本地 `studies/production-guide.md` |
 | [math/](math/README.md) | Astra 数学讲解片段：简报 → 数学依据 → 分镜 → Manim → 审核 | `.\shuyu.ps1 math doctor` |
 | [sound/](sound/README.md) | 配音、Freesound 音效选材与下载、混音和响度测量 | [音效 skill](sound/SKILL.md) |
@@ -40,7 +43,7 @@
 
 [制作选项：Omega / Manim](docs/PRODUCTION-OPTIONS.md) · [积累方向](docs/REPOSITORY.md) · [索引](catalog.json) · [公共素材与分镜验证](docs/VALIDATION.md)
 
-`films/`、`studies/` 和 `output/` 只保存在本地，不进入 Git；经选择公开的成片复制到 `public/`。其余本地作品与研究资料链接在远程仓库中不可用。全新克隆可先运行已纳入 Git 的 `examples/staircase` 验证环境。
+`films/`、`studies/` 和 `output/` 只保存在本地，不进入 Git；`public/` 保留此前公开的成片和精选动图，后续默认不新增视频文件。其余本地作品与研究资料链接在远程仓库中不可用。全新克隆可先运行已纳入 Git 的 `examples/staircase` 验证环境。
 
 ## 统一工作区
 

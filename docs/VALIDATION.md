@@ -80,6 +80,7 @@ CC BY 系列需 `credit`；CC BY-SA 还需 `adaptationLicense` 和 `changes`，�
 | 画面 | 查看每段中间、关键动作前后与切点；以约 360px 宽检查字幕、省略号和边长。主画面按理解作用删减与字幕重复的反问和解释，保留必要图形、公式、标签与条件。先缩短或拆分字幕再扩大字，不能覆盖数学标签。 |
 | 成片 | `shuyu render <项目>` 成功，`reports/render-check.json` 通过尺寸、音轨、音画时长差 ≤0.08 秒及混音作品编码后响度检查；从最终 MP4 解码抽帧，并核对完整时长。 |
 | 封面与双文件 | `shuyu cover check <项目>` 和 `shuyu deliver <项目> --check` 成功，MP4 与独立 JPG 均存在且哈希一致。实际查看 JPG 及 `reports/cover-mobile.jpg`，核对主体、短钩子、字形、边缘裁切与手机可读性，记录在 `COVER.md` 或 `REVIEW.md`。 |
+| 平台发布资料 | `shuyu publish check <项目> --platform bilibili` 检查成片确认、发布资料、交付文件与定时窗口。交付本地填写页，用户手动上传、核对和发布；`--ready` 是选项确认后的可选检查，不是本地页面交付前提。 |
 
 `films/` 作品默认接 3 秒品牌片头（可 `--no-intro`，见 [brand](../brand/README.md)）。独立 SRT 和章节时间须加上实际片头时长，正文内部时间不改。最终 MP4 的帧不能仅用网页预览截图代替。
 

@@ -13,6 +13,15 @@
   },
   "entries": [
     {
+      "id": "publish",
+      "category": "capabilities",
+      "name": "多平台成片确认与发布资料",
+      "status": "local_ready",
+      "path": "publish/SKILL.md",
+      "documentation": "publish/references/bilibili.md",
+      "note": "共用成片与封面确认，B 站元数据检查与本地可复制填写页；用户手动上传、填写和发布，无需配置命令行账号。小红书和视频号资料待接入；social-auto-upload 仅保留评估，未启用自动投稿"
+    },
+    {
       "id": "cover",
       "category": "capabilities",
       "name": "视频封面与双文件交付",

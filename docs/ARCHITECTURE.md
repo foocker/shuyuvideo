@@ -14,6 +14,8 @@
 
 封面由 [cover/](../cover/SKILL.md) 独立制作：定标题和开场钩子时选主体与短文案，保存本地图像及 `cover.json`，用 Pillow 排版。最后与视频成对交付；这一静态图片流程不依赖视频时间轴，也不会在每次构建时自动调用生图 API。
 
+平台发布由 [publish/](../publish/SKILL.md) 独立承接交付：通用层绑定用户确认的视频和封面，平台层维护各自文案与设置。当前 B 站生成本地可复制的填写页面，由用户手动上传、填写和发布；小红书、视频号后续可扩展平台资料，共用成片确认。第三方 social-auto-upload 的 [评估](../publish/references/social-auto-upload.md) 仅留作参考，当前未启用自动上传。
+
 ## 工作区边界
 
 唯一配置在 [workspace.json](../workspace.json)，统一入口是根目录 `shuyu.ps1`（跨平台使用 `python scripts/shuyu.py`）。模块不再拥有独立输出根和安装环境。

@@ -19,7 +19,8 @@
 - 动作、镜头和转场统一归入 `motion/`：规范在 `references/`，运行时在 `runtime/`，动作检查在 `checks/`。素材与分镜契约验证归 `scripts/validation/`，使用 `shuyu validate`；作品资源由公共准备脚本生成。
 - 新产物放 `output/<项目>/`。渲染用 `renders/`，检查用 `reports/`，数学任务用 `math/`；不要在模块里新建 `output`、`runs` 或依赖环境。
 - 视频与 `<视频名>-cover.jpg` 同放 `renders/`；`delivery.json` 绑定两个交付文件的哈希。交付前运行 `shuyu deliver <项目> --check` 并实际查看封面及手机缩略图。照片/插画生成是素材准备步骤，离线重建封面不重复调用模型。
-- 用户指定公开的定稿复制到 `public/videos/`，README 动图放 `public/previews/`；按 `public/README.md` 更新展示副本，源码与构建包继续留在本地。
+- 新影片的作品源文件、视频文件与发布资料只留本地，不默认复制或推送 MP4；已经跟踪的历史成片保留。README 仅精选少量 GIF，不随每部新片持续追加；其余作品可用文字或平台链接登记。详见 `public/README.md`。
+- 平台发布使用 [publish/](publish/SKILL.md)，生成本地可复制的填写页面，由用户手动上传、填写和发布。当前先支持 B 站资料；不默认接管浏览器、配置命令行登录或接入自动上传。生成本地资料不代表已上传、保存平台草稿或发布成功。
 - Node 依赖只改根 `package.json` / `package-lock.json`。公共 Python 范围维护在根 `requirements*.txt`；另有 `envs/manim/` 的 uv 渲染环境与锁文件，具体选择见 [安装说明](docs/SETUP.md)。不新增模块私有环境。
 - 字体来源与许可用 `style/fonts.json`，本机路径用忽略的 `workspace.local.json`；生成子集用 `scripts/font_assets.py`。作品包中的字体是离线构建副本，不是新的权威来源。
 - 新项目的 HyperFrames 版本由注册表选择。历史作品保留已验证版本，升级时单独验证。

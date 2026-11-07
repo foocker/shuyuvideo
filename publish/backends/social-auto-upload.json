@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/dreammis/social-auto-upload",
+  "inspectedCommit": "3847fff01f5434a8a32829833163cd6723cabc59",
+  "inspectedAt": "2026-11-07",
+  "license": "MIT",
+  "integration": "evaluated_only",
+  "workflow": "manual_upload",
+  "enabled": false,
+  "platforms": {
+    "bilibili": {"video": true, "draft": false, "prepareOnly": false, "selectedRoute": "manual_upload", "reason": "User chose local copyable preparation pages and manual upload; automatic backend is not enabled"},
+    "xiaohongshu": {"video": true, "draft": false, "prepareOnly": false, "selectedRoute": "not_implemented"},
+    "tencent": {"video": true, "draft": true, "draftFlag": "--draft", "selectedRoute": "not_implemented"}
+  },
+  "scope": "Source inspection only. No login, upload, submission, or live platform verification performed."
+}
