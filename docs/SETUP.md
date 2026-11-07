@@ -38,6 +38,28 @@ uv sync
 
 ## 按项目工作
 
+写稿与改稿使用 [writing 模块](../writing/SKILL.md)。数据工具只用 Python 标准库，参数为作品源码目录：
+
+```powershell
+.\shuyu.ps1 writing import films/<作品> --script SCRIPT.writing.md
+.\shuyu.ps1 writing export films/<作品> --dry-run
+.\shuyu.ps1 writing export films/<作品>
+.\shuyu.ps1 writing check films/<作品>
+```
+
+新稿格式、配置保留、旧作品迁入与检查边界见 [文件契约](../writing/references/files.md)。已导入作品直接编辑登记稿件，无需重复导入。
+
+每部影片先按 [封面模块](../cover/SKILL.md) 准备 `COVER.md`、`cover.json` 和本地图像。使用已有 Pillow 依赖与字体注册表，无需额外安装。封面只放一个视觉主体与一句短钩子。
+
+```powershell
+.\shuyu.ps1 cover build <项目>      # 单独制作封面 JPG 与手机缩略图
+.\shuyu.ps1 cover check <项目>      # 检查素材/排版/文件同步
+.\shuyu.ps1 deliver <项目>          # 已有视频补封面，测量并生成双文件清单
+.\shuyu.ps1 deliver <项目> --check  # 检查本次交付完整且未过期
+```
+
+`render` 对影片自动执行封面预检和双文件交付；品牌片头与技术示例保持独立。输出为 `renders/<视频名>.mp4`、`renders/<视频名>-cover.jpg`，绑定清单为 `output/<项目>/delivery.json`。重建不重复生图，素材与配置见 [封面文件契约](../cover/references/files.md)。
+
 ```powershell
 .\shuyu.ps1 list
 .\shuyu.ps1 prepare staircase-test

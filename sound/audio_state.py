@@ -2,6 +2,11 @@
 import hashlib
 import json
 import math
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'writing'))
+from manuscript import check_if_managed
 
 
 def read_json(path):
@@ -14,6 +19,7 @@ def file_hash(path):
 
 
 def validate_voice(film, timings):
+    check_if_managed(film)
     config = read_json(film / 'narration.json') if (film / 'narration.json').exists() else {}
     lines = timings['lines']
     if 'lines' in config:

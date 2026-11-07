@@ -4,13 +4,15 @@
 
 | 层 | 负责 | 工具 | 产物 |
 | --- | --- | --- | --- |
-| 1 口播稿 | 讲什么、按什么顺序讲；全片的时钟 | 人写，[规范](NARRATION.md) | `SCRIPT.md`、`narration.json` |
+| 1 口播稿 | 讲什么、按什么顺序讲；全片的时钟 | [writing](../writing/SKILL.md) 辅助构思与编辑，[规范](NARRATION.md) | `SCRIPT.md` 或 `SCRIPT.writing.md`、`narration.json` |
 | 2 数学核对 | 定义、推导、结论不出错 | `mathematics.md`；可选 [Astra](../math/README.md) 辅助审核 | 数学依据、审核记录 |
 | 3 镜头素材 | 每个镜头的主体动画 | Manim、HyperFrames、Three.js（见下） | 单个短片段或网页场景 |
 | 4 合成 | 排版、公式、Ω 角色、转场、镜头运动、字幕 | HyperFrames（HTML + GSAP + KaTeX） | `index.html` + `compositions/` |
 | 5 声音 | 配音、音效、混音、响度 | [sound/](../sound/README.md) | `narration.wav`、`final-mix.wav` |
 
-口播稿先定稿，配音生成后得到逐词时间；画面按这些时间排，而不是先做画面再配旁白。
+写稿时规划画面承担的解释，口播稿先定稿，配音生成后得到逐词时间，画面实现按这些时间排。正文与导演说明分开；写作模块的编辑入口和确定性导出见 [文件契约](../writing/references/files.md)。
+
+封面由 [cover/](../cover/SKILL.md) 独立制作：定标题和开场钩子时选主体与短文案，保存本地图像及 `cover.json`，用 Pillow 排版。最后与视频成对交付；这一静态图片流程不依赖视频时间轴，也不会在每次构建时自动调用生图 API。
 
 ## 工作区边界
 
@@ -29,7 +31,7 @@
  shuyu math --project <项目> → math/<任务>/
 ```
 
-- `motion/`、`math/`、`sound/`、`character/` 等保存公共代码和说明；源码按能力分工，生成物按作品归属。
+- `writing/`、`cover/`、`motion/`、`math/`、`sound/`、`character/` 等保存公共代码和说明；源码按能力分工，生成物按作品归属。
 - `examples/` 保存跨模块验证样例；台阶和同胚已从模块内移入这里。
 - 公共命令使用根 `.venv` 与 `node_modules`。Astra 的 Manim 渲染优先使用 `envs/manim/.venv`，未安装时使用当前解释器；普通 `shuyu exec` 始终使用根环境。安装与版本归属见 [SETUP.md](SETUP.md)。
 - HyperFrames 版本由项目注册表选择。旧作品保留已验证版本，新项目继承默认版本；统一入口不强行升级历史渲染器。
@@ -81,7 +83,7 @@ Astra（`shuyu math`）是“模型写数学依据和 Manim 场景、再由模�
 ## 数据流
 
 ```
-SCRIPT.md ──► narration.json ──► sound/voice.py ──► 逐句音频 + 逐词时间 (voice-timings.json)
+登记稿件 ──► writing export ──► narration.json ──► sound/voice.py ──► 逐句音频 + 逐词时间 (voice-timings.json)
                                                         │
               镜头按词时间排进 index.html ◄──────────────┘
                      │
@@ -121,6 +123,10 @@ scripts/validation/ 素材来源与主画面分镜覆盖验证
 films/<作品>/
   BRIEF.md           制作需求、Omega/Manim 选择及逐片段安排
   SCRIPT.md          口播稿（人读）
+  DIRECTION.md       画面解释任务、停顿意图与屏幕公式（可放简报）
+  COVER.md           封面主体、钩子、来源与看图记录
+  cover.json         封面本地图像与中文排版，素材在 assets/cover/
+  .writing.json      启用 writing 后的编辑入口与导出摘要
   narration.json     口播逐句、配音设置（机器读）
   voice-timings.json 配音后生成：每句与每个词的实际时间
   sound-cues.json    音效：时间、种类、增益、对应的画面事件
@@ -129,6 +135,10 @@ films/<作品>/
   assets/            vendor（GSAP、KaTeX）、fonts、audio、clips（Manim 片段）
   REVIEW.md          检查记录
 ```
+
+旧项目若使用 `SCRIPT.writing.md`，它是正文编辑源，`SCRIPT.md` 可以继续作为旧构建生成的展示稿。已登记作品在公共准备、配音与混音检查中核对文稿同步；改稿后先导出，再刷新真实时钟。状态摘要不表示数学或试听已通过。
+
+`shuyu render` 对 `films/` 作品预检封面，成片测量通过后生成 `renders/<视频名>-cover.jpg` 和 `delivery.json`。品牌片头与技术示例不强制封面。`shuyu deliver <项目>` 为已有 MP4 补图、测量并绑定双文件，不重新渲染；`--check` 检查输入和交付哈希。文件契约见 [封面配置](../cover/references/files.md)。
 
 ## 交付前检查
 

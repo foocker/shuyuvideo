@@ -1,6 +1,6 @@
 {
   "version": "0.3.0",
-  "updated": "2026-11-06",
+  "updated": "2026-11-07",
   "defaultStyle": "shuyu-warm@1.0.0",
   "purpose": "以数语现有视觉身份为基础，逐步积累素材、公共能力、作品、表达方法和案例研究。",
   "localOnly": ["films/", "studies/", "output/"],
@@ -12,6 +12,24 @@
     "local_reference": "本仓库保存的研究依据；不代表已接入生产引擎"
   },
   "entries": [
+    {
+      "id": "cover",
+      "category": "capabilities",
+      "name": "视频封面与双文件交付",
+      "status": "local_ready",
+      "path": "cover/SKILL.md",
+      "documentation": "cover/references/files.md",
+      "note": "一个主体与一句短钩子；本地图片排版、手机图和输入摘要检查。render 自动交付 MP4 + JPG，deliver 为已有视频补图；图像生成按可用通道单独准备"
+    },
+    {
+      "id": "writing",
+      "category": "capabilities",
+      "name": "口播写作与编辑",
+      "status": "local_ready",
+      "path": "writing/SKILL.md",
+      "documentation": "writing/references/files.md",
+      "note": "构思、改稿与文风反馈；离线导入导出保留配置并检查文稿同步。examples/writing 分别记录候选练习与光滑成片已确认的开场、结尾和画面简化原则；不代表完成独立试听测试"
+    },
     {
       "id": "motion-review",
       "category": "capabilities",
@@ -38,6 +56,16 @@
       "path": "brand/README.md",
       "preview": "brand/preview.html",
       "note": "3 秒常用片头与 7 秒连续文字动画版；1920×1080、30 fps，源合成可编辑，成片本地保存"
+    },
+    {
+      "id": "smooth-structure-long",
+      "category": "works",
+      "name": "数学中的光滑，到底是什么意思？",
+      "status": "work_specific",
+      "path": "films/smooth-structure-long/README.md",
+      "preview": "public/videos/smooth-structure-long.mp4",
+      "cover": "public/covers/smooth-structure-long-cover.jpg",
+      "note": "约 417 秒，从日常光滑引出导数、光滑坐标与奇异球，以四维球问题收尾；画面简洁并减少与口播重复，公开提供定稿视频与独立封面"
     },
     {
       "id": "escher-encounter",

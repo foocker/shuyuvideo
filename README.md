@@ -4,12 +4,15 @@
 
 首次使用看 [安装与命令](docs/SETUP.md)；制作前看 [能力选择](docs/PRODUCTION-OPTIONS.md) 和 [口播稿](docs/NARRATION.md)；引擎分工看 [架构](docs/ARCHITECTURE.md)，交付要求统一在 [验证](docs/VALIDATION.md#交付核对)。
 
+每部新制作或修改的影片固定交付 **视频 MP4 + 封面 JPG**。封面采用一个视觉主体、一句短钩子，随作品独立设计；已有成片可单独补图，无需重新渲染。
+
 ## 作品预览
 
 下方动图为 8 秒无声片段；点击预览图打开或下载完整成片，均为 1920×1080、30 fps，含中文配音和字幕。
 
 | 作品 | 动画预览 · 点击查看完整 MP4 |
 | --- | --- |
+| **数学中的光滑，到底是什么意思？**<br>从导数到光滑结构，以四维球问题收尾<br>6 分 57 秒 · [封面：你好光滑](public/covers/smooth-structure-long-cover.jpg) | [![导数作为线性规则的动画预览](public/previews/smooth-structure-long.gif)](public/videos/smooth-structure-long.mp4?raw=true) |
 | **画里的人，怎么走出来了？**<br>《遭遇》：图底关系、镶嵌与三维相遇<br>3 分 05 秒 | [![《遭遇》：人物绕环相遇的动画预览](public/previews/escher-encounter-explainer.gif)](public/videos/escher-encounter-explainer.mp4?raw=true) |
 | **莫比乌斯带**<br>反向接缝、剪切与相扣<br>2 分 48 秒 | [![莫比乌斯带剪切与相扣的动画预览](public/previews/mobius-explainer.gif)](public/videos/mobius-explainer.mp4?raw=true) |
 | **台阶的一半**<br>一般项、省略号与翻转拼合<br>1 分钟 | [![一般项阶梯翻转拼合的动画预览](public/previews/staircase-sum.gif)](public/videos/staircase-sum.mp4?raw=true) |
@@ -26,6 +29,8 @@
 | [style/](style/README.md) | 数语暖白视觉风格：颜色、字体、各引擎的主题适配 | [风格页](style/preview.html) |
 | [brand/](brand/README.md) | Ω 品牌片头：3 秒常用版、7 秒文字动画版 | [双版本预览](brand/preview.html) |
 | [character/](character/README.md) | Ω 角色：表情、手势、15 个动作，可按时间取样、任意位置渲染 | [交互动作库](character/study.html) |
+| [writing/](writing/SKILL.md) | 科普口播构思、改稿、文风反馈与配音输入导出 | [文件与命令](writing/references/files.md) · [候选改稿案例](examples/writing/EDITING.md) |
+| [cover/](cover/SKILL.md) | 简洁封面设计、本地排版、手机图与视频/图片成对交付 | [配置与命令](cover/references/files.md) |
 | `studies/`（本地） | 好视频的拆解：原片、字幕、抽帧、表达方法 | 本地 `studies/production-guide.md` |
 | [math/](math/README.md) | Astra 数学讲解片段：简报 → 数学依据 → 分镜 → Manim → 审核 | `.\shuyu.ps1 math doctor` |
 | [sound/](sound/README.md) | 配音、Freesound 音效选材与下载、混音和响度测量 | [音效 skill](sound/SKILL.md) |

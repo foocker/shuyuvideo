@@ -8,6 +8,11 @@
   "fonts": "style/fonts.json",
   "brandIntro": {"default": true, "file": "brand/release/shuyu-intro-3s.mp4"},
   "projects": {
+    "smooth-structure": {
+      "source": "films/smooth-structure",
+      "hyperframes": "0.8.223",
+      "video": "smooth-structure.mp4"
+    },
     "character": {
       "source": "character",
       "hyperframes": "0.8.220",
@@ -85,6 +90,11 @@
     "topology-unlock-explainer": {
       "source": "films/topology-unlock/explainer",
       "hyperframes": "0.8.223"
+    },
+    "smooth-structure-long": {
+      "source": "films/smooth-structure-long",
+      "hyperframes": "0.8.223",
+      "video": "smooth-structure-long.mp4"
     }
   },
   "legacyOutputAliases": {

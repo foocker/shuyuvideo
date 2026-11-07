@@ -10,6 +10,9 @@ import uuid
 
 from workspace import ROOT, config, inside, output_dir, projects, project_config, python_path, hyperframes_version
 
+sys.path.insert(0, str(ROOT / 'writing'))
+from manuscript import check_if_managed, check_prepared
+
 
 def invoke(command, **kwargs):
     return subprocess.run([str(x) for x in command], cwd=kwargs.pop('cwd', ROOT), check=True, **kwargs)
@@ -48,10 +51,12 @@ def prepare_project(project):
     record = project_config(project)
     if record.get('engine') == 'manim':
         raise ValueError('Use shuyu math prepare/run --project <id> for Manim projects')
+    source = inside(record['source'])
+    check_if_managed(source)
     if record.get('build'):
         invoke([sys.executable, '-X', 'utf8', inside(record['build'])])
+        check_prepared(source, output_dir(project))
         return output_dir(project)
-    source = inside(record['source'])
     destination = output_dir(project, 'project', create=True)
     # Fresh source remains authoritative. Caches and archived results are not
     # copied into another build, avoiding recursive output copies.
@@ -72,6 +77,7 @@ def prepare_project(project):
     package = destination / 'package.json'
     if package.exists():
         package.write_text(json.dumps({'name': project, 'private': True}), encoding='utf-8')
+    check_prepared(source, destination)
     return destination
 
 
@@ -84,7 +90,7 @@ def layout_report():
             aliases.append({'path': old, 'target': new})
         elif path.exists():
             errors.append(f'Legacy output has independent storage: {old}')
-    for module in ('motion', 'math', 'character', 'brand', 'sound', 'examples'):
+    for module in ('motion', 'math', 'character', 'brand', 'sound', 'writing', 'cover', 'examples'):
         for parent, dirs, files in os.walk(ROOT / module, followlinks=False):
             for name in list(dirs):
                 path = Path(parent) / name
@@ -119,7 +125,7 @@ def main(argv=None):
     if target.is_file() and Path(sys.prefix).resolve() != target.parent.parent.resolve():
         return subprocess.call([str(target), '-X', 'utf8', str(Path(__file__).resolve()), *argv], cwd=ROOT)
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['setup', 'list', 'layout', 'doctor', 'test', 'math', 'validate',
+    parser.add_argument('command', choices=['setup', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'cover', 'deliver', 'validate',
                                            'prepare', 'render', 'check', 'snapshot', 'preview', 'exec'])
     parser.add_argument('args', nargs=argparse.REMAINDER)
     opts = parser.parse_args(argv)
@@ -142,6 +148,13 @@ def main(argv=None):
                     '-o', 'cache_dir=' + str(output_dir('verification', 'pytest-cache'))])
     elif opts.command == 'math':
         invoke([sys.executable, '-X', 'utf8', ROOT / 'math/shuyu_astra.py', *args])
+    elif opts.command == 'writing':
+        from manuscript import main as writing_main
+        return writing_main(args)
+    elif opts.command in ('cover', 'deliver'):
+        sys.path.insert(0, str(ROOT / 'cover'))
+        from production import main as cover_main, delivery_main
+        return cover_main(args) if opts.command == 'cover' else delivery_main(args)
     elif opts.command == 'validate':
         if args[:1] == ['screen']:
             invoke([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/screen_text.py', *args[1:]])
@@ -159,6 +172,12 @@ def main(argv=None):
             parser.error('Provide a project ID; use shuyu list')
         project, extra = args[0], args[1:]
         record = project_config(project)
+        if opts.command == 'render':
+            sys.path.insert(0, str(ROOT / 'cover'))
+            import production as cover
+            cover.invalidate_delivery(project)
+            if cover.required(record):
+                cover.preflight(project)
         directory = prepare_project(project)
         if opts.command == 'prepare':
             print(directory)
@@ -183,8 +202,15 @@ def main(argv=None):
                 seconds = intro.join(intro.intro_file(), body, movie)
                 print(f'brand intro {seconds:.2f}s + {body.name} -> {movie.relative_to(ROOT).as_posix()}')
             report = output_dir(project, 'reports', create=True) / 'render-check.json'
-            return subprocess.call([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/render_check.py',
-                                    movie, '--project', directory, '--report', report], cwd=ROOT)
+            result = subprocess.call([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/render_check.py',
+                                      movie, '--project', directory, '--report', report], cwd=ROOT)
+            if result:
+                return result
+            if cover.required(record):
+                cover.build(project)
+                cover.package_delivery(project, json.loads(report.read_text(encoding='utf-8')))
+                print(f'video + cover: {movie} | {cover.paths(project)["cover"]}')
+            return 0
         elif opts.command == 'snapshot':
             command += ['--output', str(output_dir(project, 'reports', 'snapshots', create=True))]
         elif opts.command == 'check':

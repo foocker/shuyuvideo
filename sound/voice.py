@@ -19,6 +19,9 @@ from pathlib import Path
 
 import edge_tts
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'writing'))
+from manuscript import check_if_managed
+
 TICK = 1e7  # edge-tts offsets are in 100 ns units
 
 
@@ -60,6 +63,7 @@ async def synthesize(line, config, folder):
 
 
 async def main(film, only):
+    check_if_managed(film)
     config = json.loads((film / 'narration.json').read_text(encoding='utf-8'))
     folder = film / 'assets/voice'
     folder.mkdir(parents=True, exist_ok=True)

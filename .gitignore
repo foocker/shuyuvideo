@@ -21,3 +21,5 @@
 /style/evidence/
 # Manim 环境按官方 uv 方式在 envs/manim 构建：cd envs/manim; uv sync
 /envs/*/.venv/
+# 原稿
+/story/

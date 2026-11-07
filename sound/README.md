@@ -2,6 +2,8 @@
 
 配音、音效、混音三步，每步一个脚本，都以作品目录为参数。口播稿的写法见 [docs/NARRATION.md](../docs/NARRATION.md)。
 
+通过 [writing](../writing/SKILL.md) 管理的作品，改稿后先执行 `shuyu writing export <作品目录>`。准备、配音和混音会拒绝正文与配音输入不同步的已登记作品；导出通过仍需生成新配音并更新锚点。旧作品可按 [文稿迁入说明](../writing/references/files.md) 使用独立稿名。
+
 音效选材的技能入口见 [SKILL.md](SKILL.md)：从 Freesound 搜索与下载音效，再接入下述作品流程。
 
 ```powershell
