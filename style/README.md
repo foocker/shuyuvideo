@@ -2,6 +2,8 @@
 
 [打开风格页](preview.html) · [机器参数](tokens.json) · [视觉审查与验证](AUDIT.md) · [Math-To-Manim 接入约定](../math/README.md)
 
+叙事方式在开工时选择：[讲解 / 无讲解模式](../docs/PRODUCTION-OPTIONS.md)。无讲解模式保留画外配音、字幕可选，用故事与动作推进；[剧情动画指引](../writing/references/story-animation.md) 管理分镜、声音和内涵。本页继续管理两种模式共用的视觉基线，具体作品可在简报中记录需要的视觉变化。
+
 2026-10-30，依据用户指定的 `tools/shuyuvideo` 现有案例提炼。新素材和新作品以这套视觉身份为基础，来源于其他引擎的数学片段也按此适配。已有作品的源文件和成片保持原样。
 
 ## 1. 共同风格

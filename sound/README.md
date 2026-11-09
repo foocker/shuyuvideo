@@ -2,6 +2,8 @@
 
 配音、音效、混音三步，每步一个脚本，都以作品目录为参数。口播稿的写法见 [docs/NARRATION.md](../docs/NARRATION.md)。
 
+无讲解模式保留画外配音，先按 [剧情动画的时钟衔接](../writing/references/story-animation.md#与现有配音时钟衔接) 安排动作窗口，再实测配音。音效跟随真实动作事件，片尾无配音的动画也计入 `voice-timings.json.duration`，随后使用同一套混音与检查。
+
 通过 [writing](../writing/SKILL.md) 管理的作品，改稿后先执行 `shuyu writing export <作品目录>`。准备、配音和混音会拒绝正文与配音输入不同步的已登记作品；导出通过仍需生成新配音并更新锚点。旧作品可按 [文稿迁入说明](../writing/references/files.md) 使用独立稿名。
 
 音效选材的技能入口见 [SKILL.md](SKILL.md)：从 Freesound 搜索与下载音效，再接入下述作品流程。

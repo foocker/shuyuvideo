@@ -1,8 +1,14 @@
 # 数语视频与动画
 
-数学科普视频的制作仓库：研究好的视频，积累风格、角色和镜头，核对数学依据，再合成成片。按内容选择 Manim 数学块与已有三维素材，Omega 在关键讲解处出场；两项可独立配置。
+数学科普视频的制作仓库：研究好的视频，积累风格、角色和镜头，核对数学依据，再合成成片。开工可选 **讲解模式** 或 **无讲解模式（剧情动画）**。无讲解模式保留画外配音、字幕可选，以故事、动作和音效推进，角色参与故事而不面向观众讲课。Manim 按镜头需要选择。
 
 首次使用看 [安装与命令](docs/SETUP.md)；制作前看 [能力选择](docs/PRODUCTION-OPTIONS.md) 和 [口播稿](docs/NARRATION.md)；引擎分工看 [架构](docs/ARCHITECTURE.md)，交付要求统一在 [验证](docs/VALIDATION.md#交付核对)。
+
+```powershell
+.\shuyu.ps1 start geometry-adventure --mode story-animation --title "几何奇遇"
+```
+
+命令创建本地简报与因果分镜模板，创作方法见 [无讲解剧情动画](writing/references/story-animation.md)。交互终端执行 `shuyu start <作品>` 可在开始时选择两种模式；原有作品继续按已确认的方式制作。
 
 每部新制作或修改的影片固定交付 **视频 MP4 + 封面 JPG**。封面采用一个视觉主体、一句短钩子，随作品独立设计；已有成片可单独补图，无需重新渲染。
 
@@ -41,7 +47,7 @@
 | [public/](public/README.md) | 公开成片与 README 动图预览 | [作品预览](#作品预览) |
 | `films/`（本地） | 作品源码与定稿输入，每部可独立重建 | [公开作品预览](#作品预览) |
 
-[制作选项：Omega / Manim](docs/PRODUCTION-OPTIONS.md) · [积累方向](docs/REPOSITORY.md) · [索引](catalog.json) · [公共素材与分镜验证](docs/VALIDATION.md)
+[制作选项：模式 / Omega / Manim / 字幕](docs/PRODUCTION-OPTIONS.md) · [积累方向](docs/REPOSITORY.md) · [索引](catalog.json) · [公共素材与分镜验证](docs/VALIDATION.md)
 
 `films/`、`studies/` 和 `output/` 只保存在本地，不进入 Git；`public/` 保留此前公开的成片和精选动图，后续默认不新增视频文件。其余本地作品与研究资料链接在远程仓库中不可用。全新克隆可先运行已纳入 Git 的 `examples/staircase` 验证环境。
 

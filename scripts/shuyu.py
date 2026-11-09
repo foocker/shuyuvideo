@@ -125,13 +125,16 @@ def main(argv=None):
     if target.is_file() and Path(sys.prefix).resolve() != target.parent.parent.resolve():
         return subprocess.call([str(target), '-X', 'utf8', str(Path(__file__).resolve()), *argv], cwd=ROOT)
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['setup', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'cover', 'deliver', 'publish', 'validate',
+    parser.add_argument('command', choices=['setup', 'start', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'cover', 'deliver', 'publish', 'validate',
                                            'prepare', 'render', 'check', 'snapshot', 'preview', 'exec'])
     parser.add_argument('args', nargs=argparse.REMAINDER)
     opts = parser.parse_args(argv)
     args = opts.args
     if opts.command == 'setup':
         return setup(args)
+    if opts.command == 'start':
+        from start import main as start_main
+        return start_main(args)
     if opts.command in ('list', 'layout'):
         report = layout_report() if opts.command == 'layout' else [
             {'id': key, **value, 'output': str(output_dir(key).relative_to(ROOT))}

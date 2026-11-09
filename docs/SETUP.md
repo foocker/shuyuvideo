@@ -38,6 +38,15 @@ uv sync
 
 ## 按项目工作
 
+新片先选制作模式，生成本地简报和导演稿（随后完成内容与合成源码）：
+
+```powershell
+.\shuyu.ps1 start geometry-adventure --mode story-animation --title "几何奇遇"
+.\shuyu.ps1 start geometry-explainer --mode explainer --omega on --manim auto
+```
+
+`story-animation` 是无讲解模式：保留画外配音、关闭讲解角色、字幕默认开启，可用 `--captions off` 关闭。交互终端省略 `--mode` 时提供模式选择；非交互调用必须指定。现有作品直接修改 BRIEF.md 并同步分镜；详见 [制作选项](PRODUCTION-OPTIONS.md)。
+
 成片确认后使用独立 [发布模块](../publish/SKILL.md)：
 
 ```powershell

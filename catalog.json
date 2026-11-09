@@ -1,6 +1,6 @@
 {
   "version": "0.3.0",
-  "updated": "2026-11-07",
+  "updated": "2026-11-09",
   "defaultStyle": "shuyu-warm@1.0.0",
   "purpose": "以数语现有视觉身份为基础，逐步积累素材、公共能力、作品、表达方法和案例研究。",
   "localOnly": ["films/", "studies/", "output/"],
@@ -12,6 +12,15 @@
     "local_reference": "本仓库保存的研究依据；不代表已接入生产引擎"
   },
   "entries": [
+    {
+      "id": "story-animation",
+      "category": "capabilities",
+      "name": "无讲解模式：剧情动画与画外配音",
+      "status": "local_ready",
+      "path": "writing/references/story-animation.md",
+      "documentation": "docs/PRODUCTION-OPTIONS.md",
+      "note": "shuyu start 开工选择讲解或无讲解模式，生成简报与因果分镜模板；保留画外配音、字幕可选，故事/动作/声音驱动。提供创作及验收方法，不代表自动生成剧情或已有新模式成片"
+    },
     {
       "id": "publish",
       "category": "capabilities",
