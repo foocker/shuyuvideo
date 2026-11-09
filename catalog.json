@@ -13,6 +13,16 @@
   },
   "entries": [
     {
+      "id": "animation-vs-geometry-study",
+      "category": "studies",
+      "name": "Animation vs. Geometry：无讲解动画研究",
+      "status": "local_reference",
+      "path": "studies/cases/animation-vs-geometry/README.md",
+      "preview": "studies/cases/animation-vs-geometry/index.html",
+      "documentation": "writing/references/geometry-story-lessons.md",
+      "note": "16 段回看、271 张全片总览与 8 组重点取样、原混音能量测量、黄金矩形构造独立核对。提炼剧情与动作方法；未完成全片连续视听或原创迁移验证。原片及完整研究只留本地"
+    },
+    {
       "id": "story-animation",
       "category": "capabilities",
       "name": "无讲解模式：剧情动画与画外配音",

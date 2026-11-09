@@ -4,7 +4,9 @@
 
 ## 从参考中取什么
 
-用户参考：Alan Becker《Animation vs. Geometry》，本机原片 `E:\WechatArticle\downloads\Alan_Becker\Animation_vs._Geometry.mp4`，约 9 分 02 秒。2026-11-09 对原片做了 15 个时间点的抽帧观察：角色与线段、角、平面图形及立体结构处于同一空间，画面从局部构造扩展到复杂几何环境。抽帧支持构图与对象关系观察，不代表完整运动或声音已审听；截图留在本地 `output/mode-reference/reports/geometry-contact-sheet.jpg`，克隆仓库不依赖该文件。
+用户参考：Alan Becker《Animation vs. Geometry》，本机原片 `studies\cases\animation-vs-geometry\sources\original.mp4`，约 9 分 02 秒。2026-11-09 在初步 15 点抽帧后，进一步检查全片 271 张总览画面与 8 组共 211 次重点取样，并测量原混音能量。具体方法见 [几何剧情案例的迁移笔记](geometry-story-lessons.md)；后续做类似无讲解片时先读该笔记，选择适合当前主题的方法。
+
+本地完整分析与分段播放器在 `studies/cases/animation-vs-geometry/`，图像、声音测量和检查报告在 `output/animation-vs-geometry-study/reports/`。抽帧与测量不代表已完成连续视听、音色辨认或观众测试；研究页明确记录范围。克隆仓库不依赖本地原片或证据文件。
 
 借鉴的是“对象与规则能影响角色处境”的表达方向，以下是本仓库的创作方法，不是对原片逐镜头的复刻。黑底、橙色火柴人、具体桥段和音乐不作为模式的固定配置；默认视觉仍参考数语主题。
 
