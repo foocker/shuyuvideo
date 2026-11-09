@@ -103,6 +103,13 @@ class AudioStateTests(unittest.TestCase):
         self.accept()
         validate_mix_state(self.film)
 
+    def test_pronunciation_change_rejects_old_audio_with_identical_captions(self):
+        self.accept()
+        self.config['pronunciations'] = {'新稿': '心稿'}
+        self.write('narration.json', self.config)
+        with self.assertRaisesRegex(ValueError, 'Stale voice cache'):
+            validate_mix_state(self.film)
+
     def test_incomplete_or_malformed_reports_are_rejected(self):
         for report in ([], {'status': 'passed', 'outputsPublished': True, 'duration': None},
                        {'status': 'passed', 'outputsPublished': True, 'inputs': {}}):

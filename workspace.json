@@ -8,6 +8,12 @@
   "fonts": "style/fonts.json",
   "brandIntro": {"default": true, "file": "brand/release/shuyu-intro-3s.mp4"},
   "projects": {
+    "plane-symmetry": {
+      "source": "films/plane-symmetry",
+      "hyperframes": "0.8.223",
+      "video": "plane-symmetry.mp4",
+      "brandIntro": false
+    },
     "smooth-structure": {
       "source": "films/smooth-structure",
       "hyperframes": "0.8.223",

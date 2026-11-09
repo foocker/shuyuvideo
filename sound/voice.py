@@ -17,7 +17,7 @@ import sys
 from pathlib import Path
 
 import edge_tts
-from voice_config import effective_rate, voice_fingerprint
+from voice_config import effective_rate, effective_speech_text, restore_word_texts, voice_fingerprint
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'writing'))
 from manuscript import check_if_managed
@@ -35,6 +35,7 @@ async def synthesize(line, config, folder):
     dest = folder / f"{line['id']}.mp3"
     stamp = folder / f"{line['id']}.json"
     rate = effective_rate(line, config)
+    spoken = effective_speech_text(line, config)
     fingerprint = voice_fingerprint(line, config)
     if dest.exists() and stamp.exists():
         cached = json.loads(stamp.read_text(encoding='utf-8'))
@@ -43,7 +44,7 @@ async def synthesize(line, config, folder):
     for attempt in range(3):
         try:
             words = []
-            request = edge_tts.Communicate(line['text'], config['voice'], rate=rate,
+            request = edge_tts.Communicate(spoken, config['voice'], rate=rate,
                                            boundary='WordBoundary', connect_timeout=20, receive_timeout=60)
             with dest.open('wb') as fp:
                 async for chunk in request.stream():
@@ -52,8 +53,11 @@ async def synthesize(line, config, folder):
                     elif chunk['type'] == 'WordBoundary':
                         words.append({'text': chunk['text'], 'start': round(chunk['offset'] / TICK, 3),
                                       'end': round((chunk['offset'] + chunk['duration']) / TICK, 3)})
+            words = restore_word_texts(words, spoken, line['text'])
             record = {'id': line['id'], 'text': line['text'], 'rate': rate, 'fingerprint': fingerprint,
                       'duration': round(probe_duration(dest), 3), 'words': words}
+            if spoken != line['text']:
+                record['spokenText'] = spoken
             stamp.write_text(json.dumps(record, ensure_ascii=False, indent=2), encoding='utf-8')
             return record
         except Exception:
@@ -70,6 +74,7 @@ async def main(film, only):
     lines = config['lines']
     for line in lines:
         effective_rate(line, config)
+        effective_speech_text(line, config)
         for bad in ('$', '\\', '/', '?', '�'):
             assert bad not in line['text'], f"{line['id']}: narration text must not contain {bad!r}"
     gate = asyncio.Semaphore(2)
