@@ -9,9 +9,31 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
 import workspace
 import font_assets
+import shuyu
 
 
 class WorkspaceTests(unittest.TestCase):
+    def test_prepare_does_not_copy_dotenv_secrets(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source, dest = root / 'film', root / 'project'
+            source.mkdir()
+            dest.mkdir()
+            (source / 'index.html').write_text('<html></html>')
+            (source / '.env').write_text('API_KEY=local-secret')
+            (source / '.env.local').write_text('API_KEY=another-secret')
+            with patch.object(shuyu, 'ROOT', root), \
+                    patch.object(shuyu, 'project_config', return_value={'source': 'film'}), \
+                    patch.object(shuyu, 'inside', side_effect=lambda name: root / name), \
+                    patch.object(shuyu, 'output_dir', return_value=dest), \
+                    patch.object(shuyu, 'check_if_managed'), patch.object(shuyu, 'check_prepared'), \
+                    patch.object(shuyu, 'invoke'):
+                shuyu.prepare_project('test')
+            self.assertTrue((dest / 'index.html').exists())
+            self.assertFalse((dest / '.env').exists())
+            self.assertFalse((dest / '.env.local').exists())
+            self.assertNotIn('.env', (dest / shuyu.SOURCE_MANIFEST).read_text())
+
     def test_project_outputs_are_independent_of_working_directory(self):
         path = workspace.output_dir('test-film', 'math', 'run-1')
         self.assertEqual(path, ROOT / 'output/test-film/math/run-1')

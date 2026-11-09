@@ -30,3 +30,7 @@
 *.mkv
 *.avi
 /publish/profiles.local.json
+# Narrator API credentials remain local.
+**/.env
+**/.env.*
+!**/.env.example

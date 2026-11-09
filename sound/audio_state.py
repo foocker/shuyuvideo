@@ -34,11 +34,16 @@ def validate_voice(film, timings):
     for row in lines:
         path = film / row['file']
         take = read_json(path.with_suffix('.json'))
-        fingerprint = voice_fingerprint(source_lines.get(row['id'], row), config)
+        profile = timings.get('voiceProfile')
+        fingerprint = voice_fingerprint(source_lines.get(row['id'], row), config, profile)
+        if profile and take.get('voiceProfile') != profile:
+            raise ValueError(f"Voice role changed for {row['id']}; regenerate voice and timing anchors")
         if take.get('text') != row['text'] or take.get('fingerprint') != fingerprint:
             raise ValueError(f"Stale voice cache for {row['id']}; regenerate voice before mixing")
         if not path.is_file() or path.stat().st_size == 0:
             raise ValueError(f"Missing or empty voice take: {row['file']}")
+        if take.get('audioSha256') and file_hash(path) != take['audioSha256']:
+            raise ValueError(f"Voice audio changed for {row['id']}; regenerate the take before mixing")
         if abs((row['end'] - row['start']) - take['duration']) > .002:
             raise ValueError(f"Voice duration changed for {row['id']}; regenerate the timing anchors")
 

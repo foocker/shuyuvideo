@@ -61,7 +61,7 @@ def prepare_project(project):
     # Fresh source remains authoritative. Caches and archived results are not
     # copied into another build, avoiding recursive output copies.
     ignore = shutil.ignore_patterns('output', 'out', 'renders', 'node_modules', '.git',
-                                   '.hyperframes', '__pycache__', '.pytest_cache')
+                                   '.hyperframes', '__pycache__', '.pytest_cache', '.env', '.env.*')
     remove_deleted_sources(source, destination, ignore)
     shutil.copytree(source, destination, dirs_exist_ok=True, ignore=ignore)
     invoke([sys.executable, '-X', 'utf8', ROOT / 'scripts/prepare-film.py', destination])

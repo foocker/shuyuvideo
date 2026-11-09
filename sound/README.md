@@ -18,6 +18,54 @@
 .\shuyu.ps1 exec sound/mix.py output/<项目>/project    # 混音并验收；失败返回非零退出码
 ```
 
+## 讲解员角色与 API 配音
+
+默认角色仍是稿件中的 Edge TTS 音色，五次方程影片为云希 `zh-CN-YunxiNeural`。API 角色是可选项，配置统一放在工作区根 `tools/shuyuvideo/.env`；首次使用可从 [.env.example](../.env.example) 复制。`.env` 已加入 Git 忽略和公共构建包排除规则，密钥不写入稿件、缓存或时钟。
+
+| `SHUYU_VOICE_ROLE` | 讲解员 |
+| --- | --- |
+| `default` | 当前稿件音色，保持原流程 |
+| `doubao-magnetic` | 豆包磁性解说男声 2.0，优先试听；官方列为抖音／剪映同款 |
+| `doubao-young` | 豆包阳光青年 2.0 |
+| `minimax-gentle` | MiniMax 温润青年 |
+| `minimax-elite` | MiniMax 精英青年 |
+| `doubao-custom` | `.env` 的 `DOUBAO_VOICE_ID`，可填已创建的克隆音色 |
+| `minimax-custom` | `.env` 的 `MINIMAX_VOICE_ID`，可填已创建的克隆音色 |
+
+豆包填写 `DOUBAO_API_KEY`，保留 `DOUBAO_RESOURCE_ID=seed-tts-2.0`；旧控制台也可填写 `DOUBAO_APP_ID` 与 `DOUBAO_ACCESS_TOKEN`。MiniMax 填写 `MINIMAX_API_KEY`，默认模型 `speech-2.8-hd`。中国站与全球站账号使用各自的地址，模板中已注明。角色默认取 `.env` 的 `SHUYU_VOICE_ROLE`，命令行 `--role` 可临时覆盖；系统环境变量优先于 `.env`。
+
+例如选择豆包磁性解说，在 `.env` 中填写：
+
+```dotenv
+SHUYU_VOICE_ROLE=doubao-magnetic
+DOUBAO_API_KEY=在本地填入密钥
+```
+
+先用短句比较断句、数字和数学术语，再生成全片。在 `tools/shuyuvideo` 执行：
+
+```powershell
+.\shuyu.ps1 exec sound/voice.py --list-roles
+# 不联网：检查配置及缓存，显示是否已配凭证，不显示凭证内容
+.\shuyu.ps1 exec sound/voice.py films/quintic-explainer --dry-run
+# 生成五处问题句的试听；只保存试听文件，不替换影片时钟
+.\shuyu.ps1 exec sound/voice.py films/quintic-explainer h02b q04 r02 m02 f05 --role doubao-magnetic --sample
+.\shuyu.ps1 exec sound/voice.py films/quintic-explainer h02b q04 r02 m02 f05 --role minimax-gentle --sample
+# 确定角色后生成整片配音，使用 .env 的角色
+.\shuyu.ps1 exec sound/voice.py films/quintic-explainer
+# 恢复当前默认讲解员
+.\shuyu.ps1 exec sound/voice.py films/quintic-explainer --role default
+```
+
+试听命令打印每句音频路径。API 音频保存在 `assets/voice/roles/<角色>/<指纹>/`，不同角色、模型及改稿各自缓存；默认角色继续复用原 MP3。改 `.env` 只决定下一次配音，已经生成的 `voice-timings.json` 冻结实际角色，后续混音／渲染不受 `.env` 切换影响。只换一部分句子时，其余句子也必须已有同一角色和配置的缓存，否则先用 `--sample` 试听，或生成整片。
+
+整片配音完成后，必须按作品 README 重建 Manim、画面、字幕、音效锚点及混音，再渲染。换音色不只是替换音频文件，因为句长和停顿会变化。每句 `rate`、`speechText`、`pronunciations` 继续生效；API 语速支持 `-50%` 至 `+100%`，`+10%` 对应 MiniMax 的 `1.1` 和豆包的 `10`。
+
+豆包读取 SSE 的原生词时间，MiniMax 请求 `subtitle_type=word` 并立即下载字幕；不会把句时间均摊为词时间。缺少词时间、文本不匹配或流未正常结束时不发布该句，不自动切回默认音色，也不自动重试付费请求。通过验证的片段可在下次运行复用。WAV 使用提供商原始 PCM，混音时统一到影片采样率。
+
+自定义角色只负责调用已有音色。先在提供商平台创建自己的克隆音色，再填 ID；豆包克隆还需改为账号对应的 `seed-icl-2.0` 资源，可按需要填 `DOUBAO_MODEL`。本工具不会自动上传录音或申请克隆。
+
+接口依据：[豆包 HTTP SSE](https://www.volcengine.com/docs/6561/1598757)、[豆包音色](https://www.volcengine.com/docs/6561/1257544)、[MiniMax 合成](https://platform.minimax.cn/docs/api-reference/speech-t2a-http)、[MiniMax 音色](https://platform.minimax.cn/docs/faq/system-voice-id)。适配已做模拟响应与流程测试；填入有效凭证前，尚未验证真实账号权限或音色听感。
+
 ## 时间从哪里来
 
 `voice.py` 逐句合成，记录每个词的开始和结束时间，再按 `gap`/`pause` 把句子排到全片时间线上，写进 `voice-timings.json`。画面上的关键动作按词的时间来排。例如"倒过来"这个词在 9.4 秒开始，翻转动画就从 9.4 秒开始。
@@ -27,6 +75,8 @@
 多音字纠音可在登记稿件的全局配音配置或行标记写入 `pronunciations`，例如 `{"五重":"五崇"}`。这是仅送入TTS的等长同音字提示，字幕保留“五重”；取回的词时间会映射到原字。发音提示纳入缓存指纹，修改后须重新配音、更新时钟并混音。按完整词设置，不能把“重要”里的“重”也改为chóng；见[术语读音](../docs/NARRATION.md#多音字与术语读音)。
 
 `lines[].rate` 可覆盖全局 `rate`，如 `"+8%"`，未设置时保持全局速度；它是引擎默认速度的百分比，不是再乘一次全局增速。配音缓存和混音检查都使用每句最终生效的语速，`voice-timings.json` 也记录它。已登记作品先改稿件的行标记并导出，不直接改派生 JSON。
+
+行级`speechText`用于只调整配音标点，例如在“有限次”和“加”之间加逗号。实词必须与正文完全相同，发音替换另用`pronunciations`。字幕继续使用正文；实际词时间会映射回原字，改动后该句缓存失效。标点提示不保证听感正确，仍需逐句复核。
 
 每片按 [信息密度、语速与留白](../docs/NARRATION.md#信息密度语速与留白) 选少量加速段。检查的是实际静音：音频末尾可能已有停顿，随后还会追加 `pause`（或 `gap`），片尾还会追加 `tail`；不要把几层停顿无意叠加。先缩短多余间隔，再决定是否加快配音，更新全部同步资源后重新混音。
 

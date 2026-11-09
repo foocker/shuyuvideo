@@ -42,6 +42,37 @@ class VoiceRateTests(unittest.TestCase):
 
 
 class VoicePronunciationTests(unittest.TestCase):
+    def test_speech_punctuation_and_pronunciation_keep_original_word_times(self):
+        line = {'text': '两个根是一和负一。', 'speechText': '两个根是：一，和负一。',
+                'pronunciations': {'一': '衣'}}
+        spoken = effective_speech_text(line, {})
+        self.assertEqual(spoken, '两个根是：衣，和负衣。')
+        words = [{'text': '两个根是', 'start': .1, 'end': 1.2},
+                 {'text': '衣', 'start': 1.5, 'end': 1.8},
+                 {'text': '和', 'start': 2.0, 'end': 2.1},
+                 {'text': '负衣', 'start': 2.2, 'end': 2.7}]
+        restored = restore_word_texts(words, spoken, line['text'])
+        self.assertEqual([w['text'] for w in restored], ['两个根是', '一', '和', '负一'])
+        self.assertEqual([(w['start'], w['end']) for w in restored],
+                         [(w['start'], w['end']) for w in words])
+
+    def test_pause_changes_invalidate_only_affected_take(self):
+        original = {'text': '有限次加、减。'}
+        paused = {**original, 'speechText': '有限次，加、减。'}
+        config = {'voice': 'test'}
+        self.assertNotEqual(voice_fingerprint(original, config), voice_fingerprint(paused, config))
+        self.assertEqual(voice_fingerprint(original, config),
+                         voice_fingerprint({**original, 'speechText': original['text']}, config))
+        for invalid in ['无限次，加、减。', '', None, '<break/>有限次加、减。']:
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                effective_speech_text({**original, 'speechText': invalid}, config)
+
+    def test_removed_punctuation_restores_manuscript_span(self):
+        rows = restore_word_texts([{'text': '知道我', 'start': .2, 'end': .8}],
+                                  '知道我', '知道，我')
+        self.assertEqual(rows[0]['text'], '知道，我')
+        self.assertEqual(rows[0]['end'], .8)
+
     def test_provider_gets_chong_but_captions_keep_zhong_character(self):
         class Request:
             async def stream(self):
