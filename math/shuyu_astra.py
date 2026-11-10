@@ -88,7 +88,7 @@ def prepare(topic, *, quality='l', auth='api', output=None, project='math-drafts
         'python': relative(sys.executable), 'manim': version('manim'),
         'delivery': {'width': width, 'height': height, 'fps': fps},
         'pipeline_source': 'math/astra',
-        'character_reference': 'character/README.md',
+        'character_reference': 'character/omega/README.md',
         'authentication_note': 'Explicit API mode uses the existing Codex login/provider; no credential is copied into this run.',
     }
     palette = {key: {'value': value, 'use': tokens['roles'].get(key, {}).get('use', '')}
@@ -177,7 +177,7 @@ def export_handoff(folder):
         'mathematics': 'mathematics.md', 'storyboard': 'storyboard.md',
         'audits': audits, 'review_status': manifest.get('review_status'),
         'voiceover': {'status': 'not_produced'},
-        'character': {'reference': 'character/README.md', 'status': 'not_composited'},
+        'character': {'reference': 'character/omega/README.md', 'status': 'not_composited'},
         'notes': ['Astra review is model judgment, not formal proof or a guarantee of scientific correctness.',
                   'A pipeline status of completed alone is not approval for final editing.'],
     }

@@ -1,0 +1,31 @@
+<template><style>
+@font-face{font-family:Shuyu;src:url('assets/fonts/ui.woff2')}@font-face{font-family:Shuyu;src:url('assets/fonts/ui-bold.woff2');font-weight:700}
+#root{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:#f4f0e7;color:#263640;font-family:Shuyu,sans-serif}.title{position:absolute;left:135px;top:90px;font-size:48px;font-weight:700;margin:0;letter-spacing:3px}.index{position:absolute;right:145px;top:102px;font-size:30px;color:#64776f}.stage{position:absolute;inset:0}.floor{stroke:#b8bbb0;stroke-width:2}.name{position:absolute;left:145px;top:924px;font-size:42px;margin:0}.ref-label{position:absolute;left:1200px;top:931px;font-size:32px;color:#66766d}.point{fill:#f4f0e7;stroke:#b8753c;stroke-width:4}#beats>.stage{position:absolute;inset:0}.beat-label{position:absolute;top:860px;font-size:28px;color:#66766d;width:180px;text-align:center}[hidden]{display:none!important}
+</style><div id="root" data-composition-id="showcase" data-duration="117.5" data-width="1920" data-height="1080" data-hold="Silent technical action catalogue; each action has a starting hold and readable end pose"><h1 class="title">墨影 · 动作库</h1><div class="index" id="counter">01 / 30</div><svg class="stage" viewBox="0 0 1920 1080"><g id="ink-guide"></g><line class="floor" id="ink-floor" x1="155" y1="840" x2="1070" y2="840"/><line class="floor" id="ref-floor" x1="1190" y1="840" x2="1760" y2="840"/><line class="floor" id="ink-rail" x1="480" x2="720"/><line class="floor" id="ref-rail" x1="1360" x2="1540"/></svg><div id="ink-actor" class="stage"></div><div id="ref-actor" class="stage"></div><div id="beats" class="stage" hidden><div id="beat-0" class="stage"></div><div id="beat-1" class="stage"></div><div id="beat-2" class="stage"></div><span class="beat-label" style="left:1110px">准备</span><span class="beat-label" style="left:1345px">动作</span><span class="beat-label" style="left:1580px">收势</span></div><svg class="stage" viewBox="0 0 1920 1080"><circle id="ink-point" class="point" r="10"/><circle id="ref-point" class="point" r="10"/></svg><h2 id="action-label" class="name">观察</h2><div id="ref-label" class="ref-label">火柴人 · 动作对照</div></div><script>
+(()=>{
+ const $=id=>document.getElementById(id),lib=ShuyuInk;
+ const ink=lib.create($('ink-actor'),{viewBox:'0 0 1920 1080',x:610,y:840,scale:5.1});
+ const reference=ShuyuStickman.create($('ref-actor'),{viewBox:'0 0 1920 1080',x:1460,y:840,scale:1.9});
+ const minis=[1200,1435,1670].map((x,i)=>lib.create($('beat-'+i),{viewBox:'0 0 1920 1080',x,y:790,scale:1.55}));
+ const {shots,duration,groups}=InkCatalog;
+ function draw(t){
+  let i=shots.findIndex(s=>t<s.end);if(i<0)i=shots.length-1;
+  const shot=shots[i],a=lib.actions[shot.a],local=Math.max(0,t-shot.start-shot.lead),basic=!!ShuyuStickman.actions[shot.a];
+  const scale=(a.airborne?3.5:shot.a==='hang'?4.25:5.1)*(a.viewScale||1);
+  ink.render(shot.a,local,{loop:a.loop,scale,x:610,y:840});InkGuides.draw($('ink-guide'),a,ink);
+  $('ref-actor').hidden=!basic;$('beats').hidden=basic;$('ref-label').textContent=basic?'火柴人 · 动作对照':'墨影 · 关键姿态';
+  if(basic)reference.render(shot.a,local,{loop:a.loop,scale:a.airborne?1.55:1.9});
+  else minis.forEach((r,j)=>r.render(shot.a,a.beats[j],{loop:false,scale:1.55*(a.viewScale||1)}));
+  $('counter').textContent=`${groups[a.category]}  ${String(i+1).padStart(2,'0')} / ${shots.length}`;$('action-label').textContent=a.label;
+  for(const [id,rig,x,actor]of [['ink',ink,610,lib],['ref',reference,1460,ShuyuStickman]]){
+   const active=id==='ink'||basic;
+   $(id+'-floor').setAttribute('opacity',active&&!['hang','hangOne','climbUp'].includes(shot.a)?1:0);
+   $(id+'-rail').setAttribute('opacity',active&&shot.a==='hang'?1:0);
+   const hand=rig.joint('handFront');$(id+'-rail').setAttribute('y1',hand[1]);$(id+'-rail').setAttribute('y2',hand[1]);
+   const prop=actor.actions[shot.a]?.prop;$(id+'-point').setAttribute('opacity',active&&prop?1:0);
+   if(prop){const p=prop.attach&&local>=prop.attachAt?hand:[x+prop.ground[0]*rig.options.scale,840+prop.ground[1]*rig.options.scale];$(id+'-point').setAttribute('cx',p[0]);$(id+'-point').setAttribute('cy',p[1]-10);}
+  }
+ }
+ const state={t:0};draw(0);const tl=gsap.timeline({paused:true});tl.to(state,{t:duration,duration,ease:'none',onUpdate:()=>draw(state.t)});window.__timelines=window.__timelines||{};window.__timelines.showcase=tl;window.__inkShowcase={draw,ink,reference,minis,shots,duration};
+})();
+</script></template>

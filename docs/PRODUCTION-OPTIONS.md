@@ -69,7 +69,7 @@ Manim：极限段，显示数列项、误差区间与收敛条件；其余段落
 
 用户要求沿用某片时，继承该片实际确认的模式和选项，不统一改成 `selected`；新主题仍须落实到具体镜头。
 
-Omega 开启时，通过 [角色库](../character/README.md) 与 `ShuyuStage` 放在独立的 `compositions/guide.html` 角色层。按口播锚点编排动作，优先利用留白；重要数学动作可让角色暂退。不是全程固定站在角落或无目的循环挥手。片头 Ω 标志不算正文讲解员。
+Omega 开启时，通过 [角色库](../character/omega/README.md) 与 `ShuyuStage` 放在独立的 `compositions/guide.html` 角色层。按口播锚点编排动作，优先利用留白；重要数学动作可让角色暂退。不是全程固定站在角落或无目的循环挥手。片头 Ω 标志不算正文讲解员。
 
 Manim 片段使用 [暖白主题](../style/adapters/manim_theme.py)，按最终画布和帧率导出，保存于作品 `assets/clips/`，再由 HyperFrames 的 `<video>` 剪入已确定的时间窗。由框架管理视频播放、裁切与同步，字幕、角色和混音仍在整片合成层处理。Manim 可以直接编写，也可以使用 [Astra](../math/README.md) 生成；是否调用模型与选择动画引擎是两件事。
 

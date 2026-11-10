@@ -6,7 +6,10 @@
   "manimEnvironment": "envs/manim",
   "hyperframes": "0.8.223",
   "fonts": "style/fonts.json",
-  "brandIntro": {"default": true, "file": "brand/release/shuyu-intro-3s.mp4"},
+  "brandIntro": {
+    "default": true,
+    "file": "brand/release/shuyu-intro-3s.mp4"
+  },
   "projects": {
     "ai-gdp": {
       "source": "films/ai-gdp",
@@ -26,7 +29,7 @@
       "video": "smooth-structure.mp4"
     },
     "character": {
-      "source": "character",
+      "source": "character/omega",
       "hyperframes": "0.8.220",
       "video": "shuyu-omega-showcase.mp4",
       "fonts": {
@@ -107,6 +110,32 @@
       "source": "films/smooth-structure-long",
       "hyperframes": "0.8.223",
       "video": "smooth-structure-long.mp4"
+    },
+    "permutation-dream": {
+      "source": "films/permutation-dream",
+      "hyperframes": "0.8.223",
+      "video": "permutation-dream.mp4",
+      "brandIntro": false
+    },
+    "character-ink": {
+      "source": "character/ink",
+      "hyperframes": "0.8.223",
+      "video": "ink-actions.mp4",
+      "brandIntro": false,
+      "fonts": {
+        "ui": "sans",
+        "ui-bold": "sans-bold"
+      }
+    },
+    "character-stickman": {
+      "source": "character/stickman",
+      "hyperframes": "0.8.223",
+      "video": "stickman-actions.mp4",
+      "brandIntro": false,
+      "fonts": {
+        "ui": "sans",
+        "ui-bold": "sans-bold"
+      }
     }
   },
   "legacyOutputAliases": {

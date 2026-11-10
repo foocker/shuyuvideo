@@ -1,7 +1,7 @@
 """Render the same vector rig to transparent VP9 WebM; no black-screen keying."""
 from pathlib import Path
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 from workspace import output_dir, font_path
 from shuyu import prepare_project
 import argparse,subprocess,json

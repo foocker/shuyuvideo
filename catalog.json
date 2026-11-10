@@ -183,8 +183,8 @@
       "category": "assets",
       "name": "Ω 角色与动作",
       "status": "local_ready",
-      "path": "character/README.md",
-      "preview": "character/study.html",
+      "path": "character/omega/README.md",
+      "preview": "character/omega/study.html",
       "note": "2D 正面角色；语音音素未绑定，具体动作边界见原说明"
     },
     {
@@ -192,8 +192,8 @@
       "category": "capabilities",
       "name": "Ω 按时间取样、渲染与姿态混合",
       "status": "local_ready",
-      "path": "character/lib/omega.js",
-      "documentation": "character/README.md"
+      "path": "character/omega/lib/omega.js",
+      "documentation": "character/omega/README.md"
     },
     {
       "id": "manim-theme",

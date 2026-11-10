@@ -36,7 +36,7 @@
 | --- | --- | --- |
 | [style/](style/README.md) | 数语暖白视觉风格：颜色、字体、各引擎的主题适配 | [风格页](style/preview.html) |
 | [brand/](brand/README.md) | Ω 品牌片头：3 秒常用版、7 秒文字动画版 | [双版本预览](brand/preview.html) |
-| [character/](character/README.md) | Ω 角色：表情、手势、15 个动作，可按时间取样、任意位置渲染 | [交互动作库](character/study.html) |
+| [character/](character/README.md) | Ω、火柴人、墨影：独立角色动作库，可按时间取样、导出透明素材 | [角色目录](character/README.md) |
 | [writing/](writing/SKILL.md) | 科普口播构思、改稿、文风反馈与配音输入导出 | [文件与命令](writing/references/files.md) · [候选改稿案例](examples/writing/EDITING.md) |
 | [cover/](cover/SKILL.md) | 简洁封面设计、本地排版、手机图与视频/图片成对交付 | [配置与命令](cover/references/files.md) |
 | [publish/](publish/SKILL.md) | B 站发布资料、文件一致性检查与本地复制页面 | [填写方式与字段](publish/references/bilibili.md) |

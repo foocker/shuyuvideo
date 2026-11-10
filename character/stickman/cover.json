@@ -1,0 +1,15 @@
+{
+  "schema": "shuyu-cover/v1",
+  "title": "火柴人基础动作资产",
+  "mode": "compose",
+  "size": [1920,1080],
+  "background": "#11171C",
+  "image": "assets/cover/character.png",
+  "fit": "exact",
+  "provenance": {
+    "kind": "local-vector-study",
+    "source": "本项目 SVG 骨架 run 动作；动作参考与改编范围见 SOURCES.md",
+    "license": "本地手工关键帧研究；原片与角色未确认开放许可；不包含原片截图或音频"
+  },
+  "texts": [{"text":"火柴人动作库","box":[140,385,1010,220],"font":"sans-bold","fontSize":132,"color":"#F4EFE5"}]
+}

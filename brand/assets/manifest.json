@@ -1,6 +1,6 @@
 {
   "omega": {
-    "source": "../character/lib/omega-shape.js",
+    "source": "../character/omega/lib/omega-shape.js",
     "usage": "existing brand outline"
   },
   "font": {

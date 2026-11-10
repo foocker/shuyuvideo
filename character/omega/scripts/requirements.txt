@@ -1,2 +1,2 @@
 # Compatibility entry; dependency versions are owned by the repository root.
--r ../../requirements.txt
+-r ../../../requirements.txt

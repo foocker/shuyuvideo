@@ -1,7 +1,7 @@
 """Check the encoded showcase against the actual HyperFrames review frames."""
 from pathlib import Path
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 from workspace import output_dir, font_path
 import json,subprocess,hashlib
 from PIL import Image,ImageChops,ImageStat,ImageDraw

@@ -1,0 +1,11 @@
+{
+  "schema":"shuyu-cover/v1",
+  "title":"墨影动作库 v2",
+  "mode":"compose",
+  "size":[1920,1080],
+  "background":"#F4F0E7",
+  "image":"assets/cover/character.png",
+  "fit":"exact",
+  "provenance":{"kind":"local-vector-character","source":"本项目墨影 paperRead 持稿姿态，角色来自置换之梦，动作研究见 SOURCES.md","license":"工作区本地角色与手工动作研究；不包含参考视频画面或音频"},
+  "texts":[{"text":"墨影动作库","box":[140,390,1040,220],"font":"sans-bold","fontSize":140,"color":"#263640"}]
+}

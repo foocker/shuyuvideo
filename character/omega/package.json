@@ -1,0 +1,13 @@
+{
+  "name": "shuyu-logo",
+  "private": true,
+  "scripts": {
+    "dev": "python ../../scripts/shuyu.py preview character",
+    "build": "python ../../scripts/shuyu.py exec character/omega/scripts/build-assets.py",
+    "check": "python ../../scripts/shuyu.py check character",
+    "verify": "node scripts/verify-rig.cjs && python ../../scripts/shuyu.py exec character/omega/scripts/verify-player.py",
+    "verify:render": "python ../../scripts/shuyu.py exec character/omega/scripts/verify-render.py",
+    "render": "python ../../scripts/shuyu.py render character",
+    "export:wave": "python ../../scripts/shuyu.py exec character/omega/scripts/export-action.py --action wave"
+  }
+}

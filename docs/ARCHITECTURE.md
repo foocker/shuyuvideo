@@ -62,7 +62,7 @@
 | 2D 图形、计数、拼图、标注、文字 | **HyperFrames**（SVG + GSAP） | 编写最快，可在 Studio 中直接修改，中文排版好 |
 | 曲面、拓扑形变、立体物体 | **Three.js**，放在 HyperFrames 场景里 | 已有作品的几何与材质可复用（[films/](../films/)） |
 | 公式排版 | **KaTeX**，构建期或初始化时渲染为 HTML | 与正文同一图层；排版结果可作为动画对象，KaTeX 本身不负责动画 |
-| Ω 角色 | **HyperFrames** 角色层（[character/](../character/README.md)） | 始终叠在最上层，任意镜头都可加入 |
+| Ω 角色 | **HyperFrames** 角色层（[character/omega/](../character/omega/README.md)） | 始终叠在最上层，任意镜头都可加入 |
 | 几何烘焙、曲面数据、声音合成 | **Python**（numpy） | 离线计算，结果写成静态文件 |
 
 规则：
@@ -70,7 +70,7 @@
 - **合成只在 HyperFrames 里做。** Manim 片段导出为 1920×1080、30 fps 的 MP4，以 `<video>` 放进场景，再叠上 Ω、标注和转场。
 - **Manim 片段必须用暖白主题**（[manim_theme.py](../style/adapters/manim_theme.py)）。底色与 HyperFrames 场景一致（`#F4F2EC`），否则切换处能看出接缝。
 - **公式只用 TeX。** HyperFrames 里用 KaTeX，Manim 里用 `MathTex`。不用 Unicode 字符拼写公式（`x²`、`−`、`₁`）。
-- **Ω 是否出镜按本片 `omega` 选择执行。** 知识讲解片未指定时默认 `on`，用户可选 `off`。启用时用 `compositions/guide.html` + `ShuyuStage`（[character/stage.js](../character/stage.js)）按口播锚点安排位置和动作，站在画面留白处，不遮挡图形、公式和字幕。片头 Logo 不算讲解员出镜。
+- **Ω 是否出镜按本片 `omega` 选择执行。** 知识讲解片未指定时默认 `on`，用户可选 `off`。启用时用 `compositions/guide.html` + `ShuyuStage`（[character/omega/stage.js](../character/omega/stage.js)）按口播锚点安排位置和动作，站在画面留白处，不遮挡图形、公式和字幕。片头 Logo 不算讲解员出镜。
 - `manim: auto` 时，能直接表达的 2D 镜头优先用 HyperFrames；连续推导、函数图像、精确几何按上表考虑 Manim。`selected` 按指定片段执行，`off` 使用其他适合的引擎；不能用自动判断覆盖用户选择。Manim 每改一次都要重新渲染，HyperFrames 可以实时预览、逐帧拖动。
 - 渲染环境离线。GSAP、KaTeX、字体都放在作品的 `assets/` 下，不引用 CDN。
 
@@ -111,7 +111,7 @@ Astra（`shuyu math`）是“模型写数学依据和 Manim 场景、再由模�
 | 模块 | 作用 |
 | --- | --- |
 | [motion/](../motion/SKILL.md) | 动作设计、[镜头运动](../motion/references/camera.md)、[场景转场](../motion/references/transitions.md)，以及路径、衔接和时间取样检查 |
-| [character/](../character/README.md) | Ω 角色。每个镜头单独指定位置、动作和朝向，不固定在角落 |
+| [character/](../character/README.md) | Ω、火柴人、墨影分别放在独立子目录中。每个镜头单独指定角色位置、动作和朝向 |
 | [style/](../style/README.md) | 颜色、字号、语义角色 |
 
 motion 内按职责分层，镜头与转场不再是与 motion 并列的能力目录：

@@ -1,7 +1,7 @@
 """Exercise the real browser controls, deterministic draws and transparent downloads."""
 from pathlib import Path
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 from workspace import output_dir, font_path
 from shuyu import prepare_project
 import json,hashlib

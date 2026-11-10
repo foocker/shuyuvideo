@@ -9,7 +9,7 @@
   "beats": [0.7, 1.35, 2.1],
   "export": "mp4",
   "asset_needs": [],
-  "source_assets": ["../character/lib/omega-shape.js", "../character/lib/omega.js", "../character/assets/brand-icon.svg"],
+  "source_assets": ["../character/omega/lib/omega-shape.js", "../character/omega/lib/omega.js", "../character/omega/assets/brand-icon.svg"],
   "registry_search": {
     "query": "logo outline draw reveal",
     "tier": "words",
@@ -26,7 +26,7 @@
     "hold_from_s": 2.25
   },
   "content": {
-    "logo": "../character/lib/omega-shape.js",
+    "logo": "../character/omega/lib/omega-shape.js",
     "wordmark": "数语",
     "tagline": "",
     "url": "",

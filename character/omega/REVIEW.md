@@ -20,7 +20,7 @@ output/player-verification.json 覆盖全部动作的随机跳转复现、播放
 
 透明 PNG 与 VP9 WebM 的 alpha 范围均为 0–255。WebM 经 libvpx-vp9 解码检查透明通道，并全量解码通过；没有用黑色背景抠像。预览页导出的 SVG 是独立矢量，不依赖字体或网络资源。
 
-另外核对了实际 WebM 解码帧的左上角和 Ω 内部留白，alpha 都为 0；透明叠加示例在 [alpha-preview.jpg](../output/character/alpha-preview.jpg)。
+另外核对了实际 WebM 解码帧的左上角和 Ω 内部留白，alpha 都为 0；透明叠加示例在 [alpha-preview.jpg](../../output/character/alpha-preview.jpg)。
 
 HyperFrames 的 lint、runtime、layout、motion、contrast 检查通过；唯一 craft 提示为静音。此工程是可复用动作素材库，静音符合用途，后续影片可统一配声音。
 

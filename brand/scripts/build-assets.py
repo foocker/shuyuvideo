@@ -19,7 +19,7 @@ REPO = ROOT.parent
 RATE = 48000
 COPY = {
     "vendor/gsap.min.js": REPO / "node_modules/gsap/dist/gsap.min.js",
-    "lib/omega-shape.js": REPO / "character/lib/omega-shape.js",
+    "lib/omega-shape.js": REPO / "character/omega/lib/omega-shape.js",
 }
 TEXT = "数语探索理性与想象的边界让更多人认识数学，参与数学。"
 
@@ -92,7 +92,7 @@ def main():
         source = source.replace(end, animation)
         dest.write_text(source, encoding="utf-8")
     manifest = {
-        "omega": {"source": "../character/lib/omega-shape.js", "usage": "existing brand outline"},
+        "omega": {"source": "../character/omega/lib/omega-shape.js", "usage": "existing brand outline"},
         "font": {"source": "local Windows Microsoft YaHei Bold", "text": TEXT,
                  "distribution": "local build only; generated font subsets ignored by Git"},
         "audio": {"source": "scripts/build-assets.py", "method": "original additive synthesis, no samples",

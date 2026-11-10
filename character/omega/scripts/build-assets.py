@@ -6,7 +6,7 @@ from fontTools.pens.recordingPen import RecordingPen
 from fontTools.pens.qu2cuPen import Qu2CuPen
 from fontTools.pens.boundsPen import BoundsPen
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 from font_assets import build_subset
 from workspace import font_path
 ROOT=Path(__file__).resolve().parents[1]

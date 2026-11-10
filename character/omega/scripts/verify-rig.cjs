@@ -29,4 +29,4 @@ assert(right.armR.x>250&&right.lookX>.9&&left.armL.x< -250&&left.lookX<-.9,'poin
 assert(api.sample('blink',.72).eyeL<.03,'eyelid closes');
 assert(api.sample('jump',1.08).rootY< -90,'jump has actual flight');
 const report={fps:60,actions:Object.keys(api.actions).length,frames,minimumOmegaOpening:minimumGap,maxCycleSeamError:maxLoopError,worldStanceFootDrift:footDrift,randomSeek:'passed',standingSoles:'fixed',pointingGaze:'passed',blinkAndJump:'passed'};
-const out=path.join(__dirname,'../output');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'rig-verification.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+const out=path.resolve(__dirname,'../../../output/character/reports');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'rig-verification.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
