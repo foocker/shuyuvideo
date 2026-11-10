@@ -1,6 +1,6 @@
 {
   "version": "0.3.0",
-  "updated": "2026-11-09",
+  "updated": "2026-11-10",
   "defaultStyle": "shuyu-warm@1.0.0",
   "purpose": "以数语现有视觉身份为基础，逐步积累素材、公共能力、作品、表达方法和案例研究。",
   "localOnly": ["films/", "studies/", "output/"],
@@ -29,7 +29,7 @@
       "status": "local_ready",
       "path": "writing/references/story-animation.md",
       "documentation": "docs/PRODUCTION-OPTIONS.md",
-      "note": "shuyu start 开工选择讲解或无讲解模式，生成简报与因果分镜模板；保留画外配音、字幕可选，故事/动作/声音驱动。提供创作及验收方法，不代表自动生成剧情或已有新模式成片"
+      "note": "shuyu start 开工选择讲解或无讲解模式，生成简报与因果分镜模板；保留画外配音、字幕可选，故事/动作/声音驱动。首部独立剧情动画案例为本地 quintic-story；提供创作及验收方法，不代表自动生成剧情"
     },
     {
       "id": "publish",
@@ -84,6 +84,17 @@
       "path": "brand/README.md",
       "preview": "brand/preview.html",
       "note": "3 秒常用片头与 7 秒连续文字动画版；1920×1080、30 fps，源合成可编辑，成片本地保存"
+    },
+    {
+      "id": "quintic-story",
+      "category": "works",
+      "name": "未完的手稿：第五扇门",
+      "status": "work_specific",
+      "path": "films/quintic-story/README.md",
+      "preview": "output/quintic-story/renders/quintic-story.mp4",
+      "cover": "output/quintic-story/renders/quintic-story-cover.jpg",
+      "mode": "story-animation",
+      "note": "276秒独立无讲解剧情动画；墨滴行动串联根的循环与置换、正十二面体和五个内接四面体、旋转次序与正规子群筛选。80.640秒短画外音，保留原讲解版；源文件、成片、封面与完整版本仅本地保存。数学/寻帧/抽帧与音量测量有记录，不等同于已连续视听或观众测试。"
     },
     {
       "id": "smooth-structure-long",
