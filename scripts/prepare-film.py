@@ -25,6 +25,7 @@ FILES = {
     'lib/omega.js': REPO / 'character/lib/omega.js',
     'lib/stage.js': REPO / 'character/stage.js',
     'lib/camera.js': REPO / 'motion/runtime/camera.js',
+    'lib/travel.js': REPO / 'motion/runtime/travel.js',
     'lib/tex.js': REPO / 'style/adapters/tex.js',
     'lib/sanlian.js': REPO / 'brand/lib/sanlian.js',
     'style/tokens.css': REPO / 'style/tokens.css',

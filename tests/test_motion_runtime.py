@@ -11,6 +11,11 @@ sys.path.insert(0, str(ROOT / 'scripts'))
 
 
 class RuntimeBundleTests(unittest.TestCase):
+    def test_travel_path_continuity_and_retiming(self):
+        result = subprocess.run(['node', str(ROOT / 'tests/travel_runtime.cjs')],
+                                cwd=ROOT, capture_output=True, text=True, encoding='utf-8')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_prepared_bundle_preserves_motion_and_legacy_checks(self):
         spec = importlib.util.spec_from_file_location('prepare_film', ROOT / 'scripts/prepare-film.py')
         prepare = importlib.util.module_from_spec(spec)

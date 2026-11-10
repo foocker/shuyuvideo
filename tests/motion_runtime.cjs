@@ -5,14 +5,15 @@ const vm = require('node:vm');
 const { test } = require('node:test');
 const { gsap } = require('gsap');
 
-// Load exactly the two published scripts existing films already reference.
+// Exercise the published scripts copied into standalone film bundles.
 const assets = process.argv[2];
-for (const name of ['camera.js', 'transitions.js']) {
+for (const name of ['camera.js', 'transitions.js', 'travel.js']) {
   vm.runInThisContext(readFileSync(path.join(assets, 'lib', name), 'utf8'));
 }
 const camera = globalThis.ShuyuCamera;
 const transitions = globalThis.ShuyuTransitions;
 const checks = globalThis.ShuyuMotionChecks;
+assert.equal(typeof globalThis.ShuyuTravel.path, 'function');
 const close = (a, b) => assert.ok(Math.abs(a - b) < 1e-6, `${a} != ${b}`);
 
 test('camera reaches its framing target and returns home regardless of seek order', () => {

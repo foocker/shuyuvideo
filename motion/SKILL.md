@@ -15,9 +15,10 @@ description: 设计数语教学动画的对象动作、镜头运动与场景转�
 | 公式逐项揭示、分组归并、物体与曲线联动，以及引擎选择 | [动画与公式一起讲解](references/formula-explanation.md)（制作指引，非新增运行时） |
 | 推近、拉远、平移、局部聚焦再回到全景 | [镜头 API](references/camera.md)，源码 `runtime/camera.js` |
 | 硬切、交叉淡化、对象延续、推入切换 | [转场 API](references/transitions.md)，源码 `runtime/transitions.js` |
+| 沿曲线行走、连续转向、按路程同步脚步 | [连续行走路径](references/travel.md)，源码 `runtime/travel.js` |
 | 路径、对象衔接和倒序取样检查 | [动作检查](references/checks.md)，实现位于 `checks/` |
 
-`shuyu.ps1 prepare <项目>` 将运行时打包到作品的 `assets/lib/camera.js`、`assets/lib/transitions.js`。前者提供 `ShuyuCamera`；后者提供 `ShuyuTransitions` 和 `ShuyuMotionChecks`。作品使用包内资源，源码只在本模块维护。
+`shuyu.ps1 prepare <项目>`将运行时打包到作品的`assets/lib/`：`camera.js`提供`ShuyuCamera`，`transitions.js`提供`ShuyuTransitions`和`ShuyuMotionChecks`，`travel.js`提供`ShuyuTravel`。作品使用包内资源，源码只在本模块维护。
 
 ## 设计动作
 
