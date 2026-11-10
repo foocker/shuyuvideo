@@ -106,7 +106,26 @@ class MixingIntegrationTests(unittest.TestCase):
         voice, _ = sf.read(self.audio / 'narration.wav', always_2d=True)
         effects, _ = sf.read(self.audio / 'sound-effects.wav', always_2d=True)
         self.assertEqual(rate, 48000)
+        self.assertEqual(len(final), 4 * mix.SR)
+        self.assertEqual(report['lines'], 0)
+        self.assertFalse(voice.any())
         np.testing.assert_allclose(final, voice + effects, atol=2 / 32768)
+
+    def test_shot_clock_and_music_need_no_narration_config_or_tts_cache(self):
+        (self.film / 'narration.json').unlink()
+        t = np.arange(4 * mix.SR) / mix.SR
+        signal = (.05 * np.sin(2 * np.pi * 440 * t)).astype(np.float32)
+        sf.write(self.audio / 'bed.wav', np.column_stack([signal, signal]), mix.SR, subtype='FLOAT')
+        run = self.run_mix()
+        self.assertEqual(run.returncode, 0, run.stderr)
+        validate_mix_state(self.film)
+        report = self.report()
+        self.assertEqual((report['duration'], report['lines']), (4, 0))
+        self.assertNotIn('narration.json', report['inputs'])
+        self.assertFalse((self.film / 'assets/voice').exists())
+        voice, _ = sf.read(self.audio / 'narration.wav', always_2d=True)
+        self.assertEqual(len(voice), 4 * mix.SR)
+        self.assertFalse(voice.any())
 
     def test_failed_report_cannot_validate_an_existing_accepted_mix(self):
         (self.audio / 'final-mix.wav').write_bytes(b'old accepted track')

@@ -30,13 +30,15 @@ class StartTests(unittest.TestCase):
     def brief(self, project):
         return (self.root / 'films' / project / 'BRIEF.md').read_text(encoding='utf-8')
 
-    def test_story_mode_keeps_voice_and_becomes_discoverable(self):
+    def test_story_mode_defaults_to_no_voices_and_becomes_discoverable(self):
         result = start.start_film('geometry', 'story-animation', title='几何奇遇')
         self.assertEqual(result['omega'], 'off')
-        self.assertEqual(result['narration'], 'voiceover')
-        self.assertEqual(result['captions'], 'on')
+        self.assertEqual(result['narration'], 'off')
+        self.assertEqual(result['captions'], 'off')
         self.assertIn('mode: story-animation', self.brief('geometry'))
-        self.assertIn('narration: voiceover', self.brief('geometry'))
+        self.assertIn('narration: "off"', self.brief('geometry'))
+        self.assertIn('captions: "off"', self.brief('geometry'))
+        self.assertIn('零人声、零台词', self.brief('geometry'))
         self.assertIn('# 几何奇遇', self.brief('geometry'))
         self.assertEqual(workspace.projects()['geometry']['source'], 'films/geometry')
         direction = (self.root / 'films/geometry/DIRECTION.md').read_text(encoding='utf-8')
@@ -46,12 +48,28 @@ class StartTests(unittest.TestCase):
 
     def test_explainer_defaults_and_independent_choices(self):
         a = start.start_film('lecture', 'explainer')
-        self.assertEqual((a['omega'], a['manim']), ('on', 'auto'))
+        self.assertEqual((a['omega'], a['manim'], a['narration'], a['captions']),
+                         ('on', 'auto', 'voiceover', 'on'))
         b = start.start_film('voice-only', 'explainer', omega='off', manim='selected', captions='off')
         self.assertEqual((b['mode'], b['omega'], b['manim'], b['captions']),
                          ('explainer', 'off', 'selected', 'off'))
         c = start.start_film('action', 'story-animation', manim='off', captions='off')
         self.assertEqual((c['omega'], c['manim'], c['captions']), ('off', 'off', 'off'))
+
+    def test_story_voiceover_requires_explicit_choice_and_captions_stay_optional(self):
+        a = start.start_film('narrated-story', 'story-animation', narration='voiceover')
+        self.assertEqual((a['narration'], a['captions']), ('voiceover', 'off'))
+        self.assertIn('画外音剧情变体', self.brief('narrated-story'))
+        b = start.start_film('captioned-story', 'story-animation', narration='voiceover', captions='on')
+        self.assertEqual((b['narration'], b['captions']), ('voiceover', 'on'))
+
+    def test_speech_captions_cannot_enable_narration_implicitly(self):
+        for mode in ('story-animation', 'explainer'):
+            with self.subTest(mode=mode), self.assertRaisesRegex(ValueError, 'requires captions: off'):
+                start.start_film('conflict', mode, narration='off', captions='on')
+        with self.assertRaisesRegex(ValueError, 'requires captions: off'):
+            start.start_film('implicit-voice', 'story-animation', captions='on')
+        self.assertFalse((self.root / 'films').exists())
 
     def test_conflicting_presenter_is_rejected_before_writes(self):
         with self.assertRaisesRegex(ValueError, 'omega: off'):
@@ -82,6 +100,7 @@ class StartTests(unittest.TestCase):
         for kwargs in ({'mode': 'silent'}, {'mode': 'explainer', 'omega': 'maybe'},
                        {'mode': 'explainer', 'manim': 'never'},
                        {'mode': 'explainer', 'captions': True},
+                       {'mode': 'explainer', 'narration': 'auto'},
                        {'mode': 'explainer', 'title': 'title\nmode: other'}):
             with self.subTest(kwargs=kwargs), self.assertRaises(ValueError):
                 start.start_film('invalid', **kwargs)
@@ -92,11 +111,22 @@ class StartTests(unittest.TestCase):
                 contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(start.main(['interactive']), 0)
         self.assertIn('mode: story-animation', self.brief('interactive'))
+        self.assertIn('narration: "off"', self.brief('interactive'))
         with patch('sys.stdin.isatty', return_value=False), contextlib.redirect_stderr(io.StringIO()), \
                 self.assertRaises(SystemExit) as failure:
             start.main(['no-selection'])
         self.assertEqual(failure.exception.code, 2)
         self.assertFalse((self.root / 'films/no-selection').exists())
+
+    def test_cli_forwards_explicit_narration_without_changing_story_defaults(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(start.main(['voice-story', '--mode', 'story-animation',
+                                         '--narration', 'voiceover', '--captions', 'on']), 0)
+            self.assertEqual(start.main(['silent-story', '--mode', 'story-animation']), 0)
+        self.assertIn('narration: "voiceover"', self.brief('voice-story'))
+        self.assertIn('captions: "on"', self.brief('voice-story'))
+        self.assertIn('narration: "off"', self.brief('silent-story'))
+        self.assertIn('captions: "off"', self.brief('silent-story'))
 
     def test_common_entry_dispatches_start_without_creating_a_film(self):
         result = subprocess.run([sys.executable, '-X', 'utf8', str(ROOT / 'scripts/shuyu.py'),
@@ -104,6 +134,7 @@ class StartTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('story-animation', result.stdout)
         self.assertIn('--captions', result.stdout)
+        self.assertIn('--narration', result.stdout)
 
 
 if __name__ == '__main__':

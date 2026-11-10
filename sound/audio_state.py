@@ -92,7 +92,7 @@ def validate_mix_state(film):
         except (TypeError, ValueError) as exc:
             raise ValueError('Invalid mix duration; remix required') from exc
         if not math.isfinite(duration) or not math.isclose(duration, timings['duration'], abs_tol=.04):
-            raise ValueError('Mix duration differs from the current narration clock; remix required')
+            raise ValueError('Mix duration differs from the current film clock; remix required')
     if 'inputs' in report and report['inputs'] != input_state(film):
         raise ValueError('Mix inputs changed since mastering; rerun sound/mix.py')
     for name, expected in report.get('outputSha256', {}).items():

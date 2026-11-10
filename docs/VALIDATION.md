@@ -73,7 +73,7 @@ CC BY 系列需 `credit`；CC BY-SA 还需 `adaptationLicense` 和 `changes`，�
 
 | 项目 | 通过依据 |
 | --- | --- |
-| 制作模式 | 对照 BRIEF.md 的 mode、omega、manim、narration、captions。无讲解模式无讲解角色，保留画外配音；关配音与字幕检查主要行动的因果是否可读，再完整视听动作、音效、情绪节奏与结尾回收，见 [剧情动画验收](../writing/references/story-animation.md#验收)。配置和模板本身不证明故事质量。 |
+| 制作模式 | 对照 BRIEF.md 的 mode、omega、manim、narration、captions。无讲解模式默认零人声、零台词、无配音字幕；核对无旁白、对白、哼声、歌声及遗留语音轨，检查主要行动的因果，再完整视听动作、音效、情绪节奏与结尾回收。画外音变体必须记录用户明确要求，并额外静音检查故事可读性，见 [剧情动画验收](../writing/references/story-animation.md#验收)。配置和模板本身不证明故事质量。 |
 | 结构和文字 | `shuyu check <项目>` 成功，HyperFrames 无错误、`reports/screen-text.json` 无问题；运行时生成的字另看抽帧。警告逐项记录判断。 |
 | 口播文稿 | 已启用 writing 的作品通过 `shuyu writing check <作品目录>`，登记稿件与配音输入一致；编辑检查另记录衔接、指代、事实条件，实际听感另行试听。格式通过不代表文风通过。 |
 | 数学和能力选择 | 画面与 `mathematics.md` 一致；启用 Omega 时有正文出镜帧；选用的 Manim 已实际剪入且颜色、时窗匹配。Astra 使用口播时钟时，导出时长与时钟 `end` 差不超过 0.5 秒。 |

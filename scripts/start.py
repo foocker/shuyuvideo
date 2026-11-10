@@ -12,11 +12,17 @@ RESERVED = {'con', 'prn', 'aux', 'nul', *(f'com{i}' for i in range(1, 10)),
             *(f'lpt{i}' for i in range(1, 10))}
 
 
-def start_film(project, mode, *, title=None, omega=None, manim='auto', captions='on'):
+def start_film(project, mode, *, title=None, omega=None, manim='auto', narration=None, captions=None):
     if not re.fullmatch(r'[a-z0-9][a-z0-9_-]*', project) or project in RESERVED:
         raise ValueError('Project ID must use lowercase letters, digits, hyphens or underscores; not a reserved filename')
-    if mode not in MODES or manim not in ('auto', 'selected', 'off') or captions not in ('on', 'off'):
-        raise ValueError('Invalid production mode, manim or captions choice')
+    if mode not in MODES or manim not in ('auto', 'selected', 'off'):
+        raise ValueError('Invalid production mode or manim choice')
+    narration = narration if narration is not None else ('off' if mode == 'story-animation' else 'voiceover')
+    captions = captions if captions is not None else ('on' if mode == 'explainer' and narration == 'voiceover' else 'off')
+    if narration not in ('off', 'voiceover') or captions not in ('on', 'off'):
+        raise ValueError('Invalid narration or captions choice')
+    if narration == 'off' and captions != 'off':
+        raise ValueError('narration: off requires captions: off; object labels are independent of speech captions')
     omega = omega if omega is not None else ('off' if mode == 'story-animation' else 'on')
     if omega not in ('on', 'off'):
         raise ValueError('omega must be on or off')
@@ -35,9 +41,12 @@ def start_film(project, mode, *, title=None, omega=None, manim='auto', captions=
     template = ROOT / 'scripts/templates' / mode
     body = (template / 'BRIEF.md').read_text(encoding='utf-8')
     direction = (template / 'DIRECTION.md').read_text(encoding='utf-8')
+    sound_choice = ('零人声、零台词；按镜头时钟编排音乐与非人声音效。' if narration == 'off'
+                    else ('按显式 narration: voiceover 选择制作画外音剧情变体；' if mode == 'story-animation'
+                          else '保留画外配音；') + f'配音字幕为 {captions}。')
     brief = (f'---\nmode: {mode}\nomega: "{omega}"\nmanim: {manim}\n'
-             f'narration: voiceover\ncaptions: "{captions}"\n---\n\n# {title}\n\n'
-             f'制作模式：{MODES[mode]}。配音保留为画外音；字幕按 captions 选择制作。\n\n' + body)
+             f'narration: "{narration}"\ncaptions: "{captions}"\n---\n\n# {title}\n\n'
+             f'制作模式：{MODES[mode]}。{sound_choice}\n\n' + body)
     film.parent.mkdir(parents=True, exist_ok=True)
     film.mkdir(exist_ok=False)
     (film / 'BRIEF.md').write_text(brief, encoding='utf-8')
@@ -46,8 +55,8 @@ def start_film(project, mode, *, title=None, omega=None, manim='auto', captions=
         {'name': project, 'private': True},
         ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     return {'project': project, 'source': film.relative_to(ROOT).as_posix(), 'mode': mode,
-            'omega': omega, 'manim': manim, 'narration': 'voiceover', 'captions': captions,
-            'next': '完善 BRIEF.md 与 DIRECTION.md，完成分镜、配音及 index.html 后再 prepare/check/render；此命令仅创建制作起点。'}
+            'omega': omega, 'manim': manim, 'narration': narration, 'captions': captions,
+            'next': '完善 BRIEF.md 与 DIRECTION.md，按所选模式完成分镜、声音及 index.html 后再 prepare/check/render；此命令仅创建制作起点。'}
 
 
 def main(argv=None):
@@ -57,13 +66,16 @@ def main(argv=None):
     parser.add_argument('--title')
     parser.add_argument('--omega', choices=('on', 'off'))
     parser.add_argument('--manim', choices=('auto', 'selected', 'off'), default='auto')
-    parser.add_argument('--captions', choices=('on', 'off'), default='on')
+    parser.add_argument('--narration', choices=('off', 'voiceover'),
+                        help='story-animation 默认 off（零人声、零台词）；voiceover 仅用于明确要求的配音变体')
+    parser.add_argument('--captions', choices=('on', 'off'),
+                        help='讲解配音默认 on；剧情动画默认 off；narration off 时必须 off')
     args = parser.parse_args(argv)
     if args.mode is None:
         if not sys.stdin.isatty():
             parser.error('非交互调用请指定 --mode explainer 或 --mode story-animation')
         print('1. 讲解模式：口播驱动，可使用 Omega 讲解员\n'
-              '2. 无讲解模式：故事与动作驱动，保留画外配音，可配字幕')
+              '2. 无讲解模式：零人声、零台词、无配音字幕；故事、动作、音乐与音效驱动')
         try:
             choice = input('选择制作模式 [1/2]：').strip()
         except EOFError:
@@ -73,7 +85,7 @@ def main(argv=None):
             parser.error('请选择 1 或 2，或使用 --mode 指定')
     try:
         result = start_film(args.project, args.mode, title=args.title, omega=args.omega,
-                            manim=args.manim, captions=args.captions)
+                            manim=args.manim, narration=args.narration, captions=args.captions)
     except (ValueError, OSError) as exc:
         parser.error(str(exc))
     print(json.dumps(result, ensure_ascii=False, indent=2))

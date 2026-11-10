@@ -45,7 +45,7 @@ uv sync
 .\shuyu.ps1 start geometry-explainer --mode explainer --omega on --manim auto
 ```
 
-`story-animation` 是无讲解模式：保留画外配音、关闭讲解角色、字幕默认开启，可用 `--captions off` 关闭。交互终端省略 `--mode` 时提供模式选择；非交互调用必须指定。现有作品直接修改 BRIEF.md 并同步分镜；详见 [制作选项](PRODUCTION-OPTIONS.md)。
+`story-animation` 是无讲解模式：默认 `narration: off`、`captions: off`、关闭讲解角色，零人声、零台词，镜头时钟无需 TTS。仅用户明确要求画外音时使用 `--narration voiceover`；该剧情变体的配音字幕需另用 `--captions on` 启用。交互终端省略 `--mode` 时提供模式选择；非交互调用必须指定。旧作品不批量转换；明确切换时修改 BRIEF.md 并同步分镜与合成，详见 [制作选项](PRODUCTION-OPTIONS.md)。
 
 成片确认后使用独立 [发布模块](../publish/SKILL.md)：
 

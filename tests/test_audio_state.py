@@ -90,6 +90,23 @@ class AudioStateTests(unittest.TestCase):
         self.write('assets/voice/deleted-line.json', {'text': 'unused'})
         validate_mix_state(self.film)
 
+    def test_empty_shot_clock_skips_unused_voice_and_tracks_duration(self):
+        self.write('voice-timings.json', {'duration': 4, 'lines': []})
+        (self.film / 'narration.json').unlink()
+        self.write_take('unused old voice')
+        self.accept()
+        validate_mix_state(self.film)
+        state = input_state(self.film)
+        self.assertNotIn('assets/voice/q1.mp3', state)
+        self.write('voice-timings.json', {'duration': 5, 'lines': []})
+        with self.assertRaisesRegex(ValueError, 'Mix duration differs'):
+            validate_mix_state(self.film)
+
+    def test_empty_clock_rejects_remaining_narration_lines(self):
+        self.write('voice-timings.json', {'duration': 4, 'lines': []})
+        with self.assertRaisesRegex(ValueError, 'disagree'):
+            input_state(self.film)
+
     def test_line_rate_change_requires_new_take_and_mix(self):
         self.accept()
         self.config['lines'][0]['rate'] = '+8%'

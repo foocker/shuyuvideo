@@ -2,7 +2,7 @@
 
 配音、音效、混音三步，每步一个脚本，都以作品目录为参数。口播稿的写法见 [docs/NARRATION.md](../docs/NARRATION.md)。
 
-无讲解模式保留画外配音，先按 [剧情动画的时钟衔接](../writing/references/story-animation.md#与现有配音时钟衔接) 安排动作窗口，再实测配音。音效跟随真实动作事件，片尾无配音的动画也计入 `voice-timings.json.duration`，随后使用同一套混音与检查。
+无讲解模式默认零人声、零台词、无配音字幕，音乐使用无人声版本，音效不含对白、哼声等人声。按 [镜头时钟与声音](../writing/references/story-animation.md#镜头时钟与声音) 锁定动作窗口，直接写入 `voice-timings.json` 的 `lines: []` 和包含片尾的 `duration`，无需调用 `voice.py` 或 TTS。音效跟随真实动作事件，使用同一套混音与检查；只有用户明确要求的画外音剧情变体才实测配音。
 
 通过 [writing](../writing/SKILL.md) 管理的作品，改稿后先执行 `shuyu writing export <作品目录>`。准备、配音和混音会拒绝正文与配音输入不同步的已登记作品；导出通过仍需生成新配音并更新锚点。旧作品可按 [文稿迁入说明](../writing/references/files.md) 使用独立稿名。
 
@@ -67,6 +67,10 @@ DOUBAO_API_KEY=在本地填入密钥
 接口依据：[豆包 HTTP SSE](https://www.volcengine.com/docs/6561/1598757)、[豆包音色](https://www.volcengine.com/docs/6561/1257544)、[MiniMax 合成](https://platform.minimax.cn/docs/api-reference/speech-t2a-http)、[MiniMax 音色](https://platform.minimax.cn/docs/faq/system-voice-id)。适配已做模拟响应与流程测试；填入有效凭证前，尚未验证真实账号权限或音色听感。
 
 ## 时间从哪里来
+
+零人声剧情动画的时间来自锁定的镜头表。混音兼容文件例如 `{"duration": 30, "lines": []}`；文件名保留为 `voice-timings.json`，不代表必须有语音。`narration.json` 可省略，也可用 `{"lines": [], "bedGain": 0.14}` 调整音乐增益。混音输出的 `narration.wav` 为全长静音轨，`final-mix.wav` 只含音乐与非人声音效。变更镜头时长后同步总长、音效事件和混音；不生成空白 TTS 来撑时长。
+
+以下流程仅用于启用配音的作品：
 
 `voice.py` 逐句合成，记录每个词的开始和结束时间，再按 `gap`/`pause` 把句子排到全片时间线上，写进 `voice-timings.json`。画面上的关键动作按词的时间来排。例如"倒过来"这个词在 9.4 秒开始，翻转动画就从 9.4 秒开始。
 
@@ -135,4 +139,4 @@ python sound/scripts/sfx.py get sound/library fs:<id1> fs:<id2>
 
 当前母带处理通过统一增益保持各轨平衡。如果瞬时峰值限制了整体增益，导致响度仍低于 -17 LUFS，程序会拒绝输出；应降低过强的瞬态音效或调整轨道平衡后重试。
 
-背景音乐可选：放在 `assets/audio/bed.wav`，音量由 `narration.json` 的 `bedGain` 控制，默认 0.14。
+背景音乐可选：放在 `assets/audio/bed.wav`，音量由可选的 `narration.json` 的 `bedGain` 控制，缺文件或未设置时默认 0.14。

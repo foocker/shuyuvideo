@@ -5,9 +5,9 @@
 | 模式 | 值 | 制作方式 |
 | --- | --- | --- |
 | 讲解模式 | `mode: explainer` | 口播驱动理解，Omega 可选，按真实口播时钟编排图形和演示 |
-| 无讲解模式 | `mode: story-animation` | 纯动画画面，故事和动作推进；保留画外配音，可有字幕；角色参与故事，不面向观众讲课 |
+| 无讲解模式 | `mode: story-animation` | 零人声、零台词、无配音字幕；靠角色动作、音乐与非人声音效推进故事 |
 
-无讲解模式固定 `omega: off`，保留 `narration: voiceover`，字幕默认 `captions: on`，可以关闭。它需要行动的因果关系，以及动作、音效和情绪节奏；内涵通过规则、选择和后果呈现。仅选择讲解模式的 `omega: off` 不会变成剧情动画。创作与验收见 [无讲解剧情动画](../writing/references/story-animation.md)。
+无讲解模式固定 `omega: off`，默认 `narration: off`、`captions: off`。不生成旁白、角色对白、哼声或其他人声；音乐也选无人声版本。它需要行动的因果关系，以及动作、音效和情绪节奏；内涵通过规则、选择和后果呈现。只有用户明确要求画外音时才设置 `narration: voiceover`，作为配音剧情变体记录，不能自动添加。仅选择讲解模式的 `omega: off` 不会变成剧情动画。创作与验收见 [无讲解剧情动画](../writing/references/story-animation.md)。
 
 | 选项 | 值 | 实际行为 |
 | --- | --- | --- |
@@ -16,12 +16,12 @@
 | `manim` | `auto` | 逐段判断适合的引擎，记录采用和不采用的理由 |
 | `manim` | `selected` | 用 Manim 制作指定数学片段，再剪入整片 |
 | `manim` | `off` | 用 HyperFrames、SVG 或 Three.js 等完成镜头 |
-| `narration` | `voiceover` | 保留画外配音，两种模式默认都启用 |
-| `captions` | `on` / `off` | 显示或关闭配音字幕；必要的对象短标签单独安排 |
+| `narration` | `off` / `voiceover` | 剧情动画默认 off；讲解默认 voiceover；剧情配音须有用户明确要求 |
+| `captions` | `on` / `off` | 讲解配音默认 on，剧情动画默认 off；narration off 时必须 off。必要的对象短标签单独安排 |
 
-新片尚未指定时，用一次简短提问提供“讲解模式 / 无讲解模式”，同时收集有必要的 Omega、Manim 与字幕选择，继续材料和数学核对等独立工作。用户已说“无讲解模式”“纯动画、保留配音、不用角色讲解”时直接采用 `story-animation`，不再次确认。只有“不带 Omega”时仍可做讲解片，不擅自改为剧情动画。
+新片尚未指定时，用一次简短提问提供“讲解模式 / 无讲解模式”，同时收集有必要的 Omega、Manim 与字幕选择，继续材料和数学核对等独立工作。用户已说“无讲解模式”“纯动画”时直接采用 `story-animation` 的零人声默认，不再次确认；明确说“保留画外配音”才启用配音剧情变体。只有“不带 Omega”时仍可做讲解片，不擅自改为剧情动画。
 
-已明确的部分不再询问；用户要求直接制作或合理等待后未回应时，说明普通知识讲解任务默认 `explainer`、`omega: on`、`manim: auto`、`narration: voiceover`、`captions: on`，再按此执行。无讲解模式默认 Omega 关闭，其余默认沿用。续做读取原简报；旧作品未记录 mode 时按原有流程继续，用户后续修改优先。
+已明确的部分不再询问；用户要求直接制作或合理等待后未回应时，说明普通知识讲解任务默认 `explainer`、`omega: on`、`manim: auto`、`narration: voiceover`、`captions: on`，再按此执行。无讲解模式默认 `omega: off`、`manim: auto`、`narration: off`、`captions: off`。续做读取原简报；旧作品不批量转换，用户后续修改优先。
 
 ## 开工入口
 
@@ -32,9 +32,12 @@
 # 对话中已选无讲解时，直接传入选择，不重复询问
 .\shuyu.ps1 start geometry-adventure --mode story-animation --title "几何奇遇"
 .\shuyu.ps1 start geometry-explainer --mode explainer --omega on --manim auto
+
+# 仅当用户明确要求画外配音和字幕时
+.\shuyu.ps1 start narrated-adventure --mode story-animation --narration voiceover --captions on
 ```
 
-`start` 创建本地 `films/<作品>/BRIEF.md`、`DIRECTION.md` 和用于项目发现的 `package.json`；无讲解模式带故事与声音分镜模板。可用 `--captions off` 关闭字幕。非交互调用必须显式传 `--mode`；`story-animation --omega on` 会报错。命令不覆盖已有目录，不生成配音或成片。
+`start` 创建本地 `films/<作品>/BRIEF.md`、`DIRECTION.md` 和用于项目发现的 `package.json`；无讲解模式带故事与声音分镜模板。`--narration off|voiceover` 与 `--captions on|off` 覆盖模式默认；剧情显式选择 voiceover 后，字幕仍默认关闭。`narration: off` 与 `captions: on` 不兼容，不能因要求字幕而隐式生成配音。非交互调用必须显式传 `--mode`；`story-animation --omega on` 会报错。命令不覆盖已有目录，不生成配音或成片。
 
 `BRIEF.md` 是逐片制作选择的记录源，续做或切换模式直接编辑该文件，并同步稿件、分镜与合成。完成 `index.html` 与场景后进入 `prepare/check/render`；这些命令不会仅凭 mode 字段自动改写镜头或移除旧讲解角色，成片仍须核对。
 
@@ -62,7 +65,7 @@ Manim：极限段，显示数列项、误差区间与收敛条件；其余段落
 
 讲解片流程为：定稿与数学核对 → 生成旁白并取得实际时间 → 按段落选择数学短片或三维母版 → 剪入 HyperFrames → 按选择编排 Omega → 字幕、音效与混音 → 成片检查。
 
-无讲解流程为：故事目标与数学规则 → 因果分镜与粗动画 → 画外配音实测、协调动作窗口 → 精修动画与镜头 → 字幕、音效、音乐和混音 → 故事可读性与成片检查。配音空白仍有动作、声音与情绪进展；当前混音长度由真实配音时钟的总长决定，纯动画片尾须计入 `tail`，详见 [时钟衔接](../writing/references/story-animation.md#与现有配音时钟衔接)。
+无讲解流程为：故事目标与数学规则 → 因果分镜与粗动画 → 锁定镜头时钟 → 精修动画与镜头 → 非人声音效、无人声音乐与混音 → 故事可读性与成片检查。全片总长来自镜头时钟，无需 TTS；混音兼容文件 `voice-timings.json` 使用 `lines: []` 和包含片尾的 `duration`，详见 [镜头时钟与声音](../writing/references/story-animation.md#镜头时钟与声音)。只有显式画外音变体需要实测配音并协调窗口；开启的配音字幕使用真实词时间。
 
 用户要求沿用某片时，继承该片实际确认的模式和选项，不统一改成 `selected`；新主题仍须落实到具体镜头。
 
@@ -74,4 +77,4 @@ Manim 片段使用 [暖白主题](../style/adapters/manim_theme.py)，按最终�
 
 公开成片见 [作品预览](../README.md#作品预览)，本地源码入口见 [catalog.json](../catalog.json)，`films/` 不进入 Git。讲解版中的 `film.json`、`build.py`、`render_math.py` 可参考口播驱动的完整流程，参数和镜头安排须按新主题重写。《遭遇》示范 `auto` 选择两段 Manim；《台阶的一半》示范 `auto` 全部沿用 HyperFrames 精确拼图。
 
-在 `REVIEW.md` 记录实际模式和选项的证据：Omega 开启时的正文出镜时间、抽帧和遮挡检查；Manim 选用时的源场景、导出文件、合成时间窗和成片抽帧。无讲解模式记录关闭配音与字幕后的故事可读性、关键动作与音效落点、转折及结尾的依据，确认没有讲解角色出镜；完整视听另行记录。保存了角色库不代表角色出镜，生成了 Manim 文件不代表剪进成片。验收应对照最终 MP4；能力受阻时说明原因及替代方案，不静默跳过用户选择。
+在 `REVIEW.md` 记录实际模式和选项的证据：Omega 开启时的正文出镜时间、抽帧和遮挡检查；Manim 选用时的源场景、导出文件、合成时间窗和成片抽帧。无讲解模式检查零人声、零台词、无配音字幕，记录主要行动的因果、关键动作与音效落点、转折及结尾的依据；完整视听另行记录。画外音变体记录用户明确要求，并额外静音检查故事可读性。保存了角色库不代表角色出镜，生成了 Manim 文件不代表剪进成片。验收应对照最终 MP4；能力受阻时说明原因及替代方案，不静默跳过用户选择。

@@ -25,11 +25,11 @@
     {
       "id": "story-animation",
       "category": "capabilities",
-      "name": "无讲解模式：剧情动画与画外配音",
+      "name": "无讲解模式：纯动画",
       "status": "local_ready",
       "path": "writing/references/story-animation.md",
       "documentation": "docs/PRODUCTION-OPTIONS.md",
-      "note": "shuyu start 开工选择讲解或无讲解模式，生成简报与因果分镜模板；保留画外配音、字幕可选，故事/动作/声音驱动。首部独立剧情动画案例为本地 quintic-story；提供创作及验收方法，不代表自动生成剧情"
+      "note": "shuyu start 开工选择讲解或纯动画，生成简报与因果分镜模板；story-animation 默认零人声、零台词、零字幕，使用镜头时钟、音乐与非人声音效。仅用户明确要求时可选画外音变体。本地案例 quintic-story；提供制作及验收方法，不代表自动生成剧情。"
     },
     {
       "id": "publish",
@@ -88,13 +88,13 @@
     {
       "id": "quintic-story",
       "category": "works",
-      "name": "未完的手稿：第五扇门",
+      "name": "第五扇门：一滴墨的几何冒险",
       "status": "work_specific",
       "path": "films/quintic-story/README.md",
       "preview": "output/quintic-story/renders/quintic-story.mp4",
       "cover": "output/quintic-story/renders/quintic-story-cover.jpg",
       "mode": "story-animation",
-      "note": "276秒独立无讲解剧情动画；墨滴行动串联根的循环与置换、正十二面体和五个内接四面体、旋转次序与正规子群筛选。80.640秒短画外音，保留原讲解版；源文件、成片、封面与完整版本仅本地保存。数学/寻帧/抽帧与音量测量有记录，不等同于已连续视听或观众测试。"
+      "note": "276秒纯动画《第五扇门》：零旁白、零对白、零字幕；墨滴操作机关、试图开门、发现十二面体与五个内接四面体，失败后画出新路。原讲解版与含画外音的旧剧情方案分别保留；源文件、成片、封面与完整版本仅本地保存。模型/寻帧/抽帧与音量测量有记录，不等同于已连续视听或观众测试。"
     },
     {
       "id": "smooth-structure-long",

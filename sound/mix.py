@@ -2,7 +2,8 @@
 
 Usage: python sound/mix.py <film-dir>
 
-Inputs: <film>/voice-timings.json (from voice.py), <film>/sound-cues.json:
+Inputs: <film>/voice-timings.json (from voice.py, or a shot clock with
+"lines": [] and a positive "duration" for a film without voices), <film>/sound-cues.json:
   [{"id": "flip", "time": 9.40, "sfx": "whoosh-short", "gainDb": -24, "on": "台阶翻转"}]
 Instead of `time`, a cue may give `"anchor": "<name>"` (and `offset`) from
 anchors.resolved.json (sound/anchors.py), so it follows the narration when
@@ -134,7 +135,9 @@ def build_mix(film, out, report):
     bed_path = film / 'assets/audio/bed.wav'
     if bed_path.exists():
         data = decode(bed_path, 2)[:count]
-        place(bed, data * float(json.loads((film / 'narration.json').read_text(encoding='utf-8')).get('bedGain', 0.14)), 0)
+        config_path = film / 'narration.json'
+        config = json.loads(config_path.read_text(encoding='utf-8')) if config_path.exists() else {}
+        place(bed, data * float(config.get('bedGain', 0.14)), 0)
 
     raw = voice + effects + bed
     if not np.isfinite(raw).all():

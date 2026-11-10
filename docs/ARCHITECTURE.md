@@ -1,6 +1,6 @@
 # 技术架构：一部数学科普视频怎样做出来
 
-开工先按 [制作选项](PRODUCTION-OPTIONS.md) 选择讲解或无讲解模式，可用 `shuyu start <项目> --mode story-animation` 生成剧情动画的简报与导演稿。下表描述讲解片的依赖；无讲解模式以故事、分镜与粗动画为先，画外配音随后协调进动作窗口，具体见 [剧情动画](../writing/references/story-animation.md)。
+开工先按 [制作选项](PRODUCTION-OPTIONS.md) 选择讲解或无讲解模式，可用 `shuyu start <项目> --mode story-animation` 生成剧情动画的简报与导演稿。下表描述讲解片的依赖；无讲解模式以故事、分镜与粗动画为先，默认零人声、零台词、无配音字幕，由镜头时钟驱动，具体见 [剧情动画](../writing/references/story-animation.md)。
 
 一部讲解片分五层，自上而下依赖：
 
@@ -12,11 +12,11 @@
 | 4 合成 | 排版、公式、Ω 角色、转场、镜头运动、字幕 | HyperFrames（HTML + GSAP + KaTeX） | `index.html` + `compositions/` |
 | 5 声音 | 配音、音效、混音、响度 | [sound/](../sound/README.md) | `narration.wav`、`final-mix.wav` |
 
-讲解模式写稿时规划画面承担的解释，口播稿先定稿，配音生成后得到逐词时间，画面实现按这些时间排。两种模式都将配音正文与导演说明分开；写作模块的编辑入口和确定性导出见 [文件契约](../writing/references/files.md)。
+讲解模式写稿时规划画面承担的解释，口播稿先定稿，配音生成后得到逐词时间，画面实现按这些时间排。凡启用配音，都将配音正文与导演说明分开；写作模块的编辑入口和确定性导出见 [文件契约](../writing/references/files.md)。
 
 讲解模式制作顺序是：定稿与数学核对 → 按信息密度标记局部语速和停顿 → 生成配音并核对真实节奏 → 用实际语音时钟编排画面、字幕与动作 → 混音与成片检查。写稿阶段就考虑画面解释任务；节奏不合适时回到配音设置重生成时钟，再同步后续画面。详见 [语速与留白](NARRATION.md#信息密度语速与留白)。
 
-无讲解模式先建立目标、阻碍、尝试与结果的因果分镜，数学规则影响行动；粗动画验证节奏后实测画外配音，再锁定动画、字幕和声音时间。Omega 讲解层关闭，故事中的角色可以行动。当前声音链仍以 `voice-timings.json` 的总长混音，纯动画的时间段与片尾须计入该时钟，不能只延长 HTML。
+无讲解模式先建立目标、阻碍、尝试与结果的因果分镜，数学规则影响行动；粗动画验证节奏后锁定镜头时钟，编排动画、非人声音效与无人声音乐。Omega 讲解层关闭，故事角色通过动作表达。声音链兼容 `voice-timings.json` 的 `lines: []` 与 `duration`，总长由镜头时钟写入并包含片尾，无需 TTS 或虚构词时间。只有用户明确要求画外音的剧情变体才实测配音并协调时间窗。
 
 封面由 [cover/](../cover/SKILL.md) 独立制作：定标题和开场钩子时选主体与短文案，保存本地图像及 `cover.json`，用 Pillow 排版。最后与视频成对交付；这一静态图片流程不依赖视频时间轴，也不会在每次构建时自动调用生图 API。
 
@@ -90,6 +90,8 @@ Astra（`shuyu math`）是“模型写数学依据和 Manim 场景、再由模�
 
 ## 数据流
 
+讲解片与明确要求配音的剧情变体：
+
 ```
 登记稿件 ──► writing export ──► narration.json ──► sound/voice.py ──► 逐句音频 + 逐词时间 (voice-timings.json)
                                                         │
@@ -101,6 +103,8 @@ Astra（`shuyu math`）是“模型写数学依据和 Manim 场景、再由模�
                      │
               hyperframes check / snapshot / render ──► MP4
 ```
+
+零人声剧情动画：因果分镜 → 粗动画 → 锁定镜头时钟 → `index.html`、`voice-timings.json`（`lines: []`、`duration`）与 `sound-cues.json` → 同一 `sound/mix.py` → 检查、抽帧和 MP4。`narration.json` 可省略；需要自定义音乐增益时可仅记录 `lines: []` 和 `bedGain`。
 
 ## 合成层里的公共模块
 
@@ -135,8 +139,8 @@ films/<作品>/
   COVER.md           封面主体、钩子、来源与看图记录
   cover.json         封面本地图像与中文排版，素材在 assets/cover/
   .writing.json      启用 writing 后的编辑入口与导出摘要
-  narration.json     口播逐句、配音设置（机器读）
-  voice-timings.json 配音后生成：每句与每个词的实际时间
+  narration.json     有配音时保存口播逐句、配音设置；零人声模式可省略
+  voice-timings.json 语音实际时间，或零人声模式的镜头总长与 lines: []
   sound-cues.json    音效：时间、种类、增益、对应的画面事件
   index.html         根合成：场景、配音轨、音效轨
   compositions/      每个场景一个文件
