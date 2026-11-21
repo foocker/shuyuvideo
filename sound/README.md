@@ -66,6 +66,16 @@ DOUBAO_API_KEY=在本地填入密钥
 
 接口依据：[豆包 HTTP SSE](https://www.volcengine.com/docs/6561/1598757)、[豆包音色](https://www.volcengine.com/docs/6561/1257544)、[MiniMax 合成](https://platform.minimax.cn/docs/api-reference/speech-t2a-http)、[MiniMax 音色](https://platform.minimax.cn/docs/faq/system-voice-id)。适配已做模拟响应与流程测试；填入有效凭证前，尚未验证真实账号权限或音色听感。
 
+## 上下文试听
+
+`shuyu listen` 从当前词时间和配音片段生成本地无配乐试听。给出需要复听的行 ID，默认带前后各一行，保留配音文件内和文件之间的原始留白。页面同时标出距上一句末词的间隔。加 `--before` 可打开带配音和词时间的旧工程做前后对照。
+
+```powershell
+.\shuyu.ps1 listen quintic-explainer h02b q04 r02 m02 f05 --context 1
+```
+
+入口在 `output/<项目>/reports/voice-review/index.html`。默认 Edge 的新试听文件以指纹保存，后续正式配音在配置相同时直接采用对应试听文件。每次复听记录具体术语、断句或重音是否采用。 [参考片段复盘](../docs/REFERENCE-REVIEW.md)
+
 ## 时间从哪里来
 
 零人声剧情动画的时间来自锁定的镜头表。混音兼容文件例如 `{"duration": 30, "lines": []}`；文件名保留为 `voice-timings.json`，不代表必须有语音。`narration.json` 可省略，也可用 `{"lines": [], "bedGain": 0.14}` 调整音乐增益。混音输出的 `narration.wav` 为全长静音轨，`final-mix.wav` 只含音乐与非人声音效。变更镜头时长后同步总长、音效事件和混音；不生成空白 TTS 来撑时长。

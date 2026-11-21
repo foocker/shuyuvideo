@@ -51,6 +51,8 @@ def start_film(project, mode, *, title=None, omega=None, manim='auto', narration
     film.mkdir(exist_ok=False)
     (film / 'BRIEF.md').write_text(brief, encoding='utf-8')
     (film / 'DIRECTION.md').write_text(direction, encoding='utf-8')
+    if mode == 'explainer' and narration == 'voiceover':
+        (film / 'SCRIPT.md').write_text(f'# {title}\n\n', encoding='utf-8')
     (film / 'package.json').write_text(json.dumps(
         {'name': project, 'private': True},
         ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

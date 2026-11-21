@@ -12,6 +12,36 @@ from voice_config import effective_speech_text, restore_word_texts, voice_finger
 
 
 class VoiceRateTests(unittest.TestCase):
+    def test_edge_sample_is_reused_without_overwriting_the_current_take(self):
+        class Request:
+            async def stream(self):
+                yield {'type': 'audio', 'data': b'test-audio'}
+                yield {'type': 'WordBoundary', 'text': '定义', 'offset': 1000000, 'duration': 2000000}
+
+        with tempfile.TemporaryDirectory() as tmp, \
+                patch.object(voice, 'read_env', return_value={}), \
+                patch.object(voice.edge_tts, 'Communicate', return_value=Request()) as provider, \
+                patch.object(voice, 'probe_duration', return_value=1.2):
+            film = Path(tmp)
+            config = {'voice': 'test', 'lines': [{'id': 'a', 'text': '定义'}]}
+            path = film / 'narration.json'
+            path.write_text(json.dumps(config, ensure_ascii=False), encoding='utf-8')
+            asyncio.run(voice.main(film, set()))
+            clock = film / 'voice-timings.json'
+            previous = clock.read_bytes()
+            metadata = film / 'assets/voice/a.json'
+            previous_take = metadata.read_bytes()
+            config['lines'][0]['rate'] = '+6%'
+            path.write_text(json.dumps(config, ensure_ascii=False), encoding='utf-8')
+            asyncio.run(voice.main(film, {'a'}, sample=True))
+            self.assertEqual(clock.read_bytes(), previous)
+            self.assertEqual(metadata.read_bytes(), previous_take)
+            asyncio.run(voice.main(film, {'a'}))
+            self.assertEqual(provider.call_count, 2)
+            current = json.loads(clock.read_text(encoding='utf-8'))
+            self.assertIn('/samples/', current['lines'][0]['file'])
+            self.assertEqual(metadata.read_bytes(), previous_take)
+
     def test_provider_and_cache_use_each_lines_effective_rate(self):
         class Request:
             async def stream(self):

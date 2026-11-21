@@ -136,6 +136,24 @@
         "ui": "sans",
         "ui-bold": "sans-bold"
       }
+    },
+    "sporadic-signal": {
+      "source": "films/sporadic-signal",
+      "hyperframes": "0.8.223",
+      "video": "sporadic-signal.mp4",
+      "brandIntro": false
+    },
+    "sporadic-gemini": {
+      "source": "films/sporadic-gemini",
+      "hyperframes": "0.9.66",
+      "video": "26-mathematical-aliens.mp4",
+      "brandIntro": false
+    },
+    "sporadic-golay-openmotion": {
+      "source": "films/sporadic-golay-openmotion",
+      "hyperframes": "0.9.7",
+      "video": "sporadic-golay-openmotion.mp4",
+      "brandIntro": false
     }
   },
   "legacyOutputAliases": {

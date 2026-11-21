@@ -63,9 +63,8 @@ uv sync
 写稿与改稿使用 [writing 模块](../writing/SKILL.md)。数据工具只用 Python 标准库，参数为作品源码目录：
 
 ```powershell
-.\shuyu.ps1 writing import films/<作品> --script SCRIPT.writing.md
-.\shuyu.ps1 writing export films/<作品> --dry-run
-.\shuyu.ps1 writing export films/<作品>
+.\shuyu.ps1 writing export films/<作品> --plain --dry-run
+.\shuyu.ps1 writing export films/<作品> --plain
 .\shuyu.ps1 writing check films/<作品>
 ```
 
@@ -101,6 +100,7 @@ uv sync
 
 ```powershell
 .\shuyu.ps1 exec sound/voice.py output/<项目>/project
+.\shuyu.ps1 listen <项目> <配音行ID>
 .\shuyu.ps1 exec sound/anchors.py output/<项目>/project
 .\shuyu.ps1 exec sound/sfx.py output/<项目>/project
 .\shuyu.ps1 exec sound/mix.py output/<项目>/project

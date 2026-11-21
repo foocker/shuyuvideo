@@ -41,15 +41,13 @@ description: 为数语视频构思讲解口播或零人声剧情动画；需要�
 
 口播只写实际读出的文字。画面、停顿意图、公式和制作备注放 `DIRECTION.md` 或简报；影响理解的数学条件仍须在口播中讲清。
 
-先用普通段落完成写作。需要配音时再按文件契约标出行 ID，确定性导出 `narration.json`；导出器不替你写稿或润色。已有项目先确认谁写入 `SCRIPT.md`，旧构建会生成它时，使用 `SCRIPT.writing.md` 作为编辑入口。
+新讲解片直接在 `SCRIPT.md` 写普通段落。定稿后用 `writing export --plain` 生成 `narration.json`。需要给画面固定锚点或逐段调校配音时，用带 ID 的标题划分配音段，停顿、读音和语速写在 `voice-plan.json`。已有标记式稿件可继续使用，也可显式拆出独立配音配置。旧构建会生成 `SCRIPT.md` 时，用另一个稿名。
 
 所有命令从仓库根执行：
 
 ```powershell
-.\shuyu.ps1 writing import films/<作品> --script SCRIPT.writing.md
-# 编辑已导入的稿件，制作备注另存
-.\shuyu.ps1 writing export films/<作品> --dry-run
-.\shuyu.ps1 writing export films/<作品>
+.\shuyu.ps1 writing export films/<作品> --plain --dry-run
+.\shuyu.ps1 writing export films/<作品> --plain
 .\shuyu.ps1 writing check films/<作品>
 ```
 

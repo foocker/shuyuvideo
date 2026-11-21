@@ -60,6 +60,8 @@ CC BY 系列需 `credit`；CC BY-SA 还需 `adaptationLicense` 和 `changes`，�
 
 `shuyu render` 渲染后运行 [render_check.py](../scripts/validation/render_check.py)，也可单独执行 `shuyu.ps1 exec scripts/validation/render_check.py <视频.mp4> --project <作品目录>`。它只测量文件，不代替看片。
 
+`shuyu validate compare` 用指定的原片和试作时间窗生成本地对照页。配音使用 `shuyu listen` 回听上下文，并在复盘中记录实际听到的风险与采用的改法。 [对照命令和案例](REFERENCE-REVIEW.md)
+
 ## 数学画面与一般项
 
 - 固定的 4×5 方块图只能表示具体例子。边长标为 $n$、$n+1$ 时，图中须明确表示省略的中间项：保留首尾标签，例如 $1,2,\ldots,n-1,n$，横向列和长列高度分别使用水平、竖向或斜向省略号。不能只改标签而保留完整的固定格数。
@@ -98,7 +100,7 @@ CC BY 系列需 `credit`；CC BY-SA 还需 `adaptationLicense` 和 `changes`，�
 | --- | --- |
 | `validate defects` | 校验 [defects.json](defects.json)：编号不重复，标为 `guarded` 的缺陷写明的检查文件确实存在 |
 | `validate retro <retro.json> [--duration 秒]` | 校验一部作品的复盘：方法编号见 `studies/methods.md`，缺陷编号须已登记，时间落在片长内 |
-| `validate summary` | 汇总所有 `films/*/retro.json` 与 `examples/*/retro.json`，按方法统计使用次数、作品和效果，列出从未用过的方法 |
+| `validate summary` | 汇总所有 `films/*/retro.json` 与 `examples/*/retro.json`，统计方法使用效果，列出从未用过的方法及复刻经验的试作记录 |
 | `validate reuse` | 统计 `prepare-film.py` 分发的公共运行库被哪些作品的源码引用；两部独立作品引用才算 `proven` |
 
 复盘中的效果（`worked` / `unclear` / `failed`）是制作者的判断，不是观众测试结果。

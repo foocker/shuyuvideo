@@ -140,6 +140,11 @@ class AccumulationTests(unittest.TestCase):
         self.assertEqual(accumulation.check_defects(), [])
         example = accumulation.load(ROOT / 'docs/retro.example.json')
         self.assertEqual(accumulation.check_retro(example), [])
+        trial = example['referenceTrials'][0]
+        self.assertEqual(accumulation.summary([ROOT / 'docs/retro.example.json'])['referenceTrials']['pacing'][0]['source'],
+                         trial['source'])
+        trial['at'] = [10, 60]
+        self.assertIn('referenceTrials[0]: at must be', ' '.join(accumulation.check_retro(example)))
 
     def test_guarded_defect_needs_an_existing_check(self):
         register = {'schema': 'shuyu-defects/v1', 'defects': [

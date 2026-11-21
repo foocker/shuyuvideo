@@ -125,7 +125,7 @@ def main(argv=None):
     if target.is_file() and Path(sys.prefix).resolve() != target.parent.parent.resolve():
         return subprocess.call([str(target), '-X', 'utf8', str(Path(__file__).resolve()), *argv], cwd=ROOT)
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('command', choices=['setup', 'start', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'cover', 'deliver', 'publish', 'validate',
+    parser.add_argument('command', choices=['setup', 'start', 'list', 'layout', 'doctor', 'test', 'math', 'writing', 'listen', 'cover', 'deliver', 'publish', 'validate',
                                            'prepare', 'render', 'check', 'snapshot', 'preview', 'exec'])
     parser.add_argument('args', nargs=argparse.REMAINDER)
     opts = parser.parse_args(argv)
@@ -154,6 +154,16 @@ def main(argv=None):
     elif opts.command == 'writing':
         from manuscript import main as writing_main
         return writing_main(args)
+    elif opts.command == 'listen':
+        if not args:
+            parser.error('listen requires a project ID; use shuyu list')
+        project = args[0]
+        source = inside(project_config(project)['source'])
+        if not (source / 'voice-timings.json').is_file():
+            source = output_dir(project, 'project')
+        output = output_dir(project, 'reports', 'voice-review')
+        invoke([sys.executable, '-X', 'utf8', ROOT / 'sound/listen.py', source,
+                '--output', output, *args[1:]])
     elif opts.command == 'publish':
         sys.path.insert(0, str(ROOT / 'publish'))
         from publishing import main as publish_main
@@ -165,6 +175,8 @@ def main(argv=None):
     elif opts.command == 'validate':
         if args[:1] == ['screen']:
             invoke([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/screen_text.py', *args[1:]])
+        elif args[:1] == ['compare']:
+            invoke([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/compare.py', *args[1:]])
         elif args[:1] and args[0] in ('defects', 'retro', 'summary', 'reuse'):
             invoke([sys.executable, '-X', 'utf8', ROOT / 'scripts/validation/accumulation.py', *args])
         else:

@@ -17,6 +17,7 @@ reuse    counts projects that use each shared runtime copied by prepare-film.py.
 import argparse
 import importlib.util
 import json
+import math
 from pathlib import Path
 import re
 import sys
@@ -25,6 +26,7 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFECTS = ROOT / 'docs/defects.json'
 METHODS = ROOT / 'studies/methods.md'
 OUTCOMES = ('worked', 'unclear', 'failed')
+REFERENCE_AXES = ('pacing', 'voice', 'visual', 'sound')
 # Shared code reaches films as copies under assets/; only authored files count as use.
 COPIES = ('assets/lib/', 'assets/style/', 'assets/vendor/')
 
@@ -96,6 +98,27 @@ def check_retro(retro, duration=None):
             errors.append(f"defects[{i}]: {found.get('id')!r} is not in docs/defects.json; register it first")
         if not found.get('fix'):
             errors.append(f'defects[{i}]: fix is required')
+    trials = retro.get('referenceTrials', [])
+    if not isinstance(trials, list):
+        return errors + ['referenceTrials must be a list']
+    for i, trial in enumerate(trials):
+        where = f'referenceTrials[{i}]'
+        if not isinstance(trial, dict):
+            errors.append(f'{where}: expected an object')
+            continue
+        if trial.get('axis') not in REFERENCE_AXES:
+            errors.append(f'{where}: axis must be one of {REFERENCE_AXES}')
+        if trial.get('outcome') not in OUTCOMES:
+            errors.append(f'{where}: outcome must be one of {OUTCOMES}')
+        for field in ('source', 'observation', 'change', 'evidence'):
+            if not isinstance(trial.get(field), str) or not trial[field].strip():
+                errors.append(f'{where}: {field} is required')
+        for field, limit in (('referenceAt', None), ('at', duration)):
+            span = trial.get(field)
+            if not (isinstance(span, list) and len(span) == 2
+                    and all(type(t) in (int, float) and math.isfinite(t) for t in span)
+                    and 0 <= span[0] < span[1] and (limit is None or span[1] <= limit)):
+                errors.append(f'{where}: {field} must be [start, end] seconds inside its clip')
     return errors
 
 
@@ -104,7 +127,7 @@ def retro_files():
 
 
 def summary(paths=None):
-    methods, defects = {}, {}
+    methods, defects, references = {}, {}, {}
     for path in paths if paths is not None else retro_files():
         retro = load(path)
         for use in retro.get('methods', []):
@@ -114,8 +137,11 @@ def summary(paths=None):
             entry[use['outcome']] += 1
         for found in retro.get('defects', []):
             defects.setdefault(found['id'], set()).add(retro['project'])
+        for trial in retro.get('referenceTrials', []):
+            references.setdefault(trial['axis'], []).append({'project': retro['project'], **trial})
     return {'methods': {k: {**v, 'projects': sorted(v['projects'])} for k, v in sorted(methods.items())},
             'defects': {k: sorted(v) for k, v in sorted(defects.items())},
+            'referenceTrials': references,
             # None when the local research library is absent.
             'unused': None if method_ids() is None else sorted(method_ids() - set(methods))}
 

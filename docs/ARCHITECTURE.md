@@ -22,6 +22,8 @@
 
 平台发布由 [publish/](../publish/SKILL.md) 独立承接交付：通用层绑定用户确认的视频和封面，平台层维护各自文案与设置。当前 B 站生成本地可复制的填写页面，由用户手动上传、填写和发布；小红书、视频号后续可扩展平台资料，共用成片确认。第三方 social-auto-upload 的 [评估](../publish/references/social-auto-upload.md) 仅留作参考，当前未启用自动上传。
 
+定稿前可用关键姿态或粗动画试核心镜头的解释效果。用独立的配音配置调整语速与断句，通过 `shuyu listen` 带前后句复听。关键片段的节奏、构图与声音可借复刻案例做选段对照。 [文稿契约](../writing/references/files.md) · [参考片段对照](REFERENCE-REVIEW.md)
+
 ## 工作区边界
 
 唯一配置在 [workspace.json](../workspace.json)，统一入口是根目录 `shuyu.ps1`（跨平台使用 `python scripts/shuyu.py`）。模块不再拥有独立输出根和安装环境。

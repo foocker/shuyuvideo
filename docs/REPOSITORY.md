@@ -35,7 +35,7 @@
    - 每次发现新缺陷，登记到 [defects.json](defects.json)，写明原因和防止再犯的检查；暂时只能人工发现的标为 `open`。`shuyu validate defects` 确认登记的检查文件存在。
    - 每部作品完成后，按 [retro.example.json](retro.example.json) 写 `films/<作品>/retro.json`：用了哪些方法（编号以本地方法库为准）、在第几秒、解决什么障碍、效果如何，遇到了哪些登记过的缺陷。`shuyu validate retro <文件>` 校验，`shuyu validate summary` 按方法汇总所有作品，作为修改 [methods.md](../studies/methods.md) 适用范围的依据。
 
-研究的吸收分三步：保存可回看的案例证据；按理解障碍选择表达方法；在新作品中核对效果并回写适用范围。观察证据与迁移验证分开记录，不因进入索引就升级为通用规律。
+保存可回看的案例证据，按观众的理解障碍挑选相应片段，在新作品中核对效果并回写适用范围。用 `retro.json` 的 `referenceTrials` 记录原片时间、移植的做法和试作结果。 [复刻对照与迁移案例](REFERENCE-REVIEW.md)
 
 当前制作与验收见 [架构](ARCHITECTURE.md)、[制作选项](PRODUCTION-OPTIONS.md) 和 [验证约定](VALIDATION.md)；具体作品范围见其 `REVIEW.md`。
 

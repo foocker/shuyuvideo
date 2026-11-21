@@ -130,6 +130,17 @@ async def main(film, only, role=None, dry_run=False, sample=False):
                 raise ValueError(f"{line['id']}: narration text must not contain {bad!r}")
     selected = [line for line in lines if not only or line['id'] in only]
     cached = {line['id']: cached_take(line, config, folder, profile) for line in lines}
+    locations = {line['id']: folder for line in lines}
+    if not api:
+        for line in lines:
+            line_id = line['id']
+            if cached[line_id] is not None:
+                continue
+            candidate = folder / 'samples' / voice_fingerprint(line, config, profile)
+            take = cached_take(line, config, candidate, profile)
+            if take is not None or sample:
+                locations[line_id] = candidate
+                cached[line_id] = take
     if dry_run:
         print(json.dumps({'profile': profile, 'credentialsReady': credential_ready(profile, env),
                           'sampleOnly': sample, 'selectedLines': len(selected),
@@ -147,7 +158,7 @@ async def main(film, only, role=None, dry_run=False, sample=False):
 
     async def one(line):
         async with gate:
-            return await synthesize(line, config, folder, profile, env)
+            return await synthesize(line, config, locations[line['id']], profile, env)
 
     if api:
         # Stop on the first failed paid request, without queued requests starting.
@@ -156,7 +167,7 @@ async def main(film, only, role=None, dry_run=False, sample=False):
         takes = await asyncio.gather(*(one(line) for line in selected))
     if sample:
         for line, take in zip(selected, takes):
-            print(f"{line['id']}: {take['duration']:.3f}s  {take_path(line, config, folder, profile)}")
+            print(f"{line['id']}: {take['duration']:.3f}s  {take_path(line, config, locations[line['id']], profile)}")
         print('Sample takes saved; the film clock was not changed.')
         return
     takes = {**cached, **{take['id']: take for take in takes}}
@@ -169,7 +180,7 @@ async def main(film, only, role=None, dry_run=False, sample=False):
             raise ValueError(f"{line['id']} overlaps the previous line")
         end = round(start + take['duration'], 3)
         timeline.append({'id': line['id'], 'text': line['text'], 'rate': effective_rate(line, config),
-                         'file': take_path(line, config, folder, profile).relative_to(film).as_posix(),
+                         'file': take_path(line, config, locations[line['id']], profile).relative_to(film).as_posix(),
                          'start': start, 'end': end,
                          'words': [{**w, 'start': round(start + w['start'], 3), 'end': round(start + w['end'], 3)}
                                    for w in take['words']]})

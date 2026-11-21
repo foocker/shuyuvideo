@@ -10,6 +10,18 @@
   "defects": [
     {"id": "D03", "fix": "副本竖向位移改为 -B（一个方块高度）", "foundBy": "contact sheet 目视"}
   ],
+  "referenceTrials": [
+    {
+      "axis": "pacing",
+      "source": "No One Needs Us Anymore / MOVE 37",
+      "referenceAt": [112.16, 114.4],
+      "observation": "文字强调接近唱词出现时间，棋盘提供持续的观察位置",
+      "change": "试把旋转动作落在关键词上，并给拼合结果留观察时间",
+      "at": [19.8, 31.0],
+      "evidence": "填写真实的试作对照路径与表现",
+      "outcome": "unclear"
+    }
+  ],
   "hours": {"script": 0, "math": 0, "visuals": 0, "sound": 0, "review": 0},
   "notes": "复制到 films/<作品>/retro.json 后填写；验证：shuyu validate retro films/<作品>/retro.json"
 }

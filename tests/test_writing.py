@@ -47,6 +47,36 @@ class WritingTests(unittest.TestCase):
         self.assertEqual(writing.parse((self.film / 'SCRIPT.md').read_text(encoding='utf-8')), self.config)
         self.assertTrue(writing.check_project(self.film)['ok'])
 
+    def test_plain_paragraphs_export_without_configuration(self):
+        (self.film / 'narration.json').unlink()
+        script = self.film / 'SCRIPT.md'
+        script.write_text('# 标题\n\n第一句。\n第二句。\n\n## 结尾\n\n再看一遍。\n', encoding='utf-8')
+        self.assertEqual(writing.export_script(self.film, plain=True)['changedLines'], ['p001', 'p002'])
+        self.assertEqual(writing.read_json(self.film / 'narration.json')['lines'][0]['text'], '第一句。\n第二句。')
+        self.assertTrue(writing.check_project(self.film)['ok'])
+
+    def test_split_managed_manuscript_keeps_cache_identity_and_stable_sections(self):
+        original = self.import_script().read_bytes()
+        unchanged = (self.film / 'narration.json').read_bytes()
+        writing.import_script(self.film, 'SCRIPT.voice.md', plain=True)
+        self.assertEqual((self.film / 'SCRIPT.md').read_bytes(), original)
+        self.assertEqual((self.film / 'narration.json').read_bytes(), unchanged)
+        self.assertFalse(writing.export_script(self.film)['changed'])
+        plan = writing.read_json(self.film / writing.VOICE_PLAN)
+        plan['lines']['a2']['speechText'] = '先固定这个点，再换坐标。'
+        self.write_json(writing.VOICE_PLAN, plan)
+        with self.assertRaisesRegex(ValueError, 'disagree'):
+            writing.check_project(self.film)
+        self.assertEqual(writing.export_script(self.film)['changedLines'], ['a2'])
+        self.assertEqual(writing.read_json(self.film / 'narration.json')['lines'][1]['text'], '先固定这个点。\n再换坐标。')
+
+    def test_plain_voice_plan_requires_a_matching_named_section(self):
+        plan = {'lines': {'missing': {'pause': 0.8}}}
+        with self.assertRaisesRegex(ValueError, 'unknown section IDs'):
+            writing.parse_plain('## 开场 {#opening}\n第一句。', plan)
+        with self.assertRaisesRegex(ValueError, 'require named'):
+            writing.parse_plain('第一句。', plan)
+
     def test_text_edit_preserves_configuration_and_requires_export(self):
         self.import_script()
         self.edit('同一个点，有两套坐标。', '固定这个点，看它在两张图里的坐标。')

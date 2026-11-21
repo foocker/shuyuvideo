@@ -219,7 +219,7 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(clock.read_text(), 'original clock')
             asyncio.run(voice.main(self.film, set()))
             self.assertEqual(generate.call_count, 2)
-            result = json.loads(clock.read_text())
+            result = json.loads(clock.read_text(encoding='utf-8'))
             self.assertTrue(all(row['file'].endswith('.wav') for row in result['lines']))
             validate_voice(self.film, result)
             asyncio.run(voice.main(self.film, set()))
@@ -227,7 +227,7 @@ class PipelineTests(unittest.TestCase):
         with patch.dict('os.environ', {'SHUYU_VOICE_ROLE': 'minimax-gentle', 'DOUBAO_API_KEY': 'changed'}):
             validate_voice(self.film, result)
         for path in self.film.rglob('*.json'):
-            self.assertNotIn(SECRET, path.read_text())
+            self.assertNotIn(SECRET, path.read_text(encoding='utf-8'))
         changed = {**result, 'voiceProfile': {**result['voiceProfile'], 'voice': 'different'}}
         with self.assertRaisesRegex(ValueError, 'role changed'):
             validate_voice(self.film, changed)

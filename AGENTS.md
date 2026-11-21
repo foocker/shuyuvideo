@@ -4,6 +4,9 @@
 
 ## 制作与验收
 
+- 新讲解片用普通 Markdown 磨稿，逐段停顿、语速与纠音可放 `voice-plan.json`。修音后用 `shuyu listen` 带上下文回听，记录采用的读法及取舍。
+- 复刻经验用于新片时，从新片的解释或叙事问题选择参考片段。按 [参考片段对照](docs/REFERENCE-REVIEW.md) 比较时间点、构图、动作、配音与声音，试成一段后在 `retro.json` 记录改法和结果。
+
 - 先读本轮要求和作品 `BRIEF.md`，按 [制作选项](docs/PRODUCTION-OPTIONS.md) 选择 `mode: explainer | story-animation`（讲解 / 无讲解），再落实 `omega`、`manim`、`narration` 与 `captions`。新作品可用 `shuyu start` 创建对应简报与分镜模板。已确认的选择直接沿用；未指定时只问一次，同时继续独立工作。用户要求直接做或合理等待后未答复时，普通知识讲解任务默认 `explainer`、`omega: on`、`manim: auto`，保留画外配音和字幕，不反复确认。
 - 用户选择无讲解模式或纯动画时使用 `story-animation`、`omega: off`、`narration: off`、`captions: off`：零人声、零台词，不生成旁白、角色对白、哼声或配音字幕。角色通过动作参与故事，音乐与非人声音效推进情绪。只有用户明确要求画外音时才使用 `narration: voiceover` 剧情变体，并记录依据；不能自动添加。先读 [剧情动画](writing/references/story-animation.md)，用规则、选择和后果呈现内涵。
 - 在简报中记录选择依据和具体镜头。启用 Omega 时必须实际参与正文讲解；选用的 Manim 必须渲染并剪入，不能以片头 Logo 或存在库文件代替。能力受阻时说明原因，不静默省略。用户要求沿用上一部时，继承该片实际选择。

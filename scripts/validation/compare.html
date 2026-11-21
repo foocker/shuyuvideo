@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>片段对照</title>
+<style>
+  * { box-sizing: border-box }
+  body { margin: 2rem auto; padding: 0 1rem; max-width: 100rem; background: #f4f2ec; color: #202927;
+         font: 1rem/1.6 system-ui, sans-serif }
+  h1 { margin-bottom: 0.75rem }
+  h2 { font-size: 1.1rem; margin: 0 }
+  p { margin: 0.25rem 0 0.75rem; overflow-wrap: anywhere }
+  .controls { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; margin-bottom: 1rem }
+  button, select { font: inherit; padding: .3rem .65rem; color: inherit }
+  main { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 29rem), 1fr)); gap: 1rem }
+  section { min-width: 0; background: #fffefa; border: 1px solid #d9ded8; border-radius: .6rem; padding: 1rem }
+  video { display: block; width: 100%; aspect-ratio: 16/9; background: #202927 }
+</style>
+<h1>片段对照</h1>
+<div class="controls">
+  <button id="play" type="button" disabled>从选段起点播放</button>
+  <button id="pause" type="button">暂停</button>
+  <label>声音
+    <select id="audio">
+      <option value="mute">静音</option>
+      <option value="0">原片</option>
+      <option value="1">试作</option>
+    </select>
+  </label>
+  <span id="status" role="status">正在加载视频</span>
+</div>
+<main><!-- videos --></main>
+<script>
+  const videos = Array.from(document.querySelectorAll('video'));
+  const play = document.querySelector('#play');
+  const status = document.querySelector('#status');
+  const audio = document.querySelector('#audio');
+
+  function ready() {
+    if (videos.every(video => video.readyState >= HTMLMediaElement.HAVE_METADATA)) {
+      play.disabled = false;
+      status.textContent = '';
+    }
+  }
+
+  for (const video of videos) {
+    const start = Number(video.dataset.start);
+    const end = Number(video.dataset.end);
+    const seekStart = () => {
+      video.currentTime = start;
+      ready();
+    };
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) seekStart();
+    else video.addEventListener('loadedmetadata', seekStart, { once: true });
+    video.addEventListener('error', () => {
+      status.textContent = '无法打开视频，请检查本地路径和浏览器支持的编码。';
+    });
+    video.addEventListener('timeupdate', () => {
+      if (video.currentTime >= end && !video.paused) {
+        video.pause();
+        video.currentTime = end;
+      }
+    });
+  }
+
+  audio.addEventListener('change', () => {
+    videos.forEach((video, index) => { video.muted = audio.value !== String(index); });
+  });
+  document.querySelector('#pause').addEventListener('click', () => {
+    videos.forEach(video => video.pause());
+  });
+  play.addEventListener('click', async () => {
+    const playback = videos.map(video => {
+      video.currentTime = Number(video.dataset.start);
+      return video.play();
+    });
+    const result = await Promise.allSettled(playback);
+    if (result.some(item => item.status === 'rejected')) {
+      status.textContent = '播放启动失败，可使用视频自身的播放控件。';
+    }
+  });
+</script>
+</html>

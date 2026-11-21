@@ -14,6 +14,8 @@ STATE = '.writing.json'
 LINE = re.compile(r'<!-- shuyu-line (\{.*\}) -->')
 END = '<!-- /shuyu-line -->'
 ID = re.compile(r'[A-Za-z0-9][A-Za-z0-9_-]{0,79}')
+SECTION = re.compile(r'## (?:.+? )?\{#(' + ID.pattern + r')\}')
+VOICE_PLAN = 'voice-plan.json'
 RESERVED = {'con', 'prn', 'aux', 'nul', *(f'com{i}' for i in range(1, 10)),
             *(f'lpt{i}' for i in range(1, 10))}
 
@@ -151,6 +153,68 @@ def format_script(config, title='口播稿'):
     return result
 
 
+def parse_plain(text, plan):
+    """Use paragraphs by default, or named Markdown sections for stable line IDs."""
+    if not isinstance(plan, dict) or not isinstance(plan.get('lines', {}), dict):
+        raise ValueError(f'{VOICE_PLAN}: expected a settings object with an optional lines object')
+    settings = {'voice': 'zh-CN-YunxiNeural', **plan}
+    overrides = settings.pop('lines', {})
+    lines = text.removeprefix('\ufeff').strip('\n').splitlines()
+    named = any(SECTION.fullmatch(line) for line in lines)
+    rows = []
+    current = []
+    name = None
+
+    def finish():
+        if name is None and not current:
+            return
+        if name is None and named:
+            raise ValueError('Spoken text must follow a named section when section IDs are used')
+        section_id = name or f'p{len(rows) + 1:03d}'
+        voice = overrides.get(section_id, {})
+        if not isinstance(voice, dict) or {'id', 'text'} & voice.keys():
+            raise ValueError(f'{VOICE_PLAN}: {section_id} settings must omit id and text')
+        rows.append({**voice, 'id': section_id, 'text': '\n'.join(current).strip('\n')})
+        current.clear()
+
+    for line in lines:
+        if match := SECTION.fullmatch(line):
+            finish()
+            name = match[1]
+        elif re.fullmatch(r'#{1,3} .+', line):
+            if named and name is not None:
+                raise ValueError('Place headings before the first named section, or use another named section')
+            if not named:
+                finish()
+        elif not named and not line.strip():
+            finish()
+        elif current or line.strip():
+            current.append(line)
+    finish()
+    if overrides and not named:
+        raise ValueError(f'{VOICE_PLAN}: line overrides require named sections such as ## 开场 {{#opening}}')
+    if unknown := overrides.keys() - {row['id'] for row in rows}:
+        raise ValueError(f'{VOICE_PLAN}: unknown section IDs: ' + ', '.join(sorted(unknown)))
+    return validate({**settings, 'lines': rows})
+
+
+def split_script(config, title):
+    if not title.strip() or '\n' in title or '\r' in title:
+        raise ValueError('Title must be one nonempty line')
+    plan = {key: value for key, value in config.items() if key != 'lines'}
+    plan['lines'] = {}
+    chunks = ['# ' + title]
+    for row in config['lines']:
+        chunks.append(f"## {{#{row['id']}}}\n\n{row['text']}")
+        meta = {key: value for key, value in row.items() if key not in ('id', 'text')}
+        if meta:
+            plan['lines'][row['id']] = meta
+    content = '\n\n'.join(chunks) + '\n'
+    if digest(parse_plain(content, plan)) != digest(config):
+        raise ValueError('Input cannot be represented losslessly by the split manuscript format')
+    return content, plan
+
+
 def script_path(film, name):
     if (not isinstance(name, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]*\.md', name)
             or Path(name).stem.lower() in RESERVED):
@@ -166,6 +230,7 @@ def state_for(film):
         return None
     state = read_json(film / STATE)
     if (not isinstance(state, dict) or state.get('schema') != 'shuyu-writing/v1'
+            or state.get('format', 'marked') not in ('plain', 'marked')
             or not isinstance(state.get('narrationSha256'), str)
             or not re.fullmatch(r'[0-9a-f]{64}', state['narrationSha256'])):
         raise ValueError('Invalid .writing.json; restore its last consistent version')
@@ -189,8 +254,10 @@ def atomic_write(path, text):
             Path(name).unlink()
 
 
-def save_state(film, script, config):
+def save_state(film, script, config, plain=False):
     state = {'schema': 'shuyu-writing/v1', 'script': script.name, 'narrationSha256': digest(config)}
+    if plain:
+        state['format'] = 'plain'
     atomic_write(film / STATE, json.dumps(state, ensure_ascii=False, indent=2) + '\n')
 
 
@@ -213,32 +280,58 @@ def check_references(film, config):
                 raise ValueError(f'Anchor {name}: word or occurrence absent from edited text')
 
 
-def import_script(film, name='SCRIPT.md', title='口播稿'):
+def import_script(film, name='SCRIPT.md', title='口播稿', plain=False):
     path = script_path(film, name)
-    if path.exists() or (film / STATE).exists():
+    state = state_for(film)
+    if path.exists() or (state and (not plain or state.get('format') == 'plain')):
         raise ValueError('Import never overwrites a script or managed project; for legacy SCRIPT.md use --script SCRIPT.writing.md')
+    if state:
+        check_project(film)
     config = validate(read_json(film / 'narration.json'))
-    content = format_script(config, title)
+    if plain:
+        content, plan = split_script(config, title)
+        inputs = {path: content, film / VOICE_PLAN: json.dumps(plan, ensure_ascii=False, indent=2) + '\n'}
+    else:
+        inputs = {path: format_script(config, title)}
     check_references(film, config)
-    # Exclusive create preserves drafts even when import is accidentally repeated.
-    with path.open('x', encoding='utf-8', newline='\n') as stream:
-        stream.write(content)
-    save_state(film, path, config)
-    return {'ok': True, 'action': 'import', 'script': path.name, 'lines': len(config['lines'])}
+    created = []
+    try:
+        for target, content in inputs.items():
+            with target.open('x', encoding='utf-8', newline='\n') as stream:
+                created.append(target)
+                stream.write(content)
+        save_state(film, path, config, plain)
+    except OSError:
+        for target in created:
+            target.unlink()
+        raise
+    result = {'ok': True, 'action': 'import', 'script': path.name, 'lines': len(config['lines'])}
+    if plain:
+        result['voicePlan'] = VOICE_PLAN
+    return result
 
 
-def load_script(film, name=None):
+def load_script(film, name=None, plain=False):
     state = state_for(film)
     if state and name and name != state['script']:
         raise ValueError('The managed script is ' + state['script'])
     path = script_path(film, name or (state['script'] if state else 'SCRIPT.md'))
-    config = parse(path.read_text(encoding='utf-8-sig'))
+    text = path.read_text(encoding='utf-8-sig')
+    if state:
+        if plain and state.get('format') != 'plain':
+            raise ValueError('Use writing import --plain --script SCRIPT.voice.md to split a managed manuscript')
+        plain = state.get('format') == 'plain'
+    if plain:
+        plan = film / VOICE_PLAN
+        config = parse_plain(text, read_json(plan) if plan.exists() else {})
+    else:
+        config = parse(text)
     check_references(film, config)
-    return state, path, config
+    return state, path, config, plain
 
 
-def export_script(film, name=None, dry_run=False):
-    state, path, config = load_script(film, name)
+def export_script(film, name=None, dry_run=False, plain=False):
+    state, path, config, plain = load_script(film, name, plain)
     destination = film / 'narration.json'
     old = read_json(destination) if destination.exists() else None
     changed = old is None or digest(old) != digest(config)
@@ -256,12 +349,12 @@ def export_script(film, name=None, dry_run=False):
         if changed:
             atomic_write(destination, json.dumps(config, ensure_ascii=False, indent=2, allow_nan=False) + '\n')
         # A crash between narration and state writes is recoverable by repeating the same export.
-        save_state(film, path, config)
+        save_state(film, path, config, plain)
     return result
 
 
 def check_project(film):
-    state, path, config = load_script(film)
+    state, path, config, _ = load_script(film)
     actual = read_json(film / 'narration.json')
     if digest(actual) != digest(config):
         raise ValueError(f'{path.name} and narration.json disagree; run writing export before production')
@@ -295,6 +388,7 @@ def main(argv=None):
         sub.add_argument('film', type=Path, help='Project source directory, not a registry ID')
         if command != 'check':
             sub.add_argument('--script', help='Local Markdown filename')
+            sub.add_argument('--plain', action='store_true', help='Use a plain manuscript with optional voice-plan.json')
         if command == 'import':
             sub.add_argument('--title', default='口播稿')
         if command == 'export':
@@ -305,9 +399,10 @@ def main(argv=None):
         if not film.is_dir():
             raise ValueError('Project directory does not exist: ' + str(film))
         if args.command == 'import':
-            result = import_script(film, args.script or 'SCRIPT.md', args.title)
+            default_script = 'SCRIPT.voice.md' if args.plain and (film / 'SCRIPT.md').exists() else 'SCRIPT.md'
+            result = import_script(film, args.script or default_script, args.title, args.plain)
         elif args.command == 'export':
-            result = export_script(film, args.script, args.dry_run)
+            result = export_script(film, args.script, args.dry_run, args.plain)
         else:
             result = check_project(film)
         print(json.dumps(result, ensure_ascii=False))

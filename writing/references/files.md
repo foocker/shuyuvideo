@@ -2,7 +2,41 @@
 
 `shuyu writing` 是离线数据工具，不调用模型或语音服务。文稿由当前会话按 [写稿入口](../SKILL.md) 完成。下述路径均从 `tools/shuyuvideo` 根目录解析，参数是作品目录，不是注册表中的项目 ID。
 
-## 新稿
+## 新稿与独立配音配置
+
+普通 Markdown 用一个空行分开口播段落，普通标题不进入配音。括注、导演说明和公式留在各自文件。首次用 `writing export films/<作品> --plain` 导出，后续可直接 `writing export films/<作品>`。编号按当前段落顺序产生。需要在中间插入段落、绑定镜头锚点或局部修音时，用带 ID 的二级标题为每段固定编号。
+
+```markdown
+# 台阶的一半
+
+## 开场 {#opening}
+
+从一加到一百，等于多少？
+
+## 拼合 {#join}
+
+把同样的台阶倒过来，它们会拼成一个长方形。
+```
+
+同级新标题划出下一个配音段，段内可以保留多个连续句子或自然段。项目根的可选 `voice-plan.json` 负责配音配置。示例中的开场停顿属于音频。
+
+```json
+{
+  "voice": "zh-CN-YunxiNeural",
+  "rate": "-3%",
+  "gap": 0.35,
+  "lines": {
+    "opening": {"scene": "hook", "pause": 0.8},
+    "join": {"speechText": "把同样的台阶，倒过来。它们会拼成一个长方形。"}
+  }
+}
+```
+
+省略配音配置时默认使用云希，逐段调整支持下文的配音字段。首次导出可以用 `--dry-run` 预览要刷新的段落。准备和配音检查会同时核对正文与配音配置。自定义构建脚本需要随作品包复制当前稿件、`voice-plan.json`（存在时）、`.writing.json` 及 `narration.json`。
+
+对已登记的标记式项目，`writing import films/<作品> --plain --script SCRIPT.voice.md` 先核对源稿，再保存纯正文和配音配置，保留原稿与原有配音 JSON，已有配音 ID 继续有效。
+
+## 标记式稿件
 
 先用自然段写正文，定稿时按 [可执行样例](../../examples/writing/SCRIPT.md) 的格式标出配音单元。配置与正文均以稿件为编辑入口：
 
