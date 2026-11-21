@@ -14,7 +14,7 @@ description: 为数语视频从 Freesound 搜索、筛选和下载音效，根�
 python sound/scripts/sfx.py freesound "soft whoosh" --license cc0 --urls
 
 # 将搜索返回的 fs:ID 下载到本地音效库；替换示例中的 ID
-python sound/scripts/sfx.py get sound/library fs:<id1> fs:<id2>
+python sound/scripts/sfx.py get sound/library/sfx/<类别> fs:<id1> fs:<id2>
 ```
 
 ## 选材
@@ -27,7 +27,7 @@ python sound/scripts/sfx.py get sound/library fs:<id1> fs:<id2>
 
 ## 接入作品
 
-1. 下载文件到 `sound/library/`。这是本地素材目录，不进入 Git。当前下载的是 MP3 预览文件，并非原始上传音频。
+1. 下载文件到 `sound/library/sfx/<类别>/`，如 `keyboard` 或 `paper`。本地素材库保存 MP3 预览文件。
 2. 在作品的 `sound-cues.json` 中，把 `sfx` 设为下载文件名去掉 `.mp3` 后的部分。例如下载输出为 `fs_12345_soft-click.mp3`，就使用 `"sfx": "fs_12345_soft-click"`。若改名，两处应保持一致。
 3. 按实际画面填写 `time`、`gainDb` 和 `on`。也可用已有的语音锚点流程，参见 `sound/mix.py` 的输入说明。
 4. 在作品中记录选用音效的来源页面、许可证、必要署名和所作修改。搜索缓存保存上传者信息，下载时会提示非 CC0 音效的作者；这些提示不能代替完整的许可记录。

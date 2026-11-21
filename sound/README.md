@@ -125,7 +125,7 @@ DOUBAO_API_KEY=在本地填入密钥
 - `time` 对应物体真正落定或接触的时刻，不直接拿台词起点代替。优先保留复制、翻转、拼合、结果落定等有意义的声音，避免每个文字显现都配提示声。
 - 不用合成的提示音，避免叮咚声。
 
-`sfx.py` 优先读取 `sound/library/` 中的本地音效，再查找 HyperFrames media-use 自带的音效库。后者使用 Pixabay Content License，不允许把文件单独再分发，所以本仓库只保存脚本：音效文件复制进作品目录，而 `films/` 和 `sound/library/` 不进 Git。自行下载的音效按各自许可证使用。
+`sfx.py` 优先读取 `sound/library/` 及 `sound/library/sfx/<类别>/` 下的本地音效，再查找本机配置与 HyperFrames media-use 音效库。键盘音效放在 `sound/library/sfx/keyboard/`，`sound-cues.json` 的 `sfx` 填 MP3 文件名去掉扩展名。音效文件复制进作品目录，素材库和作品留在本机。自行下载的音效按各自许可证使用。
 
 ### 搜索和下载新音效
 
@@ -134,7 +134,7 @@ DOUBAO_API_KEY=在本地填入密钥
 ```powershell
 python sound/scripts/sfx.py freesound "soft whoosh" --license cc0 --urls
 # 把下列 ID 替换为搜索结果中的 fs:ID，可一次下载多个
-python sound/scripts/sfx.py get sound/library fs:<id1> fs:<id2>
+python sound/scripts/sfx.py get sound/library/sfx/paper fs:<id1> fs:<id2>
 ```
 
 `sound/scripts/sfx.py` 负责搜索与下载，`sound/sfx.py` 负责按作品清单复制音效。下载的是 MP3 预览，文件名类似 `fs_12345_soft-whoosh.mp3`；把不含扩展名的文件名填入 `sound-cues.json` 的 `sfx` 字段，再运行原有复制和混音命令。
